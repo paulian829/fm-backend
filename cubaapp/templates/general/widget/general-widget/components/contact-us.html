@@ -1,0 +1,88 @@
+{% load static %}
+{% load sass_tags %}
+
+
+<div class="col-sm-12 col-lg-6 col-xl-4 xl-50 col-md-12 box-col-6">
+  <div class="card height-equal">
+    <div class="calender-widget">
+      <div class="cal-img"></div>
+      <div class="cal-date">
+        <h5>25<br>APRIL</h5>
+      </div>
+      <div class="cal-desc text-center card-body">
+        <h6 class="f-w-600">I must explain to you how all this mistaken idea truth</h6>
+        <p class="text-muted mt-3 mb-0">Denouncing pleasure and praising pain was born and I will give you a complete
+          account of the system, and expound the actual teachings of the great explorer of the truth,Letraset sheets
+          containing Lorem Ipsum passages, and more recently with desktop Lorem Ipsum is simply dummy text of the
+          printing and typesetting industry.</p>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="col-sm-12 col-lg-6 col-xl-8 xl-50 col-md-12 box-col-6">
+  <div class="card height-equal">
+    <div class="card-header">
+      <h5>Contact Us</h5>
+      <div class="card-header-right">
+        <ul class="list-unstyled card-option">
+          <li><i class="fa fa-spin fa-cog"></i></li>
+          <li><i class="view-html fa fa-code"></i></li>
+          <li><i class="icofont icofont-maximize full-card"></i></li>
+          <li><i class="icofont icofont-minus minimize-card"></i></li>
+          <li><i class="icofont icofont-refresh reload-card"></i></li>
+          <li><i class="icofont icofont-error close-card"></i></li>
+        </ul>
+      </div>
+    </div>
+    <div class="contact-form card-body">
+      <form class="theme-form"> {% csrf_token %}
+        <div class="form-icon"><i class="icofont icofont-envelope-open"></i></div>
+        <div class="mb-3">
+          <label for="exampleInputName">Your Name</label>
+          <input class="form-control" id="exampleInputName" type="text" placeholder="John Dio">
+        </div>
+        <div class="mb-3">
+          <label class="col-form-label" for="exampleInputEmail1">Email</label>
+          <input class="form-control" id="exampleInputEmail1" type="email" placeholder="Demo@gmail.com">
+        </div>
+        <div class="mb-3">
+          <label class="col-form-label" for="exampleInputEmail1">Message</label>
+          <textarea class="form-control textarea" rows="3" cols="50" placeholder="Your Message"></textarea>
+        </div>
+        <div class="text-sm-end">
+          <button class="btn btn-primary-gradien">SEND IT</button>
+        </div>
+      </form>
+      <div class="code-box-copy">
+        <button class="code-box-copy__btn btn-clipboard" data-clipboard-target="#example-head3" title="Copy"><i
+            class="icofont icofont-copy-alt"></i></button>
+        <pre><code class="language-html" id="example-head3">&lt;!-- Cod Box Copy begin --&gt;
+&lt;div class=&quot;contact-form card-body&quot;&gt;
+  &lt;form class=&quot;theme-form&quot;&gt;
+    &lt;div class=&quot;form-icon&quot;&gt;
+      &lt;i class=&quot;icofont icofont-envelope-open&quot;&gt;&lt;/i&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;mb-3&quot;&gt;
+      &lt;label for=&quot;exampleInputName&quot;&gt;Your Name&lt;/label&gt;
+      &lt;input type=&quot;text&quot; class=&quot;form-control&quot; id=&quot;exampleInputName&quot; placeholder=&quot;John Dio&quot;&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;mb-3&quot;&gt;
+      &lt;label for=&quot;exampleInputEmail1&quot; class=&quot;col-form-label&quot;&gt;Email&lt;/label&gt;
+      &lt;input type=&quot;email&quot; class=&quot;form-control&quot; id=&quot;exampleInputEmail1&quot; placeholder=&quot;Demo@gmail.com&quot;&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;mb-3&quot;&gt;
+      &lt;label for=&quot;exampleInputEmail1&quot; class=&quot;col-form-label&quot;&gt;Message&lt;/label&gt;
+      &lt;textarea row=&quot;3&quot; cols=&quot;50&quot; class=&quot;form-control textarea&quot; placeholder=&quot;Your Message&quot;&gt;&lt;/textarea&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;text-sm-end&quot;&gt;
+      &lt;button class=&quot;btn btn-primary-gradien&quot;&gt;SEND IT&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/form&gt;
+&lt;/div&gt;
+&lt;!-- Cod Box Copy end --&gt;</code></pre>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Container-fluid Ends-->
+</div>

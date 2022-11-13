@@ -1,0 +1,155 @@
+{% load static %} {% load sass_tags %}
+<div class="col-xl-4 xl-50 news box-col-6">
+  <div class="card">
+    <div class="card-header">
+      <div class="header-top">
+        <h5 class="m-0">News &amp; Update</h5>
+        <div class="card-header-right-icon">
+          <div class="dropdown">
+            <button
+              class="btn dropdown-toggle"
+              id="dropdownMenuButton"
+              type="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              Today
+            </button>
+            <div
+              class="dropdown-menu dropdown-menu-end"
+              aria-labelledby="dropdownMenuButton"
+            >
+              <a class="dropdown-item" href="#">Today</a
+              ><a class="dropdown-item" href="#">Tomorrow</a
+              ><a class="dropdown-item" href="#">Yesterday</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body p-0">
+      <div class="news-update">
+        <h6>36% off For pixel lights Couslations Types.</h6>
+        <span>Lorem Ipsum is simply dummy...</span>
+      </div>
+      <div class="news-update">
+        <h6>We are produce new product this</h6>
+        <span> Lorem Ipsum is simply text of the printing... </span>
+      </div>
+      <div class="news-update">
+        <h6>50% off For COVID Couslations Types.</h6>
+        <span>Lorem Ipsum is simply dummy...</span>
+      </div>
+    </div>
+    <div class="card-footer">
+      <div class="bottom-btn"><a href="#">More...</a></div>
+    </div>
+  </div>
+</div>
+<div class="col-xl-4 xl-50 appointment-sec box-col-6">
+  <div class="row">
+    <div class="col-xl-12 appointment">
+      <div class="card">
+        <div class="card-header card-no-border">
+          <div class="header-top">
+            <h5 class="m-0">appointment</h5>
+            <div class="card-header-right-icon">
+              <div class="dropdown">
+                <button
+                  class="btn dropdown-toggle"
+                  id="dropdownMenuButton"
+                  type="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  Today
+                </button>
+                <div
+                  class="dropdown-menu dropdown-menu-end"
+                  aria-labelledby="dropdownMenuButton"
+                >
+                  <a class="dropdown-item" href="#">Today</a
+                  ><a class="dropdown-item" href="#">Tomorrow</a
+                  ><a class="dropdown-item" href="#">Yesterday</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-body pt-0">
+          <div class="appointment-table table-responsive">
+            <table class="table table-bordernone">
+              <tbody>
+                <tr>
+                  <td>
+                    <img
+                      class="img-fluid img-40 rounded-circle mb-3"
+                      src="{% static 'assets/images/appointment/app-ent.jpg'%}"
+                      alt="Image description"
+                    />
+                    <div class="status-circle bg-primary"></div>
+                  </td>
+                  <td class="img-content-box">
+                    <a href="/user_profile" class="d-block font-dark f-w-500"
+                      >Venter Loren</a
+                    ><span class="font-roboto">Now</span>
+                  </td>
+                  <td>
+                    <p class="m-0 font-primary">28 Sept</p>
+                  </td>
+                  <td class="text-end">
+                    <div class="button btn btn-primary">
+                      Done<i class="fa fa-check-circle ms-2"></i>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <img
+                      class="img-fluid img-40 rounded-circle"
+                      src="{% static 'assets/images/appointment/app-ent.jpg'%}"
+                      alt="Image description"
+                    />
+                    <div class="status-circle bg-primary"></div>
+                  </td>
+                  <td class="img-content-box">
+                    <a href="/user_profile" class="d-block font-dark f-w-500"
+                      >John Loren</a
+                    ><span class="font-roboto">11:00</span>
+                  </td>
+                  <td>
+                    <p class="m-0 font-primary">22 Sept</p>
+                  </td>
+                  <td class="text-end">
+                    <div class="button btn btn-danger">
+                      Pending<i class="fa fa-clock-o ms-2"></i>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-12 alert-sec">
+      <div class="card bg-img">
+        <div class="card-header">
+          <div class="header-top">
+            <h5 class="m-0">Alert</h5>
+            <div class="dot-right-icon"><i class="fa fa-ellipsis-h"></i></div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="body-bottom">
+            <h6>10% off For drama lights Couslations...</h6>
+            <span class="font-roboto"
+              >Lorem Ipsum is simply dummy...It is a long established fact that
+              a reader will be distracted by
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

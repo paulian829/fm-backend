@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% load sass_tags %}
+
+{% block css %}
+<!-- Plugins css start-->
+<link rel="stylesheet" type="text/css" href="{% sass_src 'assets/scss/vendors/date-picker.scss' %}">
+<!-- Plugins css Ends-->
+{% endblock %}
+
+{% block content %}
+
+{% include "general/dashboard/default/components/loader.html" %}
+
+<div class="page-body">
+      {% include "layout/breadcrumb.html" %}
+      <div class="container-fluid">
+
+            {% include "general/dashboard/default/components/top.html" %}
+            {% include "general/dashboard/default/components/centre.html" %}
+            {% include "general/dashboard/default/components/bottom.html" %}
+
+      </div>
+</div>
+
+{% endblock %}
+
+{% block scriptcontent %}
+<script src="{% static 'assets/js/datepicker/date-picker/datepicker.js'%}"></script>
+<script src="{% static 'assets/js/datepicker/date-picker/datepicker.en.js'%}"></script>
+<script src="{% static 'assets/js/chart/knob/knob.min.js'%}"></script>
+<script src="{% static 'assets/js/chart/knob/knob-chart.js'%}"></script>
+<script src="{% static 'assets/js/chart/chartist/chartist.js'%}"></script>
+<script src="{% static 'assets/js/chart/chartist/chartist-plugin-tooltip.js'%}"></script>
+<script src="{% static 'assets/js/chart/apex-chart/apex-chart.js'%}"></script>
+<script src="{% static 'assets/js/chart/apex-chart/stock-prices.js'%}"></script>
+<script src="{% static 'assets/js/dashboard/default.js'%}"></script>
+
+<!-- Plugins JS start-->
+<!-- Plugins JS Ends-->
+{% endblock %}

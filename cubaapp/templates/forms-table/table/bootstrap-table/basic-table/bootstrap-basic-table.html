@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% load sass_tags %}
+
+{% block css %}
+<!-- Plugins css start-->
+<!-- Plugins css Ends-->
+{% endblock %}
+
+{% block content %}
+
+<div class="page-body">
+      {% include "layout/breadcrumb.html" %}
+      <div class="container-fluid">
+            <div class="row">
+
+                  {% include "forms-table/table/bootstrap-table/basic-table/components/basic-table.html" %}
+                  {% include "forms-table/table/bootstrap-table/basic-table/components/inverse-table.html" %}
+                  {% include "forms-table/table/bootstrap-table/basic-table/components/inverse-table-primary.html" %}
+                  {% include "forms-table/table/bootstrap-table/basic-table/components/hoverable-rows.html" %}
+                  {% include "forms-table/table/bootstrap-table/basic-table/components/contextual-classes.html" %}
+                  {% include "forms-table/table/bootstrap-table/basic-table/components/text-background.html" %}
+                  {% include "forms-table/table/bootstrap-table/basic-table/components/table-head.html" %}
+                  {% include "forms-table/table/bootstrap-table/basic-table/components/table-head-options.html" %}
+                  {% include "forms-table/table/bootstrap-table/basic-table/components/striped-row.html" %}
+                  {% include "forms-table/table/bootstrap-table/basic-table/components/striped-row-Inverse.html" %}
+                  {% include "forms-table/table/bootstrap-table/basic-table/components/caption.html" %}
+                  {% include "forms-table/table/bootstrap-table/basic-table/components/responsive.html" %}
+                  {% include "forms-table/table/bootstrap-table/basic-table/components/breckpoint.html" %}
+            </div>
+      </div>
+</div>
+
+{% endblock %}
+
+{% block scriptcontent %}
+<!-- Plugins JS start-->
+<script src="{% static 'assets/js/tooltip-init.js'%}"></script>
+<!-- Plugins JS Ends-->
+{% endblock %}

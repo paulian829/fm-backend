@@ -1,0 +1,124 @@
+{% load static %}
+{% load sass_tags %}
+
+
+<div class="col-xl-3 risk-col xl-100 box-col-12">
+  <div class="card total-users">
+    <div class="card-header card-no-border">
+      <h5>Risk Factor</h5>
+      <div class="card-header-right">
+        <ul class="list-unstyled card-option">
+          <li><i class="fa fa-spin fa-cog"></i></li>
+          <li><i class="view-html fa fa-code"></i></li>
+          <li><i class="icofont icofont-maximize full-card"></i></li>
+          <li><i class="icofont icofont-minus minimize-card"></i></li>
+          <li><i class="icofont icofont-refresh reload-card"></i></li>
+          <li><i class="icofont icofont-error close-card"></i></li>
+        </ul>
+      </div>
+    </div>
+    <div class="card-body pt-0">
+      <div class="apex-chart-container goal-status text-center row">
+        <div class="rate-card col-xl-12">
+          <div class="goal-chart">
+            <div id="riskfactorchart"></div>
+          </div>
+          <div class="goal-end-point">
+            <ul>
+              <li class="mt-0 pt-0">
+                <h6 class="font-primary">As From</h6>
+                <h6 class="f-w-400">24 March 2021</h6>
+              </li>
+              <li>
+                <h6 class="mb-2 f-w-400">Total Goal</h6>
+                <h5 class="mb-0">$94,000.20</h5>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <ul class="col-xl-12">
+          <li>
+            <div class="goal-detail">
+              <h6> <span class="font-primary">Goal Archive : </span>$91,000.000</h6>
+              <div class="progress sm-progress-bar progress-animate">
+                <div class="progress-gradient-primary" role="progressbar" style="width: 60%" aria-valuenow="75"
+                  aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+            </div>
+            <div class="goal-detail mb-0">
+              <h6><span class="font-primary">Duration: </span>9 Month</h6>
+              <div class="progress sm-progress-bar progress-animate">
+                <div class="progress-gradient-primary" role="progressbar" style="width: 50%" aria-valuenow="75"
+                  aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+            </div>
+          </li>
+          <li>
+            <div class="btn-download btn btn-gradient f-w-500">Download details</div>
+          </li>
+        </ul>
+      </div>
+      <div class="code-box-copy">
+        <button class="code-box-copy__btn btn-clipboard" data-clipboard-target="#example-head6" title="Copy"><i
+            class="icofont icofont-copy-alt"></i></button>
+        <pre><code class="language-html" id="example-head6">&lt;!-- Cod Box Copy begin --&gt;
+&lt;div class=&quot;card total-users&quot;&gt;
+  &lt;div class=&quot;card-header card-no-border&quot;&gt;
+    &lt;h5&gt;Risk Factor&lt;/h5&gt;
+    &lt;div class=&quot;card-header-right&quot;&gt;
+      &lt;ul class=&quot;list-unstyled card-option&quot;&gt;
+        &lt;li&gt;&lt;i class=&quot;fa fa-spin fa-cog&quot;&gt;&lt;/i&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;i class=&quot;view-html fa fa-code&quot;&gt;&lt;/i&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;i class=&quot;icofont icofont-maximize full-card&quot;&gt;&lt;/i&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;i class=&quot;icofont icofont-minus minimize-card&quot;&gt;&lt;/i&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;i class=&quot;icofont icofont-refresh reload-card&quot;&gt;&lt;/i&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;i class=&quot;icofont icofont-error close-card&quot;&gt;&lt;/i&gt;&lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;card-body pt-0&quot;&gt;
+    &lt;div class=&quot;apex-chart-container goal-status text-center row&quot;&gt;
+      &lt;div class=&quot;rate-card col-xl-12&quot;&gt;
+        &lt;div class=&quot;goal-chart&quot;&gt;
+          &lt;div id=&quot;riskfactorchart&quot;&gt;&lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;goal-end-point&quot;&gt;
+          &lt;ul&gt;
+            &lt;li class=&quot;mt-0 pt-0&quot;&gt;
+              &lt;h6 class=&quot;font-primary&quot;&gt;As From&lt;/h6&gt;
+              &lt;h6 class=&quot;f-w-400&quot;&gt;24 January 2019&lt;/h6&gt;
+            &lt;/li&gt;
+            &lt;li&gt;
+              &lt;h6 class=&quot;mb-2 f-w-400&quot;&gt;Total Goal&lt;/h6&gt;
+              &lt;h5 class=&quot;mb-0&quot;&gt;$84,376.29&lt;/h5&gt;
+            &lt;/li&gt;
+          &lt;/ul&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;ul class=&quot;col-xl-12&quot;&gt;
+        &lt;li&gt;
+          &lt;div class=&quot;goal-detail&quot;&gt;
+            &lt;h6&gt; &lt;span class=&quot;font-primary&quot;&gt;Goal Archive : &lt;/span&gt;$81,586.253&lt;/h6&gt;
+            &lt;div class=&quot;progress sm-progress-bar progress-animate&quot;&gt;
+              &lt;div class=&quot;progress-gradient-primary&quot; role=&quot;progressbar&quot; style=&quot;width: 60%&quot; aria-valuenow=&quot;75&quot; aria-valuemin=&quot;0&quot; aria-valuemax=&quot;100&quot;&gt;&lt;/div&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+          &lt;div class=&quot;goal-detail mb-0&quot;&gt;      
+            &lt;h6&gt;&lt;span class=&quot;font-primary&quot;&gt;Duration: &lt;/span&gt;6 Month&lt;/h6&gt;
+            &lt;div class=&quot;progress sm-progress-bar progress-animate&quot;&gt;
+              &lt;div class=&quot;progress-gradient-primary&quot; role=&quot;progressbar&quot; style=&quot;width: 50%&quot; aria-valuenow=&quot;75&quot; aria-valuemin=&quot;0&quot; aria-valuemax=&quot;100&quot;&gt;&lt;/div&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+        &lt;/li&gt;
+        &lt;li&gt;
+          &lt;div class=&quot;btn-download btn btn-gradient f-w-500&quot;&gt;Download Report&lt;/div&gt;
+        &lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;!-- Cod Box Copy end --&gt;</code></pre>
+      </div>
+    </div>
+  </div>
+</div>
