@@ -38,7 +38,7 @@ var options4 = {
         style: {
           fontSize: '14px',
           fontFamily: 'Helvetica, Arial, sans-serif',
-          fill:['#2b2b2b'],
+          fill: ['#2b2b2b'],
 
         },
       },
@@ -64,7 +64,7 @@ var options4 = {
   },
 
   labels: ['Selling rate'],
-  colors: [ CubaAdminConfig.primary ],
+  colors: [CubaAdminConfig.primary],
 };
 var chart4 = new ApexCharts(document.querySelector("#riskfactorchart"),
   options4
@@ -130,13 +130,13 @@ var options1 = {
       shade: 'light',
       type: 'horizontal',
       shadeIntensity: 1,
-      gradientToColors: ['#a26cf8', '#a927f9', '#7366ff'],
+      gradientToColors: ['#a26cf8', '#a927f9', '#329C57'],
       opacityFrom: [1, 0.4, 0.25],
       opacityTo: [1, 0.4, 0.25],
       stops: [30, 100],
       colorStops: []
     },
-    colors: [ CubaAdminConfig.primary , CubaAdminConfig.primary , CubaAdminConfig.primary],
+    colors: [CubaAdminConfig.primary, CubaAdminConfig.primary, CubaAdminConfig.primary],
   },
   colors: [CubaAdminConfig.primary, CubaAdminConfig.secondary, CubaAdminConfig.secondary],
 };
@@ -173,7 +173,7 @@ var options2 = {
   {
     name: 'Yearly',
     data: [1.35, 1.45, 1.55, 1.65, 1.75, 1.85, 1.95, 2.15, 2.25, 2.35, 2.45, 2.55, 2.65, 2.75, 2.85,
-    2.95, 3.00, 3.10, 3.20, 3.25, 3.10, 3.00, 2.95, 2.85, 2.75, 2.65, 2.55, 2.45, 2.35, 2.25, 2.15, 1.95, 1.85, 1.75, 1.65, 1.55, 1.45, 1.35
+      2.95, 3.00, 3.10, 3.20, 3.25, 3.10, 3.00, 2.95, 2.85, 2.75, 2.65, 2.55, 2.45, 2.35, 2.25, 2.15, 1.95, 1.85, 1.75, 1.65, 1.55, 1.45, 1.35
     ]
   }
   ],
@@ -185,7 +185,7 @@ var options2 = {
       show: false
     },
   },
- colors: [ CubaAdminConfig.primary , CubaAdminConfig.primary , CubaAdminConfig.primary , CubaAdminConfig.primary ],
+  colors: [CubaAdminConfig.primary, CubaAdminConfig.primary, CubaAdminConfig.primary, CubaAdminConfig.primary],
   plotOptions: {
     bar: {
       vertical: true,
@@ -261,11 +261,11 @@ var options2 = {
   fill: {
     // type: 'solid',
     opacity: [0.8, 0.8, 0.2, 0.2],
-    colors: [function({ value, seriesIndex, w }) {
-      if(value < 0.75) {
-          return "#a26cf8"
+    colors: [function ({ value, seriesIndex, w }) {
+      if (value < 0.75) {
+        return "#a26cf8"
       } else {
-          return CubaAdminConfig.primary
+        return CubaAdminConfig.primary
       }
     }]
   }
@@ -310,7 +310,7 @@ var options3 = {
     offsetY: -10,
     style: {
       fontSize: '12px',
-      colors: [ CubaAdminConfig.primary ]
+      colors: [CubaAdminConfig.primary]
     }
   },
 
@@ -328,7 +328,7 @@ var options3 = {
       fill: {
         type: 'gradient',
         gradient: {
-          colorFrom: '#7366ff',
+          colorFrom: '#329C57',
           colorTo: '#c481ec',
           stops: [0, 100],
           opacityFrom: 0.4,
@@ -368,7 +368,7 @@ var options3 = {
       left: -10
     },
   },
-  colors: [ CubaAdminConfig.primary ],
+  colors: [CubaAdminConfig.primary],
 
 };
 
