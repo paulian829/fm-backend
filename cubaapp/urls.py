@@ -9,14 +9,14 @@ from . import views
 urlpatterns = [
 
 #-------------------------General(Dashboards,Widgets & Layout)---------------------------------------
-path('dashboard_02', views.dashboard_02, name="dashboard_02"),
+path('cameras', views.dashboard_02, name="dashboard_02"),
 
 #-----------------------Widgets
-path('general_widget', views.general_widget, name="general_widget"),
-path('chart_widget', views.chart_widget, name="chart_widget"),
+path('images', views.general_widget, name="general_widget"),
+path('reports', views.chart_widget, name="chart_widget"),
 
 #------------------------Layout
-path('box_layout', views.box_layout, name="box_layout"),
+# path('settings', views.box_layout, name="box_layout"),
 path('layout_rtl', views.layout_rtl, name="layout_rtl"),
 path('layout_dark', views.layout_dark, name="layout_dark"),
 path('hide_on_scroll', views.hide_on_scroll, name="hide_on_scroll"),
@@ -28,8 +28,8 @@ path('footer_fixed', views.footer_fixed, name="footer_fixed"),
 #--------------------------------Applications---------------------------------
 
 #---------------------------Project
-path('projects', views.projects, name="projects"),
-path('projectcreate', views.projectcreate, name="projectcreate"), 
+path('settings', views.projects, name="projects"),
+path('about', views.projectcreate, name="projectcreate"), 
 
 #------------------------File Manager
 path('file_manager', views.file_manager, name="file_manager"),

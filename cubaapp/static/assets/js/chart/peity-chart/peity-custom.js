@@ -1,14 +1,14 @@
 var updatingChart = $(".updating-chart").peity("line")
 
-setInterval(function() {
+setInterval(function () {
   var random = Math.round(Math.random() * 10)
   var values = updatingChart.text().split(",")
   values.shift()
   values.push(random)
 
   updatingChart
-      .text(values.join(","))
-      .change()
+    .text(values.join(","))
+    .change()
 }, 1000)
 
 $(".line").peity("line")
@@ -22,21 +22,21 @@ $(".data-attributes span").peity("donut")
 $("span.pie").peity("pie")
 
 $(".bar-colours-1").peity("bar", {
-  fill: [ CubaAdminConfig.primary , CubaAdminConfig.secondary , "#51bb25"],
+  fill: [cubaAdminConfig.primary, cubaAdminConfig.secondary, "#51bb25"],
   width: '100',
   height: '82'
 })
 
 $(".bar-colours-2").peity("bar", {
-  fill: function(value) {
-    return value > 0 ? CubaAdminConfig.primary : CubaAdminConfig.secondary
+  fill: function (value) {
+    return value > 0 ? cubaAdminConfig.primary : cubaAdminConfig.secondary
   },
   width: '100',
   height: '82'
 })
 
 $(".bar-colours-3").peity("bar", {
-  fill: function(_, i, all) {
+  fill: function (_, i, all) {
     var g = parseInt((i / all.length) * 145)
     return "rgb(145, " + g + ", 252)"
   },
@@ -45,7 +45,7 @@ $(".bar-colours-3").peity("bar", {
 })
 
 $(".pie-colours-1").peity("pie", {
-  fill: [CubaAdminConfig.primary , CubaAdminConfig.secondary, "#51bb25" , "#f8d62b"],
+  fill: [cubaAdminConfig.primary, cubaAdminConfig.secondary, "#51bb25", "#f8d62b"],
   width: '100',
   height: '82'
 })

@@ -10,12 +10,12 @@ const browserSync = require('browser-sync').create();
 //scss to css
 function style() {
   return gulp.src('assets/scss/**/*.scss', { sourcemaps: true })
-      .pipe(sass({
-         outputStyle: 'compressed'
-      }).on('error', sass.logError))
-      .pipe(autoprefixer('last 2 versions'))
-      .pipe(gulp.dest('assets/css', { sourcemaps: '.' }))
-      .pipe(browserSync.reload({stream: true}));
+    .pipe(sass({
+      outputStyle: 'compressed'
+    }).on('error', sass.logError))
+    .pipe(autoprefixer('last 2 versions'))
+    .pipe(gulp.dest('assets/css', { sourcemaps: '.' }))
+    .pipe(browserSync.reload({ stream: true }));
 }
 
 

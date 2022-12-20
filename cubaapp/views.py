@@ -20,27 +20,27 @@ from .forms import *
 #---------------Dashboards
 @login_required(login_url="/login")
 def index(request):
-    context = { "breadcrumb":{"parent":"Dashboard", "child":"Default"}}
+    context = { "breadcrumb":{"parent":"Dashboard", "child":"Dashboard"}}
     return render(request,"general/dashboard/default/index.html",context)
     
 
 @login_required(login_url="/login")
 def dashboard_02(request):
-    context = { "breadcrumb":{"parent":"Dashboard", "child":"Ecommerce"}}
+    context = { "breadcrumb":{"parent":"Dashboard", "child":"Cameras"}}
     return render(request,"general/dashboard/ecommerce/dashboard-02.html",context)
     
 #----------------Widgets
 
 @login_required(login_url="/login")
 def general_widget(request):
-    context = { "breadcrumb":{"parent":"Widgets", "child":"General"}}
+    context = { "breadcrumb":{"parent":"Dashboard", "child":"Images"}}
     return render(request,"general/widget/general-widget/general-widget.html",context)
     
 
 
 @login_required(login_url="/login")
 def chart_widget(request):
-    context = { "breadcrumb":{"parent":"Widgets", "child":"Chart"}}
+    context = { "breadcrumb":{"parent":"Dashboard", "child":"Reports"}}
     return render(request,"general/widget/chart-widget/chart-widget.html",context)
     
 
@@ -97,13 +97,13 @@ def footer_fixed(request):
 
 @login_required(login_url="/login")
 def projects(request):
-    context = { "breadcrumb":{"parent":"Apps", "child":"Project List"}}
+    context = { "breadcrumb":{"parent":"Dashboard", "child":"Settings"}}
     return render(request,"applications/projects/projects-list/projects.html",context)
     
 
 @login_required(login_url="/login")
 def projectcreate(request):
-    context = { "breadcrumb":{"parent":"Apps", "child":"Project Create"}}
+    context = { "breadcrumb":{"parent":"Dashboard", "child":"About"}}
     return render(request,"applications/projects/projectcreate/projectcreate.html",context)
     
 
@@ -1309,6 +1309,24 @@ def support_ticket(request):
       
 
 #---------------------------------------------------------------------------------------
+
+@login_required(login_url="/login")
+def edit_profile(request):
+    user = User.objects.all()
+    form = UserForm()
+    
+    if request.method == 'POST':
+        form = UserForm(request.POST)
+        if form.is_valid():
+            form.save()
+        return redirect('/edit_profile')
+    
+    
+    
+    context = { 'user':user, "breadcrumb":{"parent":"Users", "child":"User Profile"}}
+    return render(request,"applications/user/edit-profile/edit-profile.html",context)
+
+
 @login_required(login_url="/login")
 def to_do(request):
     tasks = Task.objects.all()
@@ -1376,14 +1394,19 @@ def logout_view(request):
 def login_simple(request):
     if request.method == 'POST':
         form = AuthenticationForm(data=request.POST)
-        if form.is_valid():
-            user = form.get_user()
-            login(request,user)
-            if 'next' in request.GET:
-                nextPage = request.GET['next']
-                return HttpResponseRedirect(nextPage)
-            else:
-                return redirect('/index')
+        # if form.is_valid():
+        print('hello')
+        user = form.get_user()
+        login(request,user)
+        if 'next' in request.GET:
+            nextPage = request.GET['next']
+            print(nextPage)
+            return HttpResponseRedirect(nextPage)
+        else:
+            return redirect('/index')
+        # else:
+        #     print(form.errors)
+        #     print('form is not valid??')
     else:
         form =AuthenticationForm()
     context = { "breadcrumb":{"parent":"Dashboard", "child":"Default"},"form":form}

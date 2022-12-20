@@ -22,7 +22,7 @@ var options4 = {
       },
       track: {
         opacity: 0.4,
-        colors: CubaAdminConfig.primary
+        colors: cubaAdminConfig.primary
       },
       dataLabels: {
         enabled: false,
@@ -64,7 +64,7 @@ var options4 = {
   },
 
   labels: ['Selling rate'],
-  colors: [CubaAdminConfig.primary],
+  colors: [cubaAdminConfig.primary],
 };
 var chart4 = new ApexCharts(document.querySelector("#riskfactorchart"),
   options4
@@ -136,9 +136,9 @@ var options1 = {
       stops: [30, 100],
       colorStops: []
     },
-    colors: [CubaAdminConfig.primary, CubaAdminConfig.primary, CubaAdminConfig.primary],
+    colors: [cubaAdminConfig.primary, cubaAdminConfig.primary, cubaAdminConfig.primary],
   },
-  colors: [CubaAdminConfig.primary, CubaAdminConfig.secondary, CubaAdminConfig.secondary],
+  colors: [cubaAdminConfig.primary, cubaAdminConfig.secondary, cubaAdminConfig.secondary],
 };
 
 var chart1 = new ApexCharts(document.querySelector("#spaline-chart"),
@@ -185,7 +185,7 @@ var options2 = {
       show: false
     },
   },
-  colors: [CubaAdminConfig.primary, CubaAdminConfig.primary, CubaAdminConfig.primary, CubaAdminConfig.primary],
+  colors: [cubaAdminConfig.primary, cubaAdminConfig.primary, cubaAdminConfig.primary, cubaAdminConfig.primary],
   plotOptions: {
     bar: {
       vertical: true,
@@ -265,7 +265,7 @@ var options2 = {
       if (value < 0.75) {
         return "#a26cf8"
       } else {
-        return CubaAdminConfig.primary
+        return cubaAdminConfig.primary
       }
     }]
   }
@@ -310,7 +310,7 @@ var options3 = {
     offsetY: -10,
     style: {
       fontSize: '12px',
-      colors: [CubaAdminConfig.primary]
+      colors: [cubaAdminConfig.primary]
     }
   },
 
@@ -368,7 +368,7 @@ var options3 = {
       left: -10
     },
   },
-  colors: [CubaAdminConfig.primary],
+  colors: [cubaAdminConfig.primary],
 
 };
 

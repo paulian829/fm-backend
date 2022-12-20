@@ -8,3 +8,9 @@ class TaskForm(forms.ModelForm):
     class Meta:
         model = Task
         fields = '__all__'
+        
+class UserForm(forms.ModelForm):
+    email = forms.CharField(max_length=200, widget= forms.Textarea(attrs={'placeholder':'Enter new task here. . .'}))
+    class Meta:
+        model = User
+        fields = '__all__'

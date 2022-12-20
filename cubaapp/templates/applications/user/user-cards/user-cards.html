@@ -1,28 +1,18 @@
-{% extends 'base.html' %}
-
-{% load static %}
-{% load sass_tags %}
-
-{% block css %}
+{% extends 'base.html' %} {% load static %} {% load sass_tags %} {% block css %}
 <!-- Plugins css start-->
 <!-- Plugins css Ends-->
-{% endblock %}
-
-{% block content %}
+{% endblock %} {% block content %}
 
 <div class="page-body">
-      {% include "layout/breadcrumb.html" %}
-      <div class="container-fluid">
-
-            {% include "applications/user/user-cards/components/card-1.html" %}
-            {% include "applications/user/user-cards/components/card-2.html" %}
-
-      </div>
+  {% include "layout/breadcrumb.html" %}
+  <div class="container-fluid">
+    User List
+    {% comment %} {% include "applications/user/user-cards/components/card-1.html" %} 
+    {% include "applications/user/user-cards/components/card-2.html" %} {% endcomment %}
+  </div>
 </div>
 
-{% endblock %}
-
-{% block scriptcontent %}
+{% endblock %} {% block scriptcontent %}
 <!-- Plugins JS start-->
 <script src="{% static 'assets/js/tooltip-init.js'%}"></script>
 <!-- Plugins JS Ends-->

@@ -22,7 +22,7 @@ function drawBasic() {
         },
         height: 400,
         width: '100%',
-        colors: [CubaAdminConfig.primary, CubaAdminConfig.secondary, "#51bb25"]
+        colors: [cubaAdminConfig.primary, cubaAdminConfig.secondary, "#51bb25"]
 
 
       },
@@ -48,7 +48,7 @@ function drawBasic() {
         },
         height: 400,
         width: '100%',
-        colors: [CubaAdminConfig.primary, CubaAdminConfig.secondary, "#51bb25"]
+        colors: [cubaAdminConfig.primary, cubaAdminConfig.secondary, "#51bb25"]
       },
       c = new google.charts.Bar(document.getElementById("column-chart2"));
     c.draw(a, google.charts.Bar.convertOptions(b))
@@ -66,7 +66,7 @@ function drawBasic() {
       title: 'My Daily Activities',
       width: '100%',
       height: 300,
-      colors: ["#f8d62b", "#51bb25", "#a927f9", CubaAdminConfig.secondary, CubaAdminConfig.primary]
+      colors: ["#f8d62b", "#51bb25", "#a927f9", cubaAdminConfig.secondary, cubaAdminConfig.primary]
     };
     var chart = new google.visualization.PieChart(document.getElementById('pie-chart1'));
     chart.draw(data, options);
@@ -85,7 +85,7 @@ function drawBasic() {
       is3D: true,
       width: '100%',
       height: 300,
-      colors: ["#f8d62b", "#a927f9", "#51bb25", CubaAdminConfig.secondary, CubaAdminConfig.primary]
+      colors: ["#f8d62b", "#a927f9", "#51bb25", cubaAdminConfig.secondary, cubaAdminConfig.primary]
     };
     var chart = new google.visualization.PieChart(document.getElementById('pie-chart2'));
     chart.draw(data, options);
@@ -104,7 +104,7 @@ function drawBasic() {
       pieHole: 0.4,
       width: '100%',
       height: 300,
-      colors: ["#f8d62b", "#a927f9", "#51bb25", CubaAdminConfig.secondary, CubaAdminConfig.primary]
+      colors: ["#f8d62b", "#a927f9", "#51bb25", cubaAdminConfig.secondary, cubaAdminConfig.primary]
     };
     var chart = new google.visualization.PieChart(document.getElementById('pie-chart3'));
     chart.draw(data, options);
@@ -147,7 +147,7 @@ function drawBasic() {
         14: { offset: 0.4 },
         15: { offset: 0.5 },
       },
-      colors: ["#dc3545", CubaAdminConfig.primary, CubaAdminConfig.secondary, "#51bb25", "#a927f9", "#f8d62b", "#dc3545", CubaAdminConfig.primary, "#f8d62b", "#51bb25", CubaAdminConfig.primary, CubaAdminConfig.secondary, "#51bb25", CubaAdminConfig.primary, "#a927f9", "#f8d62b", CubaAdminConfig.primary, CubaAdminConfig.primary, "#a927f9", CubaAdminConfig.secondary, CubaAdminConfig.primary, "#51bb25"]
+      colors: ["#dc3545", cubaAdminConfig.primary, cubaAdminConfig.secondary, "#51bb25", "#a927f9", "#f8d62b", "#dc3545", cubaAdminConfig.primary, "#f8d62b", "#51bb25", cubaAdminConfig.primary, cubaAdminConfig.secondary, "#51bb25", cubaAdminConfig.primary, "#a927f9", "#f8d62b", cubaAdminConfig.primary, cubaAdminConfig.primary, "#a927f9", cubaAdminConfig.secondary, cubaAdminConfig.primary, "#51bb25"]
     };
     var chart = new google.visualization.PieChart(document.getElementById('pie-chart4'));
     chart.draw(data, options);
@@ -177,7 +177,7 @@ function drawBasic() {
         title: 'Box Office Earnings in First Two Weeks of Opening',
         subtitle: 'in millions of dollars (USD)'
       },
-      colors: [CubaAdminConfig.primary, CubaAdminConfig.secondary, "#51bb25"],
+      colors: [cubaAdminConfig.primary, cubaAdminConfig.secondary, "#51bb25"],
       height: 500,
       width: '100%',
     };
@@ -201,7 +201,7 @@ function drawBasic() {
       series: { 5: { type: 'line' } },
       height: 500,
       width: '100%',
-      colors: [CubaAdminConfig.primary, CubaAdminConfig.secondary, "#51bb25", "#a927f9", "#f8d62b"]
+      colors: [cubaAdminConfig.primary, cubaAdminConfig.secondary, "#51bb25", "#a927f9", "#f8d62b"]
     };
     var chart = new google.visualization.ComboChart(document.getElementById('combo-chart'));
     chart.draw(data, options);
@@ -220,7 +220,7 @@ function drawBasic() {
       vAxis: { minValue: 0 },
       width: '100%',
       height: 400,
-      colors: [CubaAdminConfig.primary, CubaAdminConfig.secondary]
+      colors: [cubaAdminConfig.primary, cubaAdminConfig.secondary]
     };
     var chart = new google.visualization.AreaChart(document.getElementById('area-chart1'));
     chart.draw(data, options);
@@ -239,7 +239,7 @@ function drawBasic() {
       vAxis: { minValue: 0 },
       width: '100%',
       height: 400,
-      colors: [CubaAdminConfig.primary, CubaAdminConfig.secondary, "#51bb25", "#f8d62b"]
+      colors: [cubaAdminConfig.primary, cubaAdminConfig.secondary, "#51bb25", "#f8d62b"]
     };
     var chart = new google.visualization.AreaChart(document.getElementById('area-chart2'));
     chart.draw(data, options);
@@ -322,8 +322,8 @@ function drawChart() {
 
       palette: [
         {
-          "color": CubaAdminConfig.primary,
-          "dark": CubaAdminConfig.secondary,
+          "color": cubaAdminConfig.primary,
+          "dark": cubaAdminConfig.secondary,
           "light": "#047afb"
         }
       ]

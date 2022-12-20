@@ -74,7 +74,7 @@ var options = {
     markers: {
         strokeWidth: 3,
         colors: "#ffffff",
-        strokeColors: [ CubaAdminConfig.primary , CubaAdminConfig.secondary ],
+        strokeColors: [cubaAdminConfig.primary, cubaAdminConfig.secondary],
         hover: {
             size: 6,
         }
@@ -104,7 +104,7 @@ var options = {
             top: -40
         }
     },
-    colors: [ CubaAdminConfig.primary , CubaAdminConfig.secondary ],
+    colors: [cubaAdminConfig.primary, cubaAdminConfig.secondary],
     fill: {
         type: 'gradient',
         gradient: {
@@ -391,30 +391,30 @@ var options1 = {
                 fill: {
                     colors: ['#fcf8ff', '#f7eeff']
                 },
-                
+
             }
         }
     },
-    colors: [ CubaAdminConfig.primary ],
-    
+    colors: [cubaAdminConfig.primary],
+
     markers: {
         size: 6,
         colors: ['#fff'],
-        strokeColor: CubaAdminConfig.primary,
+        strokeColor: cubaAdminConfig.primary,
         strokeWidth: 3,
     },
     tooltip: {
         y: {
-            formatter: function(val) {
+            formatter: function (val) {
                 return val
-            }   
+            }
         }
     },
     yaxis: {
         tickAmount: 7,
         labels: {
-            formatter: function(val, i) {
-                if(i % 2 === 0) {
+            formatter: function (val, i) {
+                if (i % 2 === 0) {
                     return val
                 } else {
                     return ''

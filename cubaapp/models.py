@@ -6,9 +6,12 @@ class User(models.Model):
     lname = models.CharField(max_length=30)
     email = models.EmailField(unique=True)
     password = models.CharField(max_length=30)
-
+    bio = models.CharField(max_length=30)
+    
     def __str__(self):
         return self.fname
+    def __str__(self):
+        return self.lname
 
 class Task(models.Model):
     title = models.CharField(max_length=200,null=False)

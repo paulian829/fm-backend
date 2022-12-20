@@ -1,5 +1,4 @@
-{% load static %}
-{% load sass_tags %}
+{% load static %} {% load sass_tags %}
 
 <div class="row">
   <div class="col-sm-12">
@@ -11,11 +10,16 @@
               <div class="row">
                 <div class="col-sm-6">
                   <div class="media">
-                    <div class="media-left"><img class="media-object img-100"
-                        src="{% static 'assets/images/other-images/logo-login.png'%}" alt=""></div>
+                    <div class="media-left">
+                      <img
+                        class="media-object img-100"
+                        src="{% static 'assets/images/other-images/logo-login.png'%}"
+                        alt=""
+                      />
+                    </div>
                     <div class="media-body m-l-20 text-right">
-                      <h4 class="media-heading">Cuba</h4>
-                      <p>hello@Cuba.in<br><span>289-335-6503</span></p>
+                      <h4 class="media-heading">cuba</h4>
+                      <p>hello@cuba.in<br /><span>289-335-6503</span></p>
                     </div>
                   </div>
                   <!-- End Info-->
@@ -23,30 +27,41 @@
                 <div class="col-sm-6 text-end">
                   <div class="text-md-end text-xs-center">
                     <h3>Invoice #<span class="counter">1069</span></h3>
-                    <p>Issued: May<span> 27, 2021</span><br>Payment Due: June <span>27, 2021</span></p>
+                    <p>
+                      Issued: May<span> 27, 2021</span><br />Payment Due: June
+                      <span>27, 2021</span>
+                    </p>
                   </div>
                   <!-- End Title-->
                 </div>
               </div>
             </div>
-            <hr>
+            <hr />
             <!-- End InvoiceTop-->
             <div class="row">
               <div class="col-lg-5 col-md-4">
                 <div class="media">
-                  <div class="media-left"><img class="media-object rounded-circle img-60"
-                      src="{% static 'assets/images/user/1.jpg'%}" alt=""></div>
+                  <div class="media-left">
+                    <img
+                      class="media-object rounded-circle img-60"
+                      src="{% static 'assets/images/user/1.jpg'%}"
+                      alt=""
+                    />
+                  </div>
                   <div class="media-body m-l-20">
                     <h4 class="media-heading">Johan Deo</h4>
-                    <p>JohanDeo@gmail.com<br><span>555-555-5555</span></p>
+                    <p>JohanDeo@gmail.com<br /><span>555-555-5555</span></p>
                   </div>
                 </div>
               </div>
               <div class="col-lg-7 col-md-8">
                 <div class="text-md-end mt-md-0 mt-3" id="project">
                   <h6>Project Description</h6>
-                  <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.It is a long established
-                    fact that a reader will be distracted by the readable content of a page when looking at its layout.
+                  <p>
+                    Lorem Ipsum is simply dummy text of the printing and
+                    typesetting industry.It is a long established fact that a
+                    reader will be distracted by the readable content of a page
+                    when looking at its layout.
                   </p>
                 </div>
               </div>
@@ -73,7 +88,10 @@
                     <tr>
                       <td>
                         <label>Lorem Ipsum</label>
-                        <p class="m-0">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                        <p class="m-0">
+                          Lorem Ipsum is simply dummy text of the printing and
+                          typesetting industry.
+                        </p>
                       </td>
                       <td>
                         <p class="itemtext">5</p>
@@ -88,7 +106,10 @@
                     <tr>
                       <td>
                         <label>Lorem Ipsum</label>
-                        <p class="m-0">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                        <p class="m-0">
+                          Lorem Ipsum is simply dummy text of the printing and
+                          typesetting industry.
+                        </p>
                       </td>
                       <td>
                         <p class="itemtext">3</p>
@@ -103,7 +124,10 @@
                     <tr>
                       <td>
                         <label>Lorem Ipsum</label>
-                        <p class="m-0">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                        <p class="m-0">
+                          Lorem Ipsum is simply dummy text of the printing and
+                          typesetting industry.
+                        </p>
                       </td>
                       <td>
                         <p class="itemtext">10</p>
@@ -118,7 +142,10 @@
                     <tr>
                       <td>
                         <label>Lorem Ipsum</label>
-                        <p class="m-0">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                        <p class="m-0">
+                          Lorem Ipsum is simply dummy text of the printing and
+                          typesetting industry.
+                        </p>
                       </td>
                       <td>
                         <p class="itemtext">10</p>
@@ -161,15 +188,23 @@
               <div class="row">
                 <div class="col-md-8">
                   <div>
-                    <p class="legal"><strong>Thank you for your business!</strong>  Payment is expected within 31 days;
-                      please process this invoice within that time. There will be a 5% interest charge per month on late
-                      invoices.</p>
+                    <p class="legal">
+                      <strong>Thank you for your business!</strong>  Payment is
+                      expected within 31 days; please process this invoice
+                      within that time. There will be a 5% interest charge per
+                      month on late invoices.
+                    </p>
                   </div>
                 </div>
                 <div class="col-md-4">
-                  <form class="text-end"> {% csrf_token %}
-                    <input type="image" src="{% static 'assets/images/other-images/paypal.png'%}" name="submit"
-                      alt="PayPal - The safer, easier way to pay online!">
+                  <form class="text-end">
+                    {% csrf_token %}
+                    <input
+                      type="image"
+                      src="{% static 'assets/images/other-images/paypal.png'%}"
+                      name="submit"
+                      alt="PayPal - The safer, easier way to pay online!"
+                    />
                   </form>
                 </div>
               </div>
@@ -177,7 +212,13 @@
             <!-- End InvoiceBot-->
           </div>
           <div class="col-sm-12 text-center mt-3">
-            <button class="btn btn btn-primary me-2" type="button" onclick="myFunction()">Print</button>
+            <button
+              class="btn btn btn-primary me-2"
+              type="button"
+              onclick="myFunction()"
+            >
+              Print
+            </button>
             <button class="btn btn-secondary" type="button">Cancel</button>
           </div>
           <!-- End Invoice-->

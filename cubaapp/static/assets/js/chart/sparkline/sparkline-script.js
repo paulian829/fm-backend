@@ -1,20 +1,20 @@
-(function($) {
+(function ($) {
     "use strict";
-    setTimeout(function(){
-        $("#line-chart-sparkline").sparkline([5, 10, 20, 14, 17, 21, 20, 10, 4, 13,0, 10, 30, 40, 10, 15, 20], {
+    setTimeout(function () {
+        $("#line-chart-sparkline").sparkline([5, 10, 20, 14, 17, 21, 20, 10, 4, 13, 0, 10, 30, 40, 10, 15, 20], {
             type: 'line',
             width: '100%',
             height: '100%',
             tooltipClassname: 'chart-sparkline',
-            lineColor: CubaAdminConfig.primary,
+            lineColor: cubaAdminConfig.primary,
             fillColor: 'rgba(145, 46, 252, 0.40)',
-            highlightLineColor: CubaAdminConfig.primary,
-            highlightSpotColor: CubaAdminConfig.primary,
-            targetColor: CubaAdminConfig.primary,
-            performanceColor: CubaAdminConfig.primary,
-            boxFillColor: CubaAdminConfig.primary,
-            medianColor: CubaAdminConfig.primary,
-            minSpotColor: CubaAdminConfig.primary
+            highlightLineColor: cubaAdminConfig.primary,
+            highlightSpotColor: cubaAdminConfig.primary,
+            targetColor: cubaAdminConfig.primary,
+            performanceColor: cubaAdminConfig.primary,
+            boxFillColor: cubaAdminConfig.primary,
+            medianColor: cubaAdminConfig.primary,
+            minSpotColor: cubaAdminConfig.primary
         });
     });
     var mrefreshinterval = 500;
@@ -24,7 +24,7 @@
     var mousetravel = 0;
     var mpoints = [];
     var mpoints_max = 30;
-    $('body').mousemove(function(e) {
+    $('body').mousemove(function (e) {
         var mousex = e.pageX;
         var mousey = e.pageY;
         if (lastmousex > -1)
@@ -32,7 +32,7 @@
         lastmousex = mousex;
         lastmousey = mousey;
     });
-    var mdraw = function() {
+    var mdraw = function () {
         var md = new Date();
         var timenow = md.getTime();
         if (lastmousetime && lastmousetime != timenow) {
@@ -48,15 +48,15 @@
                 width: '100%',
                 height: '100%',
                 tooltipClassname: 'chart-sparkline',
-                lineColor: CubaAdminConfig.primary ,
+                lineColor: cubaAdminConfig.primary,
                 fillColor: 'rgba(145, 46, 252, 0.40)',
-                highlightLineColor: CubaAdminConfig.primary ,
-                highlightSpotColor: CubaAdminConfig.primary ,
-                targetColor: CubaAdminConfig.primary ,
-                performanceColor: CubaAdminConfig.primary ,
-                boxFillColor: CubaAdminConfig.primary ,
-                medianColor: CubaAdminConfig.primary ,
-                minSpotColor: CubaAdminConfig.primary
+                highlightLineColor: cubaAdminConfig.primary,
+                highlightSpotColor: cubaAdminConfig.primary,
+                targetColor: cubaAdminConfig.primary,
+                performanceColor: cubaAdminConfig.primary,
+                boxFillColor: cubaAdminConfig.primary,
+                medianColor: cubaAdminConfig.primary,
+                minSpotColor: cubaAdminConfig.primary
             });
         }
         lastmousetime = timenow;
@@ -70,11 +70,11 @@
         height: '100%',
         tooltipClassname: 'chart-sparkline',
         chartRangeMax: '50',
-        lineColor: CubaAdminConfig.secondary,
+        lineColor: cubaAdminConfig.secondary,
         fillColor: 'rgba(247, 49, 100, 0.30)',
         highlightLineColor: 'rgba(247, 49, 100, 0.30)',
         highlightSpotColor: 'rgba(247, 49, 100, 0.8)'
-        
+
     });
     $("#custom-line-chart").sparkline([0, 5, 10, 7, 25, 20, 30], {
         type: 'line',
@@ -83,7 +83,7 @@
         composite: '!0',
         tooltipClassname: 'chart-sparkline',
         chartRangeMax: '40',
-        lineColor: CubaAdminConfig.primary,
+        lineColor: cubaAdminConfig.primary,
         fillColor: 'rgba(145, 46, 252, 0.40)',
         highlightLineColor: 'rgba(145, 46, 252, 0.40)',
         highlightSpotColor: 'rgba(145, 46, 252, 0.8)'
@@ -91,39 +91,39 @@
 })(jQuery);
 
 var sparkline_chart = {
-  init: function() {
-    setTimeout(function(){
-        $("#simple-line-chart-sparkline").sparkline([5, 10, 20, 14, 17, 21, 20, 10, 4, 13,0, 10, 30, 40, 10, 15, 20], {
-            type: 'line',
-            width: '100%',
+    init: function () {
+        setTimeout(function () {
+            $("#simple-line-chart-sparkline").sparkline([5, 10, 20, 14, 17, 21, 20, 10, 4, 13, 0, 10, 30, 40, 10, 15, 20], {
+                type: 'line',
+                width: '100%',
+                height: '100%',
+                tooltipClassname: 'chart-sparkline',
+                lineColor: cubaAdminConfig.primary,
+                fillColor: 'transparent',
+                highlightLineColor: cubaAdminConfig.primary,
+                highlightSpotColor: cubaAdminConfig.primary,
+                targetColor: cubaAdminConfig.primary,
+                performanceColor: cubaAdminConfig.primary,
+                boxFillColor: cubaAdminConfig.primary,
+                medianColor: cubaAdminConfig.primary,
+                minSpotColor: cubaAdminConfig.primary
+            });
+        }), $("#bar-chart-sparkline").sparkline([5, 2, 2, 4, 9, 5, 7, 5, 2, 2, 6], {
+            type: 'bar',
+            barWidth: '60',
             height: '100%',
             tooltipClassname: 'chart-sparkline',
-            lineColor: CubaAdminConfig.primary,
-            fillColor: 'transparent',
-            highlightLineColor: CubaAdminConfig.primary,
-            highlightSpotColor: CubaAdminConfig.primary,
-            targetColor: CubaAdminConfig.primary,
-            performanceColor: CubaAdminConfig.primary,
-            boxFillColor: CubaAdminConfig.primary,
-            medianColor: CubaAdminConfig.primary,
-            minSpotColor: CubaAdminConfig.primary
+            barColor: cubaAdminConfig.primary
+        }), $("#pie-sparkline-chart").sparkline([1.5, 1, 1, 0.5], {
+            type: 'pie',
+            width: '100%',
+            height: '100%',
+            sliceColors: ['#51bb25', '#f8d62b', cubaAdminConfig.secondary, cubaAdminConfig.primary],
+            tooltipClassname: 'chart-sparkline'
         });
-    }), $("#bar-chart-sparkline").sparkline([5, 2, 2, 4, 9, 5, 7, 5, 2, 2, 6], {
-        type: 'bar',
-        barWidth: '60',
-        height: '100%',
-        tooltipClassname: 'chart-sparkline',
-        barColor: CubaAdminConfig.primary
-    }), $("#pie-sparkline-chart").sparkline([1.5, 1, 1, 0.5], {
-        type: 'pie',
-        width: '100%',
-        height: '100%',
-        sliceColors: ['#51bb25','#f8d62b', CubaAdminConfig.secondary , CubaAdminConfig.primary ],
-        tooltipClassname: 'chart-sparkline'
-    });
     }
 };
-(function($) {
+(function ($) {
     "use strict";
-  sparkline_chart.init()
+    sparkline_chart.init()
 })(jQuery);

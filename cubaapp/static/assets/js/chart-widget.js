@@ -47,7 +47,7 @@
             },
 
         },
-        colors: [CubaAdminConfig.primary],
+        colors: [cubaAdminConfig.primary],
 
         series: [
             {
@@ -115,7 +115,7 @@
             }
 
         },
-        colors: [CubaAdminConfig.secondary],
+        colors: [cubaAdminConfig.secondary],
         series: [
             {
                 name: 'series1',
@@ -258,7 +258,7 @@
             }
         },
         fill: {
-            colors: [CubaAdminConfig.primary, CubaAdminConfig.secondary, '#51bb25'],
+            colors: [cubaAdminConfig.primary, cubaAdminConfig.secondary, '#51bb25'],
             type: 'gradient',
             gradient: {
                 shade: 'light',
@@ -355,7 +355,7 @@
             data: [55, 69, 45, 61, 43, 54, 37, 52, 44, 61, 43]
         }],
         fill: {
-            colors: [CubaAdminConfig.primary, CubaAdminConfig.secondary],
+            colors: [cubaAdminConfig.primary, cubaAdminConfig.secondary],
             type: 'gradient',
             gradient: {
                 shade: 'light',
@@ -368,7 +368,7 @@
             }
         },
 
-        colors: [CubaAdminConfig.primary, CubaAdminConfig.secondary],
+        colors: [cubaAdminConfig.primary, cubaAdminConfig.secondary],
         labels: ['01', '02', '03', '04', '05', '06', '07', '08', '09 ', '10', '11', '12'],
         markers: {
             size: 0
@@ -424,7 +424,7 @@
             curve: 'straight'
         },
         fill: {
-            colors: [CubaAdminConfig.primary],
+            colors: [cubaAdminConfig.primary],
             type: 'gradient',
             gradient: {
                 shade: 'light',
@@ -446,7 +446,7 @@
             text: 'Fundamental Analysis of Stocks',
             align: 'left'
         },
-        colors: [CubaAdminConfig.primary],
+        colors: [cubaAdminConfig.primary],
         labels: series.monthDataSeries1.dates,
         xaxis: {
             type: 'datetime'
@@ -479,7 +479,7 @@
                 stops: [0, 100]
             }
         },
-        colors: [CubaAdminConfig.primary, CubaAdminConfig.secondary, '#51bb25'],
+        colors: [cubaAdminConfig.primary, cubaAdminConfig.secondary, '#51bb25'],
         chart: {
             height: 300,
             type: 'radar',
@@ -586,7 +586,7 @@
                 stops: [0, 100]
             }
         },
-        colors: [CubaAdminConfig.primary, CubaAdminConfig.secondary, '#51bb25', '#544fff'],
+        colors: [cubaAdminConfig.primary, cubaAdminConfig.secondary, '#51bb25', '#544fff'],
         title: {
             text: 'Simple Bubble Chart'
         },
@@ -617,8 +617,8 @@
         plotOptions: {
             candlestick: {
                 colors: {
-                    upward: CubaAdminConfig.primary,
-                    downward: CubaAdminConfig.secondary
+                    upward: cubaAdminConfig.primary,
+                    downward: cubaAdminConfig.secondary
                 }
             }
         },
@@ -997,7 +997,7 @@
         },
 
         fill: {
-            colors: [CubaAdminConfig.primary],
+            colors: [cubaAdminConfig.primary],
             type: 'gradient',
             gradient: {
                 shade: 'light',
@@ -1088,7 +1088,7 @@
             opacity: 0.9
 
         },
-        colors: [CubaAdminConfig.primary, CubaAdminConfig.secondary],
+        colors: [cubaAdminConfig.primary, cubaAdminConfig.secondary],
         markers: {
             size: 0,
             hover: {
@@ -1193,7 +1193,7 @@
                 stops: [0, 100]
             }
         },
-        colors: [CubaAdminConfig.primary, CubaAdminConfig.secondary]
+        colors: [cubaAdminConfig.primary, cubaAdminConfig.secondary]
     }
 
     var chartCircle = new ApexCharts(document.querySelector('#circlechart'), optionsCircle);
@@ -1219,15 +1219,15 @@
                 }
             },
         },
-        colors: [CubaAdminConfig.primary],
+        colors: [cubaAdminConfig.primary],
         stroke: {
             width: 0,
         },
         fill: {
-            colors: [CubaAdminConfig.primary],
+            colors: [cubaAdminConfig.primary],
             type: 'gradient',
             gradient: {
-                gradientToColors: [CubaAdminConfig.primary]
+                gradientToColors: [cubaAdminConfig.primary]
             }
         },
         series: [{

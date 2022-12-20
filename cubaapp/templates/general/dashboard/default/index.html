@@ -1,32 +1,25 @@
-{% extends 'base.html' %}
-
-{% load static %}
-{% load sass_tags %}
-
-{% block css %}
+{% extends 'base.html' %} {% load static %} {% load sass_tags %} {% block css %}
 <!-- Plugins css start-->
-<link rel="stylesheet" type="text/css" href="{% sass_src 'assets/scss/vendors/date-picker.scss' %}">
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{% sass_src 'assets/scss/vendors/date-picker.scss' %}"
+/>
 <!-- Plugins css Ends-->
-{% endblock %}
-
-{% block content %}
-
-{% include "general/dashboard/default/components/loader.html" %}
-
+{% endblock %} {% block content %} {% include
+"general/dashboard/default/components/loader.html" %}
 <div class="page-body">
-      {% include "layout/breadcrumb.html" %}
-      <div class="container-fluid">
+  {% include "layout/breadcrumb.html" %}
+  <div class="container-fluid">
+    {% include "general/widget/general-widget/components/general.html" %}
 
-            {% include "general/dashboard/default/components/top.html" %}
-            {% include "general/dashboard/default/components/centre.html" %}
-            {% include "general/dashboard/default/components/bottom.html" %}
-
-      </div>
+    {% comment %} {% include "general/dashboard/default/components/top.html" %}
+    {%include "general/dashboard/default/components/centre.html" %} {% include
+    "general/dashboard/default/components/bottom.html" %} {% endcomment %}
+  </div>
 </div>
 
-{% endblock %}
-
-{% block scriptcontent %}
+{% endblock %} {% block scriptcontent %}
 <script src="{% static 'assets/js/datepicker/date-picker/datepicker.js'%}"></script>
 <script src="{% static 'assets/js/datepicker/date-picker/datepicker.en.js'%}"></script>
 <script src="{% static 'assets/js/chart/knob/knob.min.js'%}"></script>

@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class CubaappConfig(AppConfig):
+class cubaappConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
     name = 'cubaapp'

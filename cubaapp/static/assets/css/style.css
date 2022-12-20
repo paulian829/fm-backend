@@ -1,6 +1,6 @@
 /*! -----------------------------------------------------------------------------------
 
-    Template Name: Cuba Admin
+    Template Name: cuba Admin
     Template URI: http://admin.pixelstrap.com/cuba/theme
     Description: This is Admin theme
     Author: Pixelstrap
@@ -25711,7 +25711,7 @@ footer {
     width: 100%;
   }
   .cuba-demo-section .gallery_content p,
-  .cuba-demo-section .Cuba-demo-content p {
+  .cuba-demo-section .cuba-demo-content p {
     width: 70% !important;
   }
   .landing_gallery_section_img {
@@ -26109,7 +26109,7 @@ footer {
   -ms-flex-pack: center;
   justify-content: center;
   margin: 0 auto;
-  background: url("../images/login/login_bg.jpg");
+  background: url("../images/login/login_bg.png");
   background-position: center;
   padding: 30px 12px;
 }
