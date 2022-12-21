@@ -1,21 +1,11 @@
 @charset "UTF-8";
-/*! -----------------------------------------------------------------------------------
 
-    Template Name: cuba Admin
-    Template URI: http://admin.pixelstrap.com/cuba/theme
-    Description: This is Admin theme
-    Author: Pixelstrap
-    Author URI: https://themeforest.net/user/pixelstrap
 
------------------------------------------------------------------------------------
- */
+
 :root {
   --theme-deafult: #329C57;
   --theme-secondary: #f73164; }
 
-/**=====================
-     Reset css start
-==========================**/
 .font-roboto {
   font-family: Roboto, sans-serif; }
 
@@ -1177,6 +1167,9 @@
     background-color: #9106e7 !important;
     border-color: #9106e7 !important; }
 
+    ul.errorlist.nonfield {
+      color: red;
+  }
 .btn-outline-light {
   border-color: #f4f4f4;
   color: #f4f4f4;
