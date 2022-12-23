@@ -56,6 +56,13 @@
 .pswp__button--share {
   background-position: -44px -44px; }
 
+  .pswp__button--delete {
+    background-image: url(../../images/lightgallry/thrash.svg) !important;
+    width: 44px;
+    background-size: 20px;
+    margin-left: 12px;
+}
+
 .pswp__button--fs {
   display: none; }
 
@@ -246,7 +253,10 @@ a.pswp__share--download:hover {
   font-size: 13px;
   padding: 10px;
   line-height: 20px;
-  color: #CCC; }
+  color: #CCC; 
+  display: flex;
+  justify-content: center;
+}
 
 .pswp__caption--empty {
   display: none; }

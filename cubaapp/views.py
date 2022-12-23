@@ -12,7 +12,9 @@ from django.shortcuts import redirect, render
 from django.http import HttpResponse
 from .models import *
 from .forms import *
-
+from django.views.decorators.csrf import csrf_exempt
+import json
+import base64
 # Create your views here.
 
 #-------------------------General(Dashboards,Widgets & Layout)---------------------------------------
@@ -32,8 +34,12 @@ def dashboard_02(request):
 
 @login_required(login_url="/login")
 def general_widget(request):
-    context = { "breadcrumb":{"parent":"Dashboard", "child":"Images"}}
-    return render(request,"general/widget/general-widget/general-widget.html",context)
+    images = NoFaceMaskImages.objects.all()
+    for idx in images:
+        print(idx.created)
+        idx.filename = idx.filename.replace("./cubaapp/","")
+    context = {"images":images}    
+    return render(request,'miscellaneous/gallery/gallery-grid-desc/gallery-with-description.html',context)
     
 
 
@@ -80,49 +86,20 @@ def base_input(request):
     return render(request,"forms-table/forms/form-controls/base-input/base-input.html",context)
 
 @login_required(login_url="/login")
-def navs(request):
-    context = {"breadcrumb":{"parent":"Ui Kits", "child":"navs"}}
-    return render(request,'components/ui-kits/navs.html', context)
-        
-
-@login_required(login_url="/login")
-def shadow(request):
-    context = {"breadcrumb":{"parent":"Ui Kits", "child":"Box Shadow"}}
-    return render(request,'components/ui-kits/shadow.html', context)       
-    
-
-@login_required(login_url="/login")
 def lists(request):
     context = {"breadcrumb":{"parent":"Ui Kits", "child":"Lists"}}
     return render(request,'components/ui-kits/lists.html', context) 
                
-
-@login_required(login_url="/login")
-def timeline2(request):
-    context = {"breadcrumb":{"parent":"Bonus Ui", "child":"Timeline 2"}}
-    return render(request,'components/bonus-ui/timeline2.html', context)      
-    
-
-@login_required(login_url="/login")
-def whether(request):
-    context = {"breadcrumb":{"parent":"Icons", "child":"Whether Icon"}}
-    return render(request,'components/icons/whether.html', context)   
-         
-
 #--------------------------------Buttons
 @login_required(login_url="/login")
 def buttons(request):
     context = {"breadcrumb":{"parent":"Buttons", "child":"Default Style"}}
     return render(request,'components/buttons/buttons.html', context)        
        
-#-----------------------------------------------others
-
-#------------------------------error page
 @login_required(login_url="/login")
 def error_400(request):
     
     return render(request,'pages/others/error-page/error-page/error-400.html')
-    
 
 @login_required(login_url="/login")
 def error_401(request):
@@ -194,20 +171,58 @@ def FAQ(request):
 
 @login_required(login_url="/login")
 def edit_profile(request):
-    user = User.objects.all()
     form = UserForm()
+    # clean up for the database incase of errors
+    # User.objects.all().delete()
+    user = request.user
     
     if request.method == 'POST':
-        form = UserForm(request.POST)
-        if form.is_valid():
-            form.save()
-        return redirect('/edit_profile')
+        update_items = request.POST
+        user_profile = User.objects.get(userid=user)
+        user_profile.department = update_items.get('department')
+        user_profile.address = update_items.get('address')
+        user_profile.city = update_items.get('city')
+        user_profile.postal = update_items.get('postal')
+        user_profile.country = update_items.get('country')
+        user.first_name = update_items.get('firstname')
+        user.last_name = update_items.get('lastname')
+        user.email = update_items.get('email')
+        
+        
+        user.save()
+        
+        user_profile.save()
+        # print(user_profile)
+
     
+    try:
+        user_profile = User.objects.get(userid=user)
+        print('Query Available')
+    except Exception as e:
+        print(e)
+        User.objects.create(userid=user)
+        user_profile = User.objects.get(userid=user)
+        
+        # User Does not exist, Create a new one
     
-    
-    context = { 'user':user, "breadcrumb":{"parent":"Users", "child":"User Profile"}}
+    context = { 'user':user,'userprofile':user_profile, "breadcrumb":{"parent":"Users", "child":"User Profile"}}
     return render(request,"applications/user/edit-profile/edit-profile.html",context)
 
+@csrf_exempt
+def add_image(request):
+    req = json.loads(request.body)
+    imgdata = base64.b64decode(req.get('file'))
+    filename = "./cubaapp/static/assets/violations/" + req.get('filename')
+    # filename = req.get('filename')
+    
+    with open(filename, 'wb') as f:
+        f.write(imgdata)
+    
+    NoFaceMaskImages.objects.create(filename=filename)    
+    
+    return HttpResponse("return this string")
+
+    
 
 @login_required(login_url="/login")
 def to_do(request):
@@ -277,7 +292,6 @@ def login_simple(request):
     if request.method == 'POST':
         form = AuthenticationForm(data=request.POST)
         if form.is_valid():
-            print('hello')
             user = form.get_user()
             login(request,user)
             if 'next' in request.GET:

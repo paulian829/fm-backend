@@ -3,17 +3,20 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 class User(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
-    fname = models.CharField(max_length=30)
-    lname = models.CharField(max_length=30)
-    email = models.EmailField(unique=True)
-    password = models.CharField(max_length=30)
-    bio = models.CharField(max_length=30)
+    userid = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
+    department = models.CharField(max_length=30, null=True)
+    address = models.CharField(max_length=200, null=True)
+    city = models.CharField(max_length=30, null=True)
+    postal = models.CharField(max_length=30, null=True)
+    country = models.CharField(max_length=30,null=True)
     
     def __str__(self):
-        return self.fname
-    def __str__(self):
-        return self.lname
+        return str(self.userid)
+    
+class NoFaceMaskImages(models.Model):
+    filename = models.CharField(max_length=200, null=True)
+    created = models.DateTimeField(auto_now_add=True)
+
 
 class Task(models.Model):
     title = models.CharField(max_length=200,null=False)

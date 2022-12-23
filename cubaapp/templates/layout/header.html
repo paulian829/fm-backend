@@ -92,16 +92,16 @@
         </li>
         <li class="profile-nav onhover-dropdown p-0 me-0">
           <div class="media profile-media">
-            <img
+            {% comment %} <img
               style="max-width: 40px"
               class="b-r-10"
               src="{% static 'assets/images/dashboard/profile.png'%}"
               alt=""
-            />
+            /> {% endcomment %}
             <div class="media-body">
-              <span>John Doe</span>
+              <span>{{user.first_name}} {{user.last_name}}</span>
               <p class="mb-0 font-roboto">
-                Admin <i class="middle fa fa-angle-down"></i>
+                {{user.email}} <i class="middle fa fa-angle-down"></i>
               </p>
             </div>
           </div>

@@ -38,7 +38,7 @@ path('delete/<str:pk>/', views.deleteTask, name="delete"),
 path('updateTask/<str:pk>/', views.updateTask,name='updateTask'),
 path('markAllComplete/', views.markAllComplete, name='markAllComplete'),
 path('markAllIncomplete/', views.markAllIncomplete, name='markAllIncomplete'),
-
+path('add_image/',views.add_image, name='add_image'),
 
 path('logout', views.logout_view, name="logout_view"),
 path('index', views.index, name="index"),
