@@ -18,7 +18,28 @@
                   <div class="col-sm-12">
                         <div class="card">
                               <div class="card-header">
-                                    <h5>Violations Gallery</h5>
+            <div class="row">
+
+                                    <h5 class="col-md-3">Violations Gallery</h5>
+                                    <div class="col-md-3">
+                                          <form method='POST'>{% csrf_token %}
+
+                                          <div class="mb-3">
+                                              <label class="form-label">Start Date</label>
+                                              <input class="form-control" type="date" placeholder="start date"  name='start'>
+                                          </div>
+                                      </div>
+                                      <div class="col-sm-6 col-md-3">
+                                          <div class="mb-3">
+                                              <label class="form-label">End Date</label>
+                                              <input class="form-control" type="date" placeholder="end date" name='end' >
+                                          </div>
+                                      </div>
+                                      <div class="col-sm-6 col-md-3 search-btn">
+                                          <button class="btn btn-primary" type="submit">Filter Date</button>
+                                          </form>
+                                    </div>
+                                    </div>
                               </div> 
 
                               <div class="my-gallery card-body row gallery-with-description" itemscope="">
@@ -43,6 +64,14 @@
             </div>
       </div>
 </div>
+
+<style>
+.search-btn {
+      display: flex;
+      align-items: flex-end;
+      padding-bottom: 18px;
+      }
+</style>
 
 {% endblock %}
 

@@ -32,7 +32,7 @@ path('gallery_grid', views.gallery_grid, name="gallery_grid"),
 path('grid_description', views.grid_description, name="grid_description"),
 
 path('FAQ', views.FAQ, name="FAQ"),
-
+path('delete_image/<str:pk>', views.delete_image, name="delete_image"),
 path('to_do', views.to_do, name="to_do"),
 path('delete/<str:pk>/', views.deleteTask, name="delete"),
 path('updateTask/<str:pk>/', views.updateTask,name='updateTask'),

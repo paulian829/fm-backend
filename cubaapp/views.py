@@ -34,7 +34,17 @@ def dashboard_02(request):
 
 @login_required(login_url="/login")
 def general_widget(request):
+    
     images = NoFaceMaskImages.objects.all()
+
+    if request.method == 'POST':
+        items = request.POST
+        start = items.get('start')
+        end = items.get('end')
+        print(items)
+        images = NoFaceMaskImages.objects.filter(created__range=[start,end])
+        print(images)
+
     for idx in images:
         print(idx.created)
         idx.filename = idx.filename.replace("./cubaapp/","")
@@ -284,6 +294,13 @@ def updateTask(request, pk):
         task.save()
     return HttpResponseRedirect("/to_do")
 
+@login_required(login_url="/login")
+def delete_image(request, pk):
+    if request.method == "POST":
+        image = NoFaceMaskImages.objects.get(id=pk)
+        image.delete()
+        return redirect('/images')
+    
 def logout_view(request):
     logout(request)
     return redirect('login')
