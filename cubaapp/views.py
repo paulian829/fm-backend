@@ -27,14 +27,30 @@ def index(request):
     
 
 @login_required(login_url="/login")
-def dashboard_02(request):
-    context = { "breadcrumb":{"parent":"Dashboard", "child":"Cameras"}}
+def cameras_page(request):
+    Cameras_all = Camera.objects.all()
+    print(Cameras_all)
+    for camera in Cameras_all:
+        print("Camera details:")
+        for field in camera._meta.fields:
+            print(f"{field.name}: {getattr(camera, field.name)}")
+        print("\n")
+    
+    context = {"cameras":Cameras_all, "breadcrumb":{"parent":"Dashboard", "child":"Cameras"}}
     
     return render(request,"general/dashboard/default/dashboard-02.html",context)
+
+@login_required(login_url="/login")
+def delete_camera(request,id):
+    print(id)
+    selected_camera = Camera.objects.get(camera_ID=id)
+    selected_camera.delete()
+    return redirect('/cameras')
+
     
 
 @login_required(login_url="/login")
-def general_widget(request):
+def images_page(request):
     
     images = Images.objects.all()
 
@@ -64,12 +80,51 @@ def general_widget(request):
     
 
 @login_required(login_url="/login")
-def cctv_create(request):
-    return render(request,"applications/projects/projectcreate/cctvcreate.html")
+def camera_create(request):
+    
+    Cameras_all = Camera.objects.all()
+    print(Cameras_all)
+    for camera in Cameras_all:
+        print("Camera details:")
+        for field in camera._meta.fields:
+            print(f"{field.name}: {getattr(camera, field.name)}")
+        print("\n")
+    form = CameraForm()
+    
+    if request.method == 'POST':
+        camera_name = request.POST.get('camera_name')
+        ip_address = request.POST.get('ip_address')
+        camera_details = request.POST.get('camera_details')
+        other_details = request.POST.get('other_details')
+        
+        Camera.objects.create(camera_name=camera_name,ip_address=ip_address,camera_details=camera_details,other_details=other_details)
+        return redirect('/cameras')
+
+    context = {'cameras':Cameras_all, "breadcrumb":{"parent":"Dashboard", "child":"CCTV Create"}}
+    return render(request,"applications/projects/projectcreate/cctvcreate.html",context)
 
 
 @login_required(login_url="/login")
-def chart_widget(request):
+def edit_camera(request,id):
+    selected_camera = Camera.objects.get(camera_ID=id)
+    
+    if request.method == 'POST':
+        camera = Camera.objects.get(camera_ID=id)
+        camera.camera_name = request.POST.get('camera_name')
+        camera.camera_IP = request.POST.get('ip_address')
+        camera.camera_details = request.POST.get('camera_details')
+        camera.other_details = request.POST.get('other_details')
+        
+        camera.save()
+        return redirect('/cameras')
+            
+    
+    context = {"camera":selected_camera, "breadcrumb":{"parent":"Dashboard", "child":"Edit Camera"}}
+    return render(request,"applications/projects/projectcreate/edit_camera.html",context)
+
+
+@login_required(login_url="/login")
+def reports(request):
     context = { "breadcrumb":{"parent":"Dashboard", "child":"Reports"}}
     return render(request,"general/widget/chart-widget/chart-widget.html",context)
     
@@ -82,7 +137,7 @@ def projects(request):
     
 
 @login_required(login_url="/login")
-def projectcreate(request):
+def project_create(request):
     context = { "breadcrumb":{"parent":"Dashboard", "child":"About"}}
     return render(request,"applications/projects/projectcreate/projectcreate.html",context)
 
@@ -243,7 +298,7 @@ def add_image(request):
     with open(filename, 'wb') as f:
         f.write(imgdata)
     
-    Images.objects.create(filename=filename)    
+    Images.objects.create(filename=filename)
     
     return HttpResponse("return this string")
 

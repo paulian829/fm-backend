@@ -6,53 +6,58 @@
   aria-labelledby="top-home-tab"
 >
   <div class="row">
+    {% for camera in cameras %}
+
     <div class="col-xxl-4 col-lg-6">
       <div class="project-box">
-        <h6>Front Gate CCTV</h6>
+        <h6>{{ camera.camera_name }}</h6>
         <div class="row details">
           <div class="col-6"><span>IP Address </span></div>
-          <div class="col-6 text-primary">192.168.1.100</div>
-          <div class="col-6"><span>Images</span></div>
-          <div class="col-6 text-primary">100</div>
+          <div class="col-6 text-primary">{{ camera.ip_address }}</div>
+          <div class="col-6"><span>Camera Details</span></div>
+          <div class="col-6 text-primary">{{ camera.camera_details}}</div>
+
+          <div class="col-6"><span>Date Created</span></div>
+          <div class="col-6 text-primary">{{ camera.date_created}}</div>
+          {% comment %}
+          <div class="col-6"><span>Other Details</span></div>
+          <div class="col-6 text-primary">{{ camera.date_created}}</div>
+          {% endcomment %}
         </div>
         <div class="project-status mt-4">
-          <div class="media mb-0" style='justify-content: space-between'>
+          <div class="media mb-0" style="justify-content: space-between">
             <div class="text-end">
-              <button class="btn btn-primary" type="button" data-bs-toggle="tooltip">Enabled</button>
+              <a
+                href="/edit_camera/{{camera.camera_ID}}"
+                style="color: white"
+                onclick="return confirm('Are you sure you want to edit this camera??');"
+              >
+                <button
+                  class="btn btn-primary"
+                  type="button"
+                  data-bs-toggle="tooltip"
+                >
+                  <i data-feather="edit"> </i></button
+              ></a>
             </div>
             <div class="text-end">
-              <button class="btn btn-danger" type="button" data-bs-toggle="tooltip">Delete</button>
+              <a
+                href="/delete_camera/{{camera.camera_ID}}"
+                style="color: white"
+                onclick="return confirm('Are you sure you want to delete this camera?');"
+              >
+                <button
+                  class="btn btn-danger"
+                  type="button"
+                  data-bs-toggle="tooltip"
+                >
+                  <i data-feather="trash"> </i></button
+              ></a>
             </div>
-
-
           </div>
         </div>
       </div>
-      
     </div>
-    <div class="col-xxl-4 col-lg-6">
-      <div class="project-box">
-        <h6>Front Gate CCTV</h6>
-        <div class="row details">
-          <div class="col-6"><span>IP Address </span></div>
-          <div class="col-6 text-primary">192.168.1.100</div>
-          <div class="col-6"><span>Images</span></div>
-          <div class="col-6 text-primary">100</div>
-        </div>
-        <div class="project-status mt-4">
-          <div class="media mb-0" style='justify-content: space-between'>
-            <div class="text-end">
-              <button class="btn btn-primary" type="button" data-bs-toggle="tooltip">Enabled</button>
-            </div>
-            <div class="text-end">
-              <button class="btn btn-danger" type="button" data-bs-toggle="tooltip">Delete</button>
-            </div>
-
-
-          </div>
-        </div>
-      </div>
-    </div>
-    
+    {% endfor %}
   </div>
 </div>

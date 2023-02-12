@@ -8,3 +8,14 @@ class UserForm(forms.ModelForm):
     class Meta:
         model = User
         fields = '__all__'
+        
+        
+class CameraForm(forms.ModelForm):
+    camera_name = forms.CharField(max_length=100)
+    ip_address = forms.CharField(max_length=200, required=False)
+    camera_details = forms.URLField()
+    other_details = forms.FloatField()
+    
+    class Meta:
+        model = Camera
+        fields = '__all__'

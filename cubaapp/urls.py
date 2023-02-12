@@ -7,14 +7,16 @@ from . import views
 
 urlpatterns = [
 
-path('cameras', views.dashboard_02, name="dashboard_02"),
+path('cameras', views.cameras_page, name="dashboard_02"),
 
-path('images', views.general_widget, name="general_widget"),
-path('cctv-create', views.cctv_create, name="cctv_create"),
-path('reports', views.chart_widget, name="chart_widget"),
+path('images', views.images_page, name="general_widget"),
+path('camera_create', views.camera_create, name="cctv_create"),
+path('delete_camera/<str:id>', views.delete_camera, name="delete_camera"),
+path('edit_camera/<str:id>', views.edit_camera, name="edit_camera"),
+path('reports', views.reports, name="chart_widget"),
 
 path('settings', views.projects, name="projects"),
-path('about', views.projectcreate, name="projectcreate"), 
+path('about', views.project_create, name="projectcreate"), 
 
 path('edit_profile', views.edit_profile, name="edit_profile"),
 path('user_cards', views.user_cards, name="user_cards"),
