@@ -150,7 +150,11 @@ def user_profile(request):
 
 @login_required(login_url="/login")
 def user_cards(request):
-    context = { "breadcrumb":{"parent":"Users", "child":"User Cards"}}
+    users = User.objects.all()
+    
+    print(users)
+    
+    context = {"users":users, "breadcrumb":{"parent":"Users", "child":"User Cards"}}
     return render(request,"applications/user/user-cards/user-cards.html",context)
        
 
