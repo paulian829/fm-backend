@@ -29,28 +29,43 @@ def index(request):
 @login_required(login_url="/login")
 def dashboard_02(request):
     context = { "breadcrumb":{"parent":"Dashboard", "child":"Cameras"}}
+    
     return render(request,"general/dashboard/default/dashboard-02.html",context)
     
 
 @login_required(login_url="/login")
 def general_widget(request):
     
-    images = NoFaceMaskImages.objects.all()
+    images = Images.objects.all()
 
     if request.method == 'POST':
         items = request.POST
+        
         start = items.get('start')
         end = items.get('end')
-        print(items)
-        images = NoFaceMaskImages.objects.filter(created__range=[start,end])
+        
+        if (start == "" or end == ""):
+            print("start or end is empty")
+            return render(request,'miscellaneous/gallery/gallery-grid-desc/gallery-with-description.html')
+        # check if start and end is valid dates
+        
+        
+        images = Images.objects.filter(created__range=[start,end])
+        # Check if images is empty
+        
+        
         print(images)
 
     for idx in images:
         print(idx.created)
         idx.filename = idx.filename.replace("./cubaapp/","")
-    context = {"images":images}    
+    context = {"images":images,"breadcrumb":{"parent":"Dashboard", "child":"Images"} }    
     return render(request,'miscellaneous/gallery/gallery-grid-desc/gallery-with-description.html',context)
     
+
+@login_required(login_url="/login")
+def cctv_create(request):
+    return render(request,"applications/projects/projectcreate/cctvcreate.html")
 
 
 @login_required(login_url="/login")
@@ -228,76 +243,76 @@ def add_image(request):
     with open(filename, 'wb') as f:
         f.write(imgdata)
     
-    NoFaceMaskImages.objects.create(filename=filename)    
+    Images.objects.create(filename=filename)    
     
     return HttpResponse("return this string")
 
     
 
-@login_required(login_url="/login")
-def to_do(request):
-    tasks = Task.objects.all()
-    form = TaskForm()
-    if request.method == 'POST':
-        form = TaskForm(request.POST)
-        if form.is_valid():
-            form.save()
-        return redirect('/to_do')
+# @login_required(login_url="/login")
+# def to_do(request):
+#     tasks = Task.objects.all()
+#     form = TaskForm()
+#     if request.method == 'POST':
+#         form = TaskForm(request.POST)
+#         if form.is_valid():
+#             form.save()
+#         return redirect('/to_do')
 
-    completedTasks = True
-    for t in tasks:
-        if t.complete == False:
-            completedTasks = False
+#     completedTasks = True
+#     for t in tasks:
+#         if t.complete == False:
+#             completedTasks = False
 
-    context = {'tasks': tasks, 'form': form,'completedTasks': completedTasks, "breadcrumb":{"parent":"Todo", "child":"Todo with database"}}
-    context = {'tasks': tasks, 'form': form,'completedTasks': completedTasks, "breadcrumb":{"parent":"Todo", "child":"Todo with database"}}
+#     context = {'tasks': tasks, 'form': form,'completedTasks': completedTasks, "breadcrumb":{"parent":"Todo", "child":"Todo with database"}}
+#     context = {'tasks': tasks, 'form': form,'completedTasks': completedTasks, "breadcrumb":{"parent":"Todo", "child":"Todo with database"}}
 
-    return render(request,'applications/to-do/to-do.html',context)
+#     return render(request,'applications/to-do/to-do.html',context)
     
 
-@login_required(login_url="/login")
-def markAllComplete(request):
-    allTasks = Task.objects.all()
-    for oneTask in allTasks:
-        oneTask.complete = True
-        oneTask.save()
-    return HttpResponseRedirect("/to_do")
+# @login_required(login_url="/login")
+# def markAllComplete(request):
+#     allTasks = Task.objects.all()
+#     for oneTask in allTasks:
+#         oneTask.complete = True
+#         oneTask.save()
+#     return HttpResponseRedirect("/to_do")
 
 
 
-@login_required(login_url="/login")
-def markAllIncomplete(request):
-    allTasks = Task.objects.all()
-    for oneTask in allTasks:
-        oneTask.complete = False
-        oneTask.save()
-    return HttpResponseRedirect("/to_do")
+# @login_required(login_url="/login")
+# def markAllIncomplete(request):
+#     allTasks = Task.objects.all()
+#     for oneTask in allTasks:
+#         oneTask.complete = False
+#         oneTask.save()
+#     return HttpResponseRedirect("/to_do")
 
 
 
-@login_required(login_url="/login")
-def deleteTask(request, pk):
-    item = Task.objects.get(id=pk)
-    item.delete()
-    return HttpResponseRedirect("/to_do")
+# @login_required(login_url="/login")
+# def deleteTask(request, pk):
+#     item = Task.objects.get(id=pk)
+#     item.delete()
+#     return HttpResponseRedirect("/to_do")
 
 
 
-@login_required(login_url="/login")
-def updateTask(request, pk):
-    task = Task.objects.get(id=pk)
-    if task.complete == False:
-        task.complete = True
-        task.save()
-    else:
-        task.complete = False
-        task.save()
-    return HttpResponseRedirect("/to_do")
+# @login_required(login_url="/login")
+# def updateTask(request, pk):
+#     task = Task.objects.get(id=pk)
+#     if task.complete == False:
+#         task.complete = True
+#         task.save()
+#     else:
+#         task.complete = False
+#         task.save()
+#     return HttpResponseRedirect("/to_do")
 
 @login_required(login_url="/login")
 def delete_image(request, pk):
     if request.method == "POST":
-        image = NoFaceMaskImages.objects.get(id=pk)
+        image = Images.objects.get(id=pk)
         image.delete()
         return redirect('/images')
     
@@ -338,3 +353,4 @@ def register_simple(request):
     return render(request,'pages/others/authentication/sign-up-simple/sign-up.html',{"form":form})
     
     
+# https://stackoverflow.com/questions/50659212/how-do-i-get-the-face-recognition-encoding-from-many-images-in-a-directory-and-s

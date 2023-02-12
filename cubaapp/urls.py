@@ -10,6 +10,7 @@ urlpatterns = [
 path('cameras', views.dashboard_02, name="dashboard_02"),
 
 path('images', views.general_widget, name="general_widget"),
+path('cctv-create', views.cctv_create, name="cctv_create"),
 path('reports', views.chart_widget, name="chart_widget"),
 
 path('settings', views.projects, name="projects"),
@@ -33,11 +34,11 @@ path('grid_description', views.grid_description, name="grid_description"),
 
 path('FAQ', views.FAQ, name="FAQ"),
 path('delete_image/<str:pk>', views.delete_image, name="delete_image"),
-path('to_do', views.to_do, name="to_do"),
-path('delete/<str:pk>/', views.deleteTask, name="delete"),
-path('updateTask/<str:pk>/', views.updateTask,name='updateTask'),
-path('markAllComplete/', views.markAllComplete, name='markAllComplete'),
-path('markAllIncomplete/', views.markAllIncomplete, name='markAllIncomplete'),
+# path('to_do', views.to_do, name="to_do"),
+# path('delete/<str:pk>/', views.deleteTask, name="delete"),
+# path('updateTask/<str:pk>/', views.updateTask,name='updateTask'),
+# path('markAllComplete/', views.markAllComplete, name='markAllComplete'),
+# path('markAllIncomplete/', views.markAllIncomplete, name='markAllIncomplete'),
 path('add_image/',views.add_image, name='add_image'),
 
 path('logout', views.logout_view, name="logout_view"),

@@ -12,7 +12,7 @@
 {% block content %}
 
 <div class="page-body">
-      {% comment %} {% include "layout/breadcrumb.html" %} {% endcomment %}
+      {% include "layout/breadcrumb.html" %}
       <div class="container-fluid">
             <div class="row">
                   <div class="col-sm-12">
@@ -50,10 +50,7 @@
 
                               </div>
                               <div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
-                                    <!--
-                    Background of PhotoSwipe.
-                    It's a separate element, as animating opacity is faster than rgba().
-                    -->
+
                                     <div class="pswp__bg"></div>
                                     <!-- Slides wrapper with overflow:hidden.-->
                                     {% include "miscellaneous/gallery/gallery-grid-desc/components/pswd.html" %}
