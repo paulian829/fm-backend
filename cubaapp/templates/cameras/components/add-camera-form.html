@@ -1,0 +1,81 @@
+{% load static %} {% load sass_tags %}
+
+<div class="row">
+  <div class="col-sm-12">
+    <div class="card">
+      <form class='card' method='POST'> {% csrf_token %}
+      <div class="card-body">
+        <div class="form theme-form">
+          <div class="row">
+            <div class="col">
+              <div class="mb-3">
+                <label>CCTV Name</label>
+                <input
+                  class="form-control"
+                  type="text"
+                  placeholder="Ex. Front Gate *"
+                  id="camera_name"
+                  name="camera_name"
+                />
+                
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <div class="mb-3">
+                <label>IP Address</label>
+                <input
+                  class="form-control"
+                  type="text"
+                  placeholder="Ex. 192.168.1.1"
+                  id="ip_address"
+                  name="ip_address"
+
+                />
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <div class="mb-3">
+                <label>CCTV Details</label>
+                <input
+                  class="form-control"
+                  type="text"
+                  placeholder="Ex. TP-Link 4MP"
+                  id="camera_details"
+                  name="camera_details"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <div class="mb-3">
+                <label>Other Details</label>
+                <textarea
+                  class="form-control"
+                  id="exampleFormControlTextarea4"
+                  rows="3"
+                  placeholder='Ex. "Front Gate CCTV" At CVSU'
+                  id="other_details"
+                  name="other_details"
+
+                ></textarea>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <div class="text-end">
+                <button class="btn btn-primary me-3" type="Submit" data-bs-toggle="tooltip">Submit</button>
+                <button class="btn btn-danger" type="button" data-bs-toggle="tooltip">Cancel</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+      </div>
+    </div>
+  </div>

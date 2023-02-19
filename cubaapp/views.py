@@ -39,7 +39,7 @@ def cameras_page(request):
     
     context = {"cameras":Cameras_all, "breadcrumb":{"parent":"Dashboard", "child":"Cameras"}}
     
-    return render(request,"general/dashboard/default/dashboard-02.html",context)
+    return render(request,"cameras/cameras.html",context)
 
 @login_required(login_url="/login")
 def delete_camera(request,id):
@@ -102,8 +102,52 @@ def camera_create(request):
         return redirect('/cameras')
 
     context = {'cameras':Cameras_all, "breadcrumb":{"parent":"Dashboard", "child":"CCTV Create"}}
-    return render(request,"applications/projects/projectcreate/cctvcreate.html",context)
+    return render(request,"cameras/add-camera-page.html",context)
 
+
+@login_required(login_url="/login")
+def add_student_image(request, id):
+    print(id)
+    
+    
+    return render (request,"students/add-image-page.html")
+
+@login_required(login_url="/login")
+def add_student(request):
+    url = 'http://localhost:5000/students'
+    if request.method == 'POST':
+        required_fields = ['student_name','email','contact','course','section']
+        
+        if all(field in request.POST and request.POST[field] for field in required_fields):
+            student_name = request.POST.get('student_name')
+            email = request.POST.get('email')
+            contact = request.POST.get('contact')
+            course = request.POST.get('course')
+            section = request.POST.get('section')
+
+            json_data = {
+                'name': student_name,
+                'email': email,
+                'contact': contact,
+                'course': course,
+                'section': section
+            }
+            
+            headers = {'Content-type': 'application/json'}
+            
+            response = requests.post(url, data=json.dumps(json_data), headers=headers)
+            
+            if response.status_code == 200:
+                print("Student added successfully")
+
+            
+            return redirect('/students')
+        # Check first if POST form is complete
+        
+        
+        
+    context = { "breadcrumb":{"parent":"Dashboard", "child":"Add Student"}}
+    return render(request,"students/add-student-page.html",context)
 
 @login_required(login_url="/login")
 def edit_camera(request,id):
@@ -121,7 +165,7 @@ def edit_camera(request,id):
             
     
     context = {"camera":selected_camera, "breadcrumb":{"parent":"Dashboard", "child":"Edit Camera"}}
-    return render(request,"applications/projects/projectcreate/edit_camera.html",context)
+    return render(request,"cameras/edit-camera-page.html",context)
 
 
 @login_required(login_url="/login")
@@ -133,7 +177,7 @@ def reports(request):
 
 @login_required(login_url="/login")
 def students(request):
-    url = 'http://facemask.algebrary.tech/students'
+    url = 'http://localhost:5000/students'
     response = requests.get(url)
     
     students = []
