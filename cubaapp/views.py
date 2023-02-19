@@ -15,6 +15,7 @@ from .forms import *
 from django.views.decorators.csrf import csrf_exempt
 import json
 import base64
+import requests
 # Create your views here.
 
 #-------------------------General(Dashboards,Widgets & Layout)---------------------------------------
@@ -131,9 +132,19 @@ def reports(request):
 
 
 @login_required(login_url="/login")
-def projects(request):
-    context = { "breadcrumb":{"parent":"Dashboard", "child":"Settings"}}
-    return render(request,"applications/projects/projects-list/projects.html",context)
+def students(request):
+    url = 'http://facemask.algebrary.tech/students'
+    response = requests.get(url)
+    
+    students = []
+    if response.status_code == 200:
+        resp = response.json()
+        students = resp['students']
+        
+    print(students)
+        
+    context = { "breadcrumb":{"parent":"Dashboard", "child":"Students"}, "students":students}
+    return render(request,"students/students.html",context)
     
 
 @login_required(login_url="/login")

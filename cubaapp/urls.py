@@ -15,7 +15,7 @@ path('delete_camera/<str:id>', views.delete_camera, name="delete_camera"),
 path('edit_camera/<str:id>', views.edit_camera, name="edit_camera"),
 path('reports', views.reports, name="chart_widget"),
 
-path('settings', views.projects, name="projects"),
+path('students', views.students, name="projects"),
 path('about', views.project_create, name="projectcreate"), 
 
 path('edit_profile', views.edit_profile, name="edit_profile"),
