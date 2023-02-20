@@ -16,6 +16,11 @@ from django.views.decorators.csrf import csrf_exempt
 import json
 import base64
 import requests
+
+from urllib3.exceptions import InsecureRequestWarning
+from urllib3 import disable_warnings
+
+disable_warnings(InsecureRequestWarning)
 # Create your views here.
 
 #-------------------------General(Dashboards,Widgets & Layout)---------------------------------------
@@ -115,7 +120,7 @@ def add_student_image(request, id):
         images = request.FILES.getlist('images')
         
         files = []
-        url = 'http://facemask.algebrary.tech/upload/'+id
+        url = 'https://facemask.algebrary.tech/upload/'+id
         data = {
             id:id
         }
@@ -123,7 +128,7 @@ def add_student_image(request, id):
         for file_obj in images:
             files.append(('images',file_obj))
         
-        response = requests.post(url, data=data, files=files)
+        response = requests.post(url, data=data, files=files, verify=False)
         print(response)
         # Handle the response from the server
         if response.status_code == 200:
@@ -133,8 +138,8 @@ def add_student_image(request, id):
             return render(request,"students/students.html")
 
 
-    url = 'http://facemask.algebrary.tech/students/'+str(id)
-    response = requests.get(url)
+    url = 'https://facemask.algebrary.tech/students/'+str(id)
+    response = requests.get(url, verify=False)
 
     context = { "breadcrumb":{"parent":"Dashboard", "child":"Add Student Image"}, "student":response.json()}
         
@@ -145,7 +150,7 @@ def add_student_image(request, id):
 
 @login_required(login_url="/login")
 def add_student(request):
-    url = 'http://facemask.algebrary.tech/students'
+    url = 'https://facemask.algebrary.tech/students'
     if request.method == 'POST':
         required_fields = ['student_name','email','contact','course','section']
         
@@ -166,7 +171,7 @@ def add_student(request):
             
             headers = {'Content-type': 'application/json'}
             
-            response = requests.post(url, data=json.dumps(json_data), headers=headers)
+            response = requests.post(url, data=json.dumps(json_data), headers=headers, verify=False)
             
             if response.status_code == 200:
                 print("Student added successfully")
@@ -209,8 +214,8 @@ def reports(request):
 
 @login_required(login_url="/login")
 def students(request):
-    url = 'http://facemask.algebrary.tech/students'
-    response = requests.get(url)
+    url = 'https://facemask.algebrary.tech/students'
+    response = requests.get(url, verify=False)
     
     students = []
     if response.status_code == 200:
