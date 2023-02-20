@@ -107,14 +107,45 @@ def camera_create(request):
 
 @login_required(login_url="/login")
 def add_student_image(request, id):
-    print(id)
+    
+
     
     
-    return render (request,"students/add-image-page.html")
+    if request.method == 'POST':
+        images = request.FILES.getlist('images')
+        
+        files = []
+        url = 'http://facemask.algebrary.tech/upload/'+id
+        data = {
+            id:id
+        }
+        
+        for file_obj in images:
+            files.append(('images',file_obj))
+        
+        response = requests.post(url, data=data, files=files)
+        print(response)
+        # Handle the response from the server
+        if response.status_code == 200:
+            student_id = response.json()['studentID']
+            return render(request,"students/students.html")
+        else:
+            return render(request,"students/students.html")
+
+
+    url = 'http://facemask.algebrary.tech/students/'+str(id)
+    response = requests.get(url)
+
+    context = { "breadcrumb":{"parent":"Dashboard", "child":"Add Student Image"}, "student":response.json()}
+        
+    
+    return render(request,"students/add-image-page.html",context)
+
+
 
 @login_required(login_url="/login")
 def add_student(request):
-    url = 'http://localhost:5000/students'
+    url = 'http://facemask.algebrary.tech/students'
     if request.method == 'POST':
         required_fields = ['student_name','email','contact','course','section']
         
@@ -139,9 +170,10 @@ def add_student(request):
             
             if response.status_code == 200:
                 print("Student added successfully")
-
+                id = response.json()['student']['id']
+                return redirect('/upload/image/'+str(id))
             
-            return redirect('/students')
+            return redirect('/upload/image/'+str(id))
         # Check first if POST form is complete
         
         
@@ -177,7 +209,7 @@ def reports(request):
 
 @login_required(login_url="/login")
 def students(request):
-    url = 'http://localhost:5000/students'
+    url = 'http://facemask.algebrary.tech/students'
     response = requests.get(url)
     
     students = []
@@ -186,7 +218,6 @@ def students(request):
         students = resp['students']
         
     print(students)
-        
     context = { "breadcrumb":{"parent":"Dashboard", "child":"Students"}, "students":students}
     return render(request,"students/students.html",context)
     

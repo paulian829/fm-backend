@@ -5,28 +5,35 @@
   role="tabpanel"
   aria-labelledby="top-home-tab"
 >
-  <div class="row">
+  <div class="row"  style="display: flex; flex-wrap: wrap; align-items: stretch;">
     {% for student in students %}
 
-    <div class="col-xxl-4 col-lg-6">
+    <div class="col-xxl-4 col-lg-6" style="margin-bottom: 20px;">
+      {% if student.image %}
         <div>
-            <img src="{{student.image}}" alt="" style="width: 100%; height: 300px; object-fit: cover">
+
+            <img src="{{student.image}}" alt="" style="width: 100%; height: 300px; object-fit: cover; object-position:50% 0">
         </div>
+      {% else %}
+        <div>
+            <img src="{% static 'assets/no-image-user.jpg' %}" alt="" style="width: 100%; height: 300px; object-fit: cover; object-position:50% 0">
+        </div>
+      {% endif %}
 
       <div class="project-box">
         <h6>{{ student.name }}</h6>
         <div class="row details">
-          <div class="col-6"><span>Email</span></div>
-          <div class="col-6 text-primary">{{student.email}}</div>
-          <div class="col-6"><span>contact</span></div>
-          <div class="col-6 text-primary">{{student.contact}}</div>
-          <div class="col-6"><span>course</span></div>
-          <div class="col-6 text-primary">{{student.course}}</div>
-          <div class="col-6"><span>section</span></div>
-          <div class="col-6 text-primary">{{student.section}}</div>
+          <div class="col-4"><span>Email</span></div>
+          <div class="col-8 text-primary">{{student.email}}</div>
+          <div class="col-4"><span>contact</span></div>
+          <div class="col-8 text-primary">{{student.contact}}</div>
+          <div class="col-4"><span>course</span></div>
+          <div class="col-8 text-primary">{{student.course}}</div>
+          <div class="col-4"><span>section</span></div>
+          <div class="col-8 text-primary">{{student.section}}</div>
 
-          <div class="col-6"><span>Date Created</span></div>
-          <div class="col-6 text-primary">{{student.date_created}}</div>
+          <div class="col-4"><span>Date Created</span></div>
+          <div class="col-8 text-primary">{{student.date_created}}</div>
           {% comment %}
           <div class="col-6"><span>Other Details</span></div>
           <div class="col-6 text-primary">{{ camera.date_created}}</div>
