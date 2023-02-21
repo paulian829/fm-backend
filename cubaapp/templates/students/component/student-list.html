@@ -45,7 +45,7 @@
               <a
                 href="/edit_stident/{{student.id}}"
                 style="color: white"
-                onclick="return confirm('Are you sure you want to edit this student??');"
+                onclick="return confirm('Are you sure you want to edit this student?');"
               >
                 <button
                   class="btn btn-primary"
@@ -53,6 +53,20 @@
                   data-bs-toggle="tooltip"
                 >
                   <i data-feather="edit"> </i></button
+              ></a>
+            </div>
+            <div class="text-end">
+              <a
+                href="/upload/image/{{student.id}}"
+                style="color: white"
+                onclick="return confirm('Are you sure you want to upload images to this student?');"
+              >
+                <button
+                  class="btn btn-primary"
+                  type="button"
+                  data-bs-toggle="tooltip"
+                >
+                  <i data-feather="image"> </i></button
               ></a>
             </div>
             <div class="text-end">

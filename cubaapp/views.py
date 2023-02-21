@@ -17,6 +17,8 @@ import json
 import base64
 import requests
 
+from cubaapp.config import STUDENTS_ENDPOINT
+
 from urllib3.exceptions import InsecureRequestWarning
 from urllib3 import disable_warnings
 
@@ -26,6 +28,8 @@ disable_warnings(InsecureRequestWarning)
 #-------------------------General(Dashboards,Widgets & Layout)---------------------------------------
 
 #---------------Dashboards
+
+print("Using Face Recognition Endpoint: ", STUDENTS_ENDPOINT)
 @login_required(login_url="/login")
 def index(request):
     context = { "breadcrumb":{"parent":"Dashboard", "child":"Dashboard"}}
@@ -120,7 +124,7 @@ def add_student_image(request, id):
         images = request.FILES.getlist('images')
         
         files = []
-        url = 'https://facemask.algebrary.tech/upload/'+id
+        url = STUDENTS_ENDPOINT + id
         data = {
             id:id
         }
@@ -138,7 +142,7 @@ def add_student_image(request, id):
             return render(request,"students/students.html")
 
 
-    url = 'https://facemask.algebrary.tech/students/'+str(id)
+    url = STUDENTS_ENDPOINT + 'students/'+str(id)
     response = requests.get(url, verify=False)
 
     context = { "breadcrumb":{"parent":"Dashboard", "child":"Add Student Image"}, "student":response.json()}
@@ -150,7 +154,7 @@ def add_student_image(request, id):
 
 @login_required(login_url="/login")
 def add_student(request):
-    url = 'https://facemask.algebrary.tech/students'
+    url = STUDENTS_ENDPOINT + 'students'
     if request.method == 'POST':
         required_fields = ['student_name','email','contact','course','section']
         
@@ -214,7 +218,7 @@ def reports(request):
 
 @login_required(login_url="/login")
 def students(request):
-    url = 'https://facemask.algebrary.tech/students'
+    url =  STUDENTS_ENDPOINT + '/students'
     response = requests.get(url, verify=False)
     
     students = []
