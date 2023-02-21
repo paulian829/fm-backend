@@ -116,19 +116,15 @@ def camera_create(request):
 
 @login_required(login_url="/login")
 def add_student_image(request, id):
-    
-
-    
-    
     if request.method == 'POST':
         images = request.FILES.getlist('images')
         
         files = []
-        url = STUDENTS_ENDPOINT + id
+        url = STUDENTS_ENDPOINT +'upload/' + str(id)
         data = {
             id:id
         }
-        
+        print(url)
         for file_obj in images:
             files.append(('images',file_obj))
         
@@ -137,10 +133,9 @@ def add_student_image(request, id):
         # Handle the response from the server
         if response.status_code == 200:
             student_id = response.json()['studentID']
-            return render(request,"students/students.html")
+            return redirect('/students')
         else:
-            return render(request,"students/students.html")
-
+            return redirect('/students')
 
     url = STUDENTS_ENDPOINT + 'students/'+str(id)
     response = requests.get(url, verify=False)
@@ -149,6 +144,15 @@ def add_student_image(request, id):
         
     
     return render(request,"students/add-image-page.html",context)
+
+@login_required(login_url="/login")
+def delete_student(request,id):
+    
+    url = STUDENTS_ENDPOINT + 'students/'+str(id)
+    response = requests.delete(url, verify=False)
+    print(response)
+    
+    return redirect('/students')
 
 
 
@@ -229,6 +233,50 @@ def students(request):
     print(students)
     context = { "breadcrumb":{"parent":"Dashboard", "child":"Students"}, "students":students}
     return render(request,"students/students.html",context)
+
+
+@login_required(login_url="/login")
+def edit_student(request, id):
+    
+    if request.method == 'POST':
+        required_fields = ['student_name','email','contact','course','section']
+        
+        if all(field in request.POST and request.POST[field] for field in required_fields):
+            student_name = request.POST.get('student_name')
+            email = request.POST.get('email')
+            contact = request.POST.get('contact')
+            course = request.POST.get('course')
+            section = request.POST.get('section')
+            
+            json_data = {
+                'name': student_name,
+                'email': email,
+                'contact': contact,
+                'course': course,
+                'section': section
+            }
+            
+            headers = {'Content-type': 'application/json'}
+            
+            url = STUDENTS_ENDPOINT + 'students/'+str(id)
+            response = requests.put(url, data=json.dumps(json_data), headers=headers, verify=False)
+            
+            if response.status_code == 200:
+                print("Student updated successfully")
+                return redirect('/students')
+            
+            return redirect('/students')
+        # Check first if POST form is complete
+    
+    # Get student details
+    url = STUDENTS_ENDPOINT + 'students/'+str(id)
+    response = requests.get(url, verify=False)
+    
+    print(response.json())
+    context = { "breadcrumb":{"parent":"Dashboard", "child":"Edit Student"}, "student":response.json()}
+    
+    return render(request,"students/edit-student-page.html",context)
+    
     
 
 @login_required(login_url="/login")

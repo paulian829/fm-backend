@@ -17,6 +17,8 @@ path('reports', views.reports, name="chart_widget"),
 
 path('students', views.students, name="students"),
 path('add-student', views.add_student, name="add_student"),
+path('edit_student/<str:id>', views.edit_student, name="edit_student"),
+path('delete_student/<str:id>', views.delete_student, name="delete_student"),
 path('upload/image/<str:id>', views.add_student_image, name="add_student_image"),
 
 path('about', views.project_create, name="projectcreate"), 

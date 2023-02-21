@@ -1,0 +1,101 @@
+{% load static %} {% load sass_tags %}
+
+<div class="row">
+  <div class="col-sm-12">
+    <div class="card">
+      <div class="card-header">
+        <h5>Edit Student</h5>
+      </div>
+      <form class='card' method='POST'> {% csrf_token %}
+      <div class="card-body">
+        <div class="form theme-form">
+          <div class="row">
+            <div class="col">
+              <div class="mb-3">
+                <label>Student Name</label>
+                <input
+                  class="form-control"
+                  type="text"
+                  placeholder="Ex. John Doe"
+                  id="student_name"
+                  name="student_name"
+                  value = '{{student.name}}'
+                />
+                
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <div class="mb-3">
+                <label>Email</label>
+                <input
+                  class="form-control"
+                  type="text"
+                  placeholder="Ex.john.doe@email.com"
+                  id="email"
+                  name="email"
+                  value = '{{student.email}}'
+
+                />
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <div class="mb-3">
+                <label>Contact Details</label>
+                <input
+                  class="form-control"
+                  type="text"
+                  placeholder="Ex. 0987654321"
+                  id="contact"
+                  name="contact"
+                  value = '{{student.contact}}'
+                />
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <div class="mb-3">
+                <label>Course</label>
+                <input
+                  class="form-control"
+                  type="text"
+                  placeholder="Ex. College of Engineering"
+                  id="course"
+                  name="course"
+                  value = '{{student.course}}'
+                />
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <div class="mb-3">
+                <label>Section</label>
+                <input
+                  class="form-control"
+                  type="text"
+                  placeholder="Ex. Section Red"
+                  id="section"
+                  name="section"
+                  value = '{{student.section}}'
+                />
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <div class="text-end">
+                <button class="btn btn-primary me-3" type="Submit" data-bs-toggle="tooltip">Submit</button>
+                <button class="btn btn-danger" type="button" data-bs-toggle="tooltip">Cancel</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+      </div>
+    </div>
+  </div>
