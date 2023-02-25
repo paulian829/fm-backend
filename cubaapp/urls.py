@@ -9,7 +9,7 @@ urlpatterns = [
 
 path('cameras', views.cameras_page, name="dashboard_02"),
 
-path('images', views.images_page, name="general_widget"),
+path('images', views.images_page, name="images"),
 path('camera_create', views.camera_create, name="cctv_create"),
 path('delete_camera/<str:id>', views.delete_camera, name="delete_camera"),
 path('edit_camera/<str:id>', views.edit_camera, name="edit_camera"),
@@ -21,11 +21,11 @@ path('edit_student/<str:id>', views.edit_student, name="edit_student"),
 path('delete_student/<str:id>', views.delete_student, name="delete_student"),
 path('upload/image/<str:id>', views.add_student_image, name="add_student_image"),
 
-path('about', views.project_create, name="projectcreate"), 
+path('about', views.about, name="about"), 
 
 path('edit_profile', views.edit_profile, name="edit_profile"),
 path('user_cards', views.user_cards, name="user_cards"),
-
+path('recognize/<str:id>', views.recognize, name="recognize"),
 
 path('form_validation', views.form_validation, name="form_validation"),
 path('base_input', views.base_input, name="base_input"),

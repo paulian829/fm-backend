@@ -72,7 +72,7 @@ def images_page(request):
         
         if (start == "" or end == ""):
             print("start or end is empty")
-            return render(request,'miscellaneous/gallery/gallery-grid-desc/gallery-with-description.html')
+            return render(request,'images/images.html')
         # check if start and end is valid dates
         
         
@@ -86,7 +86,7 @@ def images_page(request):
         print(idx.created)
         idx.filename = idx.filename.replace("./cubaapp/","")
     context = {"images":images,"breadcrumb":{"parent":"Dashboard", "child":"Images"} }    
-    return render(request,'miscellaneous/gallery/gallery-grid-desc/gallery-with-description.html',context)
+    return render(request,'images/images.html',context)
     
 
 @login_required(login_url="/login")
@@ -280,9 +280,9 @@ def edit_student(request, id):
     
 
 @login_required(login_url="/login")
-def project_create(request):
+def about(request):
     context = { "breadcrumb":{"parent":"Dashboard", "child":"About"}}
-    return render(request,"applications/projects/projectcreate/projectcreate.html",context)
+    return render(request,"about/about-page.html",context)
 
 #---------------------------------user
 @login_required(login_url="/login")
@@ -290,6 +290,18 @@ def user_profile(request):
     context = { "breadcrumb":{"parent":"Users", "child":"User Profile"}}
     return render(request,"applications/user/user-profile/user-profile.html",context)
     
+
+@login_required(login_url="/login")
+def recognize(request, id):
+    image = Images.objects.get(id=id)
+    print(image.filename)
+    file = open(image.filename, 'rb')
+    response = requests.post('http://localhost:5000/recognize', files={'image': file})
+    print(response)    
+    
+    
+    context = { "breadcrumb":{"parent":"Users", "child":"Recognize"}}
+    return render(request, "images/recognize/recognize.html", context)
 
 @login_required(login_url="/login")
 def user_cards(request):

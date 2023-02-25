@@ -63,6 +63,13 @@
     margin-left: 12px;
 }
 
+.pswp__button--search {
+  background-image: url(search-svgrepo-com.svg) !important;
+  width: 60px;
+  background-size: 26px;
+  margin-right: 12px;
+}
+
 .pswp__button--fs {
   display: none; }
 
