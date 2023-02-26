@@ -1,0 +1,69 @@
+{% extends 'base.html' %} {% load static %} {% load sass_tags %} {% block css %}
+<!-- Plugins css start-->
+<link rel="stylesheet" type="text/css" href="{% sass_src 'assets/scss/vendors/animate.scss' %}" />
+<link rel="stylesheet" href="{% sass_src 'assets/custom.css' %}">
+<!-- Plugins css Ends-->
+{% endblock %} {% block content %}
+
+<div class="page-body">
+    {% include "layout/breadcrumb.html" %}
+    <!-- {{ results }}
+    {{student}}
+    {{original_image.filename}} -->
+    <div class="container-fluid">
+
+        <div class='recognize-container'>
+            <h1>Results</h1>
+            <div class='results-image-container'>
+                <div class="results-column-image" style="margin-right:20px">
+                    <img src="{{results.url}}" alt="Original Image" class="img-fluid">
+                    <p>Source</p>
+                </div>
+                <div class="results-column-image">
+                    <img src="{{results.url}}" alt="Original Image" class="img-fluid">
+                    <p>Output</p>
+
+                </div>
+            </div>
+            <div class="results-student-details-container">
+                <h2>Student Details</h2>
+                <p>{{student.name}}</p>
+                <p>{{student.email}}</p>
+                <p>{{student.contact}}</p>
+                <p>{{student.course}}</p>
+                <p>Section {{student.section}}</p>
+            </div>
+            <div class="results-bottom-section-container">
+                <div>
+                    <form method="POST" action="/save-results">{% csrf_token %}
+                        <input type="text" name="name" value="{{student.name}}" hidden>
+                        <input type="text" name="name" value="{{student.email}}" hidden>
+                        <input type="text" name="name" value="{{student.contact}}" hidden>
+                        <input type="text" name="name" value="{{student.course}}" hidden>
+                        <input type="text" name="name" value="{{student.section}}" hidden>
+                        <input type="text" name="name" value="{{original_image.filename}}" hidden>
+                        <input type="text" name="name" value="{{results.url}}" hidden>
+                        <div class="form-group mb-0 me-0"></div><button class="btn btn-primary" type="submit">Save Record</button>
+                    </form>
+                </div>
+                <div>
+                    <div class="form-group mb-0 me-0"></div><a class="btn btn-warning" href="/images">Back to Images</a>
+                </div>
+                <div>
+                    <div class="form-group mb-0 me-0"></div><a class="btn btn-secondary" href="/delete_image/{{original_image.id}}">Delete Image</a>
+                </div>
+            </div>
+        </div>
+
+        {% endblock %} {% block scriptcontent %}
+        <!-- Plugins JS start-->
+        <script src="{% static 'assets/js/typeahead/handlebars.js'%}"></script>
+        <script src="{% static 'assets/js/typeahead/typeahead.bundle.js'%}"></script>
+        <script src="{% static 'assets/js/typeahead/typeahead.custom.js'%}"></script>
+        <script src="{% static 'assets/js/typeahead-search/handlebars.js'%}"></script>
+        <script src="{% static 'assets/js/typeahead-search/typeahead-custom.js'%}"></script>
+        <script src="{% static 'assets/js/tooltip-init.js'%}"></script>
+        <!-- Plugins JS Ends-->
+        {% endblock %}
+    </div>
+</div>

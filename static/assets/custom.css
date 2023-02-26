@@ -1,0 +1,58 @@
+/* Recognize Page */
+
+.recognize-container {
+    padding: 30px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px 5px #cecece;
+    width: fit-content  ;
+}
+.recognize-container h1{
+    text-align: center;
+}
+
+
+.results-image-container {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: row;
+    background-color: white;
+    border-radius: 10px;
+}
+
+.results-column-image {
+    max-width: 400px;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.results-column-image img{
+    border-radius:5px
+}
+.results-column-image p {
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 5px;
+}
+.results-student-details-container p {
+    font-size: 18px;
+    /* font-weight: bold; */
+    margin: 5px;
+    text-align: center;
+}
+.results-student-details-container h2 {
+    text-align: center;
+    
+}
+
+.results-bottom-section-container{
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+
+
+}

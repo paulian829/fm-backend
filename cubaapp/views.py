@@ -293,14 +293,30 @@ def user_profile(request):
 
 @login_required(login_url="/login")
 def recognize(request, id):
-    image = Images.objects.get(id=id)
-    print(image.filename)
-    file = open(image.filename, 'rb')
-    response = requests.post('http://localhost:5000/recognize', files={'image': file})
-    print(response)    
+    source_image = Images.objects.get(id=id)
+    # print(source_image.filename)
+    # file = open(source_image.filename, 'rb')
+    # response = requests.post('http://localhost:5000/recognize', files={'image': file})
+    # print(response)    
     
+    response ={
+        'output': {'label': 2,
+                   'url': 'http://localhost:5000/static/get_output/10605.jpg'
+                   },
+        'student': {'contact': '09213123',
+                    'course': 'College of Engineering',
+                    'date_created': 'Tue, 21 Feb 2023 05:29:01 GMT',
+                    'email': 'bezos@email.com',
+                    'id': 2, 'name': 'Jeff Bezos',
+                    'section': 'Amazon'
+                    },
+        'success': 'Image recognized successfully!'
+        }
     
-    context = { "breadcrumb":{"parent":"Users", "child":"Recognize"}}
+    original_image = source_image
+    student = response['student']
+    results = response['output']
+    context = { "breadcrumb":{"parent":"Users", "child":"Recognize"}, "results":results , "student":student, "original_image":original_image}
     return render(request, "images/recognize/recognize.html", context)
 
 @login_required(login_url="/login")
