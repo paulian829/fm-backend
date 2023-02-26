@@ -20,6 +20,7 @@ from datetime import date, datetime
 from django.core.files.storage import default_storage
 import os
 from django.contrib import messages
+from django import template
 
 
 
@@ -111,6 +112,7 @@ def images_page(request):
     for idx in images:
         print(idx.created)
         idx.filename = idx.filename.replace("./cubaapp/","")
+    print(images.__dict__)
     context = {"images":images,"breadcrumb":{"parent":"Dashboard", "child":"Images"} }    
     return render(request,'images/images.html',context)
     
@@ -494,6 +496,9 @@ def generate_report(request):
             
     # make an arra of found_images id
     found_image_ids = found_images.values_list('id', flat=True)
+    id_list = []
+    for id in found_image_ids:
+        id_list.append(id)
 
     
 
@@ -503,8 +508,10 @@ def generate_report(request):
 
     unknown_count = 0
     student_ids = []
+    output_urls = []
 
     for output in outputs:
+        output_urls.append(output['output']['url'])
         if output['output']['label'] == 'Unknown':
             unknown_count += 1
         else:
@@ -513,11 +520,12 @@ def generate_report(request):
     # Save the report
     Reports.objects.create(
         report_date = selected_date,
-        report_source_images_id = found_image_ids,
+        report_source_images_id = ','.join(str(e) for e in id_list),
         report_source_images_count = len(found_image_ids),
         report_source_images_matched_count = len(student_ids),
         unknown_faces_count = unknown_count,
-        report_student_id = str(student_ids)
+        report_student_id = ','.join(str(e) for e in student_ids),
+        output_url = ','.join(str(e) for e in output_urls)
     )
         
     
@@ -527,6 +535,46 @@ def generate_report(request):
     
 
 #---------------------------------------------------------------------------------------
+@login_required(login_url="/login")
+def reports_view(request,id):
+    report = Reports.objects.get(report_ID=id)
+    print(report.__dict__)
+    
+    # get the images
+    source_images_id = report.report_source_images_id.split(',')
+    source_images = Images.objects.filter(id__in=source_images_id)
+    source_url = report.output_url.split(',')
+    print("*********")
+    
+    print(source_images.__dict__)
+    print("*********")
+    print(source_url)
+    
+    students = ''
+    if report.report_student_id != '':
+        students = report.report_student_id.split(',')
+        print("*********")
+        print(students)
+    
+    final_result = []
+    for i, image in enumerate(source_images):
+        print(f"Image {i}: {image.filename}")
+        results = {
+            'source_filename' : image.filename.replace("./cubaapp",""),
+            'output_url': source_url[i],
+            'student': students[i] if students else 'Unknown'
+            
+        }
+        
+        final_result.append(results)
+    
+    print(final_result)
+    combined = zip(final_result, source_images)
+    
+    context = {"breadcrumb":{"parent":"Reports", "child":"View Report"}, "report":combined}
+    
+    return render(request,'reports/reports-view.html',context)
+
 
 @login_required(login_url="/login")
 def edit_profile(request):

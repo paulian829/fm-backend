@@ -11,16 +11,15 @@
       <h4>Portfolio Title</h4>
       {% endcomment %}
       <p>{{idx.created}} UTC</p>
-
     </div>
   </a>
   <figcaption itemprop="item description">
     <h4>{{idx.created}} UTC</h4>
-    <form method="POST" action='/delete_image/{{idx.id}}'>
+    <form method="POST" action="/delete_image/{{idx.id}}">
       {% csrf_token %}
       <button class="pswp__button pswp__button--delete" title="Delete"></button>
     </form>
-    <form method="POST" action='/recognize/{{idx.id}}'>
+    <form method="POST" action="/recognize/{{idx.id}}">
       {% csrf_token %}
       <button class="pswp__button pswp__button--search" title="Delete"></button>
     </form>

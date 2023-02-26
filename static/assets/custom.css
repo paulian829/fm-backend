@@ -6,6 +6,7 @@
     border-radius: 10px;
     box-shadow: 0 4px 10px 5px #cecece;
     width: fit-content  ;
+    margin-bottom: 20px;
 }
 .recognize-container h1{
     text-align: center;
@@ -44,7 +45,7 @@
     margin: 5px;
     text-align: center;
 }
-.results-student-details-container h2 {
+.results-student-details-container h6 {
     text-align: center;
     
 }

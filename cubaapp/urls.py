@@ -14,6 +14,7 @@ path('camera_create', views.camera_create, name="cctv_create"),
 path('delete_camera/<str:id>', views.delete_camera, name="delete_camera"),
 path('edit_camera/<str:id>', views.edit_camera, name="edit_camera"),
 path('reports', views.reports, name="reports"),
+path('reports/view/<str:id>', views.reports_view, name="view_report"),
 
 path('students', views.students, name="students"),
 path('add-student', views.add_student, name="add_student"),

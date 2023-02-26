@@ -57,6 +57,7 @@ class Reports(models.Model):
     unknown_faces_count = models.IntegerField(null=True)
     report_student_id = models.CharField(max_length=200, null=True)
     date_generated = models.DateTimeField(auto_now_add=True)
+    output_url = models.CharField(max_length=500, null=True)
     
     
 
