@@ -512,10 +512,10 @@ def generate_report(request):
 
     for output in outputs:
         output_urls.append(output['output']['url'])
+        student_ids.append(output['output']['label'])
         if output['output']['label'] == 'Unknown':
             unknown_count += 1
-        else:
-            student_ids.append(output['output']['label'])
+            
             
     # Save the report
     Reports.objects.create(
@@ -544,25 +544,31 @@ def reports_view(request,id):
     source_images_id = report.report_source_images_id.split(',')
     source_images = Images.objects.filter(id__in=source_images_id)
     source_url = report.output_url.split(',')
-    print("*********")
     
     print(source_images.__dict__)
-    print("*********")
-    print(source_url)
     
     students = ''
     if report.report_student_id != '':
         students = report.report_student_id.split(',')
-        print("*********")
-        print(students)
     
+    print(students)
     final_result = []
     for i, image in enumerate(source_images):
-        print(f"Image {i}: {image.filename}")
+        student_id = students[i] if len(students) > i else 'Unknown'
+        
+        student_details = 'Unknown'
+        if student_id != 'Unknown':
+            # query the student details 
+            url = STUDENTS_ENDPOINT + 'students/'+str(student_id)
+            print(url)
+            response = requests.get(url, verify=False)
+            student_details = response.json()
+                
+        print(type(student_details))
         results = {
             'source_filename' : image.filename.replace("./cubaapp",""),
             'output_url': source_url[i],
-            'student': students[i] if students else 'Unknown'
+            'student': student_details
             
         }
         
