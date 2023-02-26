@@ -1,0 +1,106 @@
+{% extends 'base.html' %} {% load static %} {% load sass_tags %} {% block css %}
+<!-- Plugins css start-->
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{% sass_src 'assets/scss/vendors/prism.scss' %}"
+/>
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{% sass_src 'assets/custom.css' %}"
+/>
+
+<!-- Plugins css Ends-->
+{% endblock %} {% block content %}
+
+<div class="page-body">
+  {% include "layout/breadcrumb.html" %}
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+  <div class="container-fluid">
+    <div class="reports-btn-section">
+      <div class="search-report-section">
+        <form class="form-inline" method="POST">
+          {% csrf_token %}
+          <div class="form-group mb-2" style="margin-right: 20px">
+            <label for="dateInput" class="sr-only">Date:</label>
+            <input
+              type="date"
+              class="form-control"
+              id="dateInput"
+              placeholder="Select date"
+              name="search_date"
+            />
+          </div>
+          <button type="submit" class="btn btn-primary mb-2">Search</button>
+        </form>
+      </div>
+      <div class="generate-report-section">
+        <form class="form-inline" method="POST" action="/generate">
+          {% csrf_token %}
+          <div class="form-group mb-2" style="margin-right: 20px">
+            <label for="dateInput" class="sr-only">Date:</label>
+            <input
+              type="date"
+              class="form-control"
+              id="dateInput"
+              placeholder="Select date"
+              name="generate_date"
+            />
+          </div>
+          <button type="submit" class="btn btn-primary mb-2">
+            Generate Report
+          </button>
+        </form>
+      </div>
+    </div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Report ID</th>
+          <th>Report Date</th>
+          <th>Source Images</th>
+          <th>Matched Count</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for report in reports %}
+        <tr>
+          <td>{{report.report_ID}}</td>
+          <td>{{report.report_date}}</td>
+          <td>{{report.report_source_images_count}}</td>
+          <td>{{report.report_source_images_matched_count}}</td>
+          <td>
+            <a href="/reports/view/{{report.id}}" style="margin-right: 10px">
+              <button type="button" class="btn btn-primary">Edit</button>
+            </a>
+            <a href="/reports/delete/{{report.id}}">
+              <button type="button" class="btn btn-danger">Delete</button>
+            </a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{% endblock %} {% block scriptcontent %}
+<!-- Plugins JS start-->
+<script src="{% static 'assets/js/chart/apex-chart/moment.min.js' %}"></script>
+<script src="{% static 'assets/js/chart/apex-chart/apex-chart.js' %}"></script>
+<script src="{% static 'assets/js/chart/apex-chart/stock-prices.js' %}"></script>
+<script src="{% static 'assets/js/counter/jquery.waypoints.min.js'%}"></script>
+<script src="{% static 'assets/js/counter/jquery.counterup.min.js'%}"></script>
+<script src="{% static 'assets/js/counter/counter-custom.js'%}"></script>
+<script src="{% static 'assets/js/chart-widget.js'%}"></script>
+
+<!-- Plugins JS Ends-->
+{% endblock %}

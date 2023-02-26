@@ -22,8 +22,9 @@ class Images(models.Model):
     filename = models.CharField(max_length=200, null=True)
     created = models.DateTimeField(auto_now_add=True)
     source_id = models.ForeignKey('Camera', on_delete=models.SET_NULL, null=True)
-    face_recognition = models.CharField(max_length=200, null=True)
-    false_alarm = models.BooleanField(default=False)
+    report_id = models.IntegerField(null=True)
+    camera_source_id = models.IntegerField(null=True)
+    matched_student_id = models.IntegerField(null=True)
     
     
 
@@ -47,3 +48,16 @@ class Camera(models.Model):
         return self.camera_name
     
    
+class Reports(models.Model):
+    report_ID = models.AutoField(primary_key=True)
+    report_date = models.DateTimeField()
+    report_source_images_id = models.CharField(max_length=200, null=True)
+    report_source_images_count = models.IntegerField(null=True)
+    report_source_images_matched_count = models.IntegerField(null=True)
+    unknown_faces_count = models.IntegerField(null=True)
+    report_student_id = models.CharField(max_length=200, null=True)
+    date_generated = models.DateTimeField(auto_now_add=True)
+    
+    
+
+    

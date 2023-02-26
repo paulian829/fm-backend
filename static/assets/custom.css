@@ -56,3 +56,17 @@
 
 
 }
+
+/* Reports Page */
+.reports-btn-section {
+    display: flex;
+    justify-content: space-between;
+}
+li.warning {
+    font-size: 18px;
+    text-align: center;
+    color: red;
+    padding: 10px;
+    background: #e1e1e1;
+    margin-bottom: 20px;
+}

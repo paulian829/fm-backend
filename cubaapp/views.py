@@ -16,6 +16,12 @@ from django.views.decorators.csrf import csrf_exempt
 import json
 import base64
 import requests
+from datetime import date, datetime
+from django.core.files.storage import default_storage
+import os
+from django.contrib import messages
+
+
 
 from cubaapp.config import STUDENTS_ENDPOINT
 
@@ -32,7 +38,25 @@ disable_warnings(InsecureRequestWarning)
 print("Using Face Recognition Endpoint: ", STUDENTS_ENDPOINT)
 @login_required(login_url="/login")
 def index(request):
-    context = { "breadcrumb":{"parent":"Dashboard", "child":"Dashboard"}}
+    
+    # Get students count from the API
+    try:
+        response = requests.get(STUDENTS_ENDPOINT + "/students", verify=False)
+        print(response.json())
+        students_count = len(response.json().get('students'))
+    except Exception as e:
+        print(e)
+        students_count = 0
+    
+    
+    summary = {
+        'installed_cameras': Camera.objects.all().count(),
+        'total_images': Images.objects.all().count(),
+        'total_reports': Reports.objects.all().count(),
+        'total_users': students_count
+        
+    }
+    context = { "breadcrumb":{"parent":"Dashboard", "child":"Dashboard"}, "summary":summary}
     return render(request,"general/dashboard/default/index.html",context)
     
 
@@ -71,8 +95,10 @@ def images_page(request):
         end = items.get('end')
         
         if (start == "" or end == ""):
-            print("start or end is empty")
-            return render(request,'images/images.html')
+            messages.warning(request, 'Please select a valid date range')
+            images = []
+            context = {"images":images,"breadcrumb":{"parent":"Dashboard", "child":"Images"} }    
+            return render(request,'images/images.html',context)
         # check if start and end is valid dates
         
         
@@ -215,8 +241,20 @@ def edit_camera(request,id):
 
 @login_required(login_url="/login")
 def reports(request):
-    context = { "breadcrumb":{"parent":"Dashboard", "child":"Reports"}}
-    return render(request,"general/widget/chart-widget/chart-widget.html",context)
+    
+    
+    if request.method == 'POST' and request.POST.get('search_date'):
+        search_date = request.POST.get('search_date')
+        
+        reports_all = Reports.objects.filter(report_date__date=search_date)
+        # Check if images is empty
+    else:
+        reports_all = Reports.objects.all()
+        
+        
+    
+    context = { "breadcrumb":{"parent":"Dashboard", "child":"Reports"},  "reports":reports_all}
+    return render(request,"reports/reports-page.html",context)
     
 
 
@@ -420,6 +458,72 @@ def grid_description(request):
 def FAQ(request):
     context = {"breadcrumb":{"parent":"FAQ", "child":"FAQ"}}    
     return render(request,'miscellaneous/FAQ/faq.html',context)
+
+
+@login_required(login_url="/login")
+def generate_report(request):
+    
+        
+    generate_date_str = request.POST.get('generate_date', date.today())
+    if generate_date_str == '':
+        messages.warning(request, 'Please select a valid date.')
+        return redirect('reports')
+    selected_date = datetime.strptime(generate_date_str, '%Y-%m-%d').date()
+    
+    # time data '' does not match format '%Y-%m-%d'
+    # Catch this error and redirect to the report page
+     
+    
+    # Get the images for the selected date
+    
+    found_images = Images.objects.filter(created__date=selected_date)
+    # Redirect to the report page if no images found
+    
+    if found_images.count() == 0:
+        messages.warning(request, 'No images found for the selected date.')
+        return redirect('reports')
+    
+    
+    
+    filenames = found_images.values_list('filename', flat=True)
+    files = []
+    for filename in filenames:
+        print(filename)
+        with open(filename, 'rb') as f:
+            files.append(('image', f.read()))
+            
+    # make an arra of found_images id
+    found_image_ids = found_images.values_list('id', flat=True)
+
+    
+
+    response = requests.post('http://localhost:5000/recognize_multiple', files=files)
+    response_json = response.json()
+    outputs = response_json['outputs']
+
+    unknown_count = 0
+    student_ids = []
+
+    for output in outputs:
+        if output['output']['label'] == 'Unknown':
+            unknown_count += 1
+        else:
+            student_ids.append(output['output']['label'])
+            
+    # Save the report
+    Reports.objects.create(
+        report_date = selected_date,
+        report_source_images_id = found_image_ids,
+        report_source_images_count = len(found_image_ids),
+        report_source_images_matched_count = len(student_ids),
+        unknown_faces_count = unknown_count,
+        report_student_id = str(student_ids)
+    )
+        
+    
+    context = {"breadcrumb":{"parent":"Reports", "child":"Generate Report"}}    
+    # return render(request,'miscellaneous/reports/generate-report.html',context)
+    return redirect('reports')
     
 
 #---------------------------------------------------------------------------------------
@@ -581,6 +685,8 @@ def register_simple(request):
         form = UserCreationForm()
     
     return render(request,'pages/others/authentication/sign-up-simple/sign-up.html',{"form":form})
+
+    
     
     
 # https://stackoverflow.com/questions/50659212/how-do-i-get-the-face-recognition-encoding-from-many-images-in-a-directory-and-s

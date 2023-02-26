@@ -5,6 +5,7 @@ from . import models
 admin.site.register(User)
 admin.site.register(models.Images)
 admin.site.register(models.Camera)
+admin.site.register(models.Reports)
 
 
 

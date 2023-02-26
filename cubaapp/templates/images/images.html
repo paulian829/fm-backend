@@ -7,6 +7,8 @@
 <!-- Plugins css start-->
 <link rel="stylesheet" type="text/css" href="{% sass_src 'assets/scss/vendors/photoswipe.scss' %}">
 <!-- Plugins css Ends-->
+<link rel="stylesheet" type="text/css" href="{% sass_src 'assets/custom.css' %}">
+
 {% endblock %}
 
 {% block content %}
@@ -14,6 +16,13 @@
 <div class="page-body">
       {% include "layout/breadcrumb.html" %}
       <div class="container-fluid">
+            {% if messages %}
+  <ul class="messages">
+    {% for message in messages %}
+      <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+  </ul>
+{% endif %}
             <div class="row">
                   <div class="col-sm-12">
                         <div class="card">

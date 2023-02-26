@@ -13,7 +13,7 @@ path('images', views.images_page, name="images"),
 path('camera_create', views.camera_create, name="cctv_create"),
 path('delete_camera/<str:id>', views.delete_camera, name="delete_camera"),
 path('edit_camera/<str:id>', views.edit_camera, name="edit_camera"),
-path('reports', views.reports, name="chart_widget"),
+path('reports', views.reports, name="reports"),
 
 path('students', views.students, name="students"),
 path('add-student', views.add_student, name="add_student"),
@@ -29,6 +29,7 @@ path('recognize/<str:id>', views.recognize, name="recognize"),
 
 path('form_validation', views.form_validation, name="form_validation"),
 path('base_input', views.base_input, name="base_input"),
+path('generate', views.generate_report, name="generate_report"),
 
 path('lists', views.lists, name="lists"),
 
