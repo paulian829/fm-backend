@@ -21,6 +21,10 @@ from django.core.files.storage import default_storage
 import os
 from django.contrib import messages
 from django import template
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+from email.mime.image import MIMEImage
 
 
 
@@ -39,6 +43,10 @@ disable_warnings(InsecureRequestWarning)
 print("Using Face Recognition Endpoint: ", STUDENTS_ENDPOINT)
 @login_required(login_url="/login")
 def index(request):
+    
+    
+    
+
     
     # Get students count from the API
     try:
@@ -528,7 +536,20 @@ def generate_report(request):
         report_student_id = ','.join(str(e) for e in student_ids),
         output_url = ','.join(str(e) for e in output_urls)
     )
-        
+    url = "https://fmthesis.pythonanywhere.com/"
+    
+    if len(student_ids) == 0:
+        message = f"No matches found for the selected date ({selected_date})."
+    else:
+        message = f"Report generated successfully. <br><br><b>Report Date: </b>{selected_date}<br><b>Source Images Count: </b>{len(found_image_ids)}<br><b>Matched Images Count: </b>{len(student_ids)}<br><b>Unknown Faces Count: </b>{unknown_count}<br><br>To view the full report, click <a href='{url}'>here</a>."
+
+    # Send email
+    send_email(subject="Facemask Detection System",
+           message=message,
+           from_email="fm.thesis2023@gmail.com",
+           to_email="paulian829@gmail.com",
+           smtp_username="fm.thesis2023@gmail.com",
+           smtp_password="uwokgxntddxmqmmn")
     
     context = {"breadcrumb":{"parent":"Reports", "child":"Generate Report"}}    
     # return render(request,'miscellaneous/reports/generate-report.html',context)
@@ -758,6 +779,34 @@ def register_simple(request):
     return render(request,'pages/others/authentication/sign-up-simple/sign-up.html',{"form":form})
 
     
+
+
+def send_email(subject, message, from_email, to_email, image_path=None, smtp_server='smtp.gmail.com', smtp_port=587, smtp_username=None, smtp_password=None):
+    # Create a message object
+    msg = MIMEMultipart()
+    msg['From'] = from_email
+    msg['To'] = to_email
+    msg['Subject'] = subject
+
+    # Attach the message to the message object
+    msg.attach(MIMEText(message, 'html'))
+
+    # Attach the image to the message object, if provided
+    if image_path:
+        with open(image_path, 'rb') as f:
+            img_data = f.read()
+        image = MIMEImage(img_data, name='image.png')
+        msg.attach(image)
+
+    # Connect to the SMTP server
+    server = smtplib.SMTP(smtp_server, smtp_port)
+    server.starttls()
+    server.login(smtp_username, smtp_password)
+
+    # Send the email and close the connection
+    server.sendmail(from_email, to_email, msg.as_string())
+    server.quit()
+
     
     
 # https://stackoverflow.com/questions/50659212/how-do-i-get-the-face-recognition-encoding-from-many-images-in-a-directory-and-s

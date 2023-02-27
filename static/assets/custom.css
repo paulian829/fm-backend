@@ -5,7 +5,8 @@
     background-color: white;
     border-radius: 10px;
     box-shadow: 0 4px 10px 5px #cecece;
-    width: fit-content  ;
+    width: 100%;
+    max-width: 800px;
     margin-bottom: 20px;
 }
 .recognize-container h1{
@@ -28,6 +29,9 @@
     height: 100%;
     object-fit: cover;
     border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .results-column-image img{
