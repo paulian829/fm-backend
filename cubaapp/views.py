@@ -503,7 +503,7 @@ def generate_report(request):
 
     
 
-    response = requests.post(STUDENTS_ENDPOINT + 'recognize_multiple', files=files)
+    response = requests.post(STUDENTS_ENDPOINT + 'recognize_multiple', files=files,  verify=False)
     response_json = response.json()
     outputs = response_json['outputs']
 
