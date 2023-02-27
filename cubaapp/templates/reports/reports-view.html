@@ -14,50 +14,70 @@
   <!-- {{ results }}
     {{student}}
     {{original_image.filename}} -->
-  <div class="container-fluid">
-    {% for item, image in report %}
-    <div class="recognize-container">
-      <div class="results-image-container">
-        <div class="results-column-image" style="margin-right: 20px">
-          <img
-            src="{{item.source_filename}}"
-            alt="Original Image"
-            class="img-fluid"
-          />
-          <p>Source</p>
-        </div>
-        <div class="results-column-image">
-          <img
-            src="{{item.output_url}}"
-            alt="Original Image"
-            class="img-fluid"
-          />
-          <p>Output</p>
-        </div>
-      </div>
-      <div class="results-student-details-container">
-        <h5>Student Details</h5>
+  <div style='padding-left:var(--bs-gutter-x, 0.75rem); padding-bottom:10px'>
+    <h4>Report for {{details.report_date}}</h4>
+  </div>
+    <div class="container-fluid">
+      {% for item, image in report %}
+      <div class="recognize-container">
+        <div class="results-image-container">
+          <div class="results-column-image" style="margin-right: 20px">
+            <img
+              src="/static/assets/violations/{{item.source_filename}}"
+              alt="Original Image"
+              class="img-fluid"
+            />
+            <p>Source</p>
+                    <div class="results-student-details-container">
+          <h5>Image Details</h5>
 
-        {% if item.student != 'Unknown'%}
-        <p>{{item.student.name}}</p>
-        <p>{{item.student.email}}</p>
-        <p>{{item.student.contact}}</p>
-        <p>{{item.student.course}}</p>
-        <p>Section {{item.student.section}}</p>
-        {% else %}
-        <p>Unknown</p>
-        {% endif %}
+          {% if item.student != 'Unknown'%}
+          <p>{{image.created}}</p>
+          <p>{{image.source_id.camera_name}}</p>
+          <p>{{image.source_id.ip_address}}</p>
+          <p>{{image.source_id.camera_details}}</p>
+          <p>{{image.source_id.other_details}}</p>
+
+
+          {% else %}
+          <p>Unknown</p>
+          {% endif %}
+        </div>
+          </div>
+          <div class="results-column-image">
+            <img
+              src="{{item.output_url}}"
+              alt="Original Image"
+              class="img-fluid"
+            />
+            <p>Output</p>
+                    <div class="results-student-details-container">
+          <h5>Student Details</h5>
+
+          {% if item.student != 'Unknown'%}
+          <p>{{item.student.name}}</p>
+          <p>{{item.student.email}}</p>
+          <p>{{item.student.contact}}</p>
+          <p>{{item.student.course}}</p>
+          <p>Section {{item.student.section}}</p>
+          {% else %}
+          <p>Unknown</p>
+          {% endif %}
+        </div>
+          </div>
+        </div>
+
       </div>
+      {% endfor %} {% endblock %} {% block scriptcontent %}
+      <!-- Plugins JS start-->
+      <script src="{% static 'assets/js/typeahead/handlebars.js'%}"></script>
+      <script src="{% static 'assets/js/typeahead/typeahead.bundle.js'%}"></script>
+      <script src="{% static 'assets/js/typeahead/typeahead.custom.js'%}"></script>
+      <script src="{% static 'assets/js/typeahead-search/handlebars.js'%}"></script>
+      <script src="{% static 'assets/js/typeahead-search/typeahead-custom.js'%}"></script>
+      <script src="{% static 'assets/js/tooltip-init.js'%}"></script>
+      <!-- Plugins JS Ends-->
+      {% endblock %}
     </div>
-    {% endfor %} {% endblock %} {% block scriptcontent %}
-    <!-- Plugins JS start-->
-    <script src="{% static 'assets/js/typeahead/handlebars.js'%}"></script>
-    <script src="{% static 'assets/js/typeahead/typeahead.bundle.js'%}"></script>
-    <script src="{% static 'assets/js/typeahead/typeahead.custom.js'%}"></script>
-    <script src="{% static 'assets/js/typeahead-search/handlebars.js'%}"></script>
-    <script src="{% static 'assets/js/typeahead-search/typeahead-custom.js'%}"></script>
-    <script src="{% static 'assets/js/tooltip-init.js'%}"></script>
-    <!-- Plugins JS Ends-->
-    {% endblock %}
   </div>
 </div>

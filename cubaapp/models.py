@@ -20,10 +20,11 @@ class NoFaceMaskImages(models.Model):
 
 class Images(models.Model):
     filename = models.CharField(max_length=200, null=True)
+    path = models.CharField(max_length=200, null=True)
     created = models.DateTimeField(auto_now_add=True)
     source_id = models.ForeignKey('Camera', on_delete=models.SET_NULL, null=True)
+    source_ip_address = models.CharField(max_length=200, null=True)
     report_id = models.IntegerField(null=True)
-    camera_source_id = models.IntegerField(null=True)
     matched_student_id = models.IntegerField(null=True)
     
     

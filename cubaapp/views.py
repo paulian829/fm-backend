@@ -24,7 +24,7 @@ from django import template
 
 
 
-from cubaapp.config import STUDENTS_ENDPOINT
+from cubaapp.config import STUDENTS_ENDPOINT, VIOLATIONS_DIRECTORY_PATH
 
 from urllib3.exceptions import InsecureRequestWarning
 from urllib3 import disable_warnings
@@ -491,7 +491,8 @@ def generate_report(request):
     files = []
     for filename in filenames:
         print(filename)
-        with open(filename, 'rb') as f:
+        file_path = os.path.join(VIOLATIONS_DIRECTORY_PATH, filename)
+        with open(file_path, 'rb') as f:
             files.append(('image', f.read()))
             
     # make an arra of found_images id
@@ -502,7 +503,7 @@ def generate_report(request):
 
     
 
-    response = requests.post('http://localhost:5000/recognize_multiple', files=files)
+    response = requests.post(STUDENTS_ENDPOINT + 'recognize_multiple', files=files)
     response_json = response.json()
     outputs = response_json['outputs']
 
@@ -569,7 +570,6 @@ def reports_view(request,id):
             'source_filename' : image.filename.replace("./cubaapp",""),
             'output_url': source_url[i],
             'student': student_details
-            
         }
         
         final_result.append(results)
@@ -577,9 +577,16 @@ def reports_view(request,id):
     print(final_result)
     combined = zip(final_result, source_images)
     
-    context = {"breadcrumb":{"parent":"Reports", "child":"View Report"}, "report":combined}
+    context = {"breadcrumb":{"parent":"Reports", "child":"View Report"}, "report":combined, 'details':report}
     
     return render(request,'reports/reports-view.html',context)
+
+@login_required(login_url="/login")
+def delete_report(request, id):
+    report = Reports.objects.get(report_ID=str(id))
+    report.delete()
+    return redirect('/reports')
+    
 
 
 @login_required(login_url="/login")
@@ -625,13 +632,23 @@ def edit_profile(request):
 def add_image(request):
     req = json.loads(request.body)
     imgdata = base64.b64decode(req.get('file'))
-    filename = "./cubaapp/static/assets/violations/" + req.get('filename')
+    filename = req.get('filename')
+    path = os.path.join(VIOLATIONS_DIRECTORY_PATH, filename)
+    ip_address = req.get('ip_address')
+    
+    try:
+        camera = Camera.objects.get(ip_address=ip_address)
+    except Exception as e:
+        return HttpResponse("Camera not found {0}".format(e), status = 400)
+
+    
+    
     # filename = req.get('filename')
     
-    with open(filename, 'wb') as f:
+    with open(path, 'wb') as f:
         f.write(imgdata)
     
-    Images.objects.create(filename=filename)
+    Images.objects.create(filename=filename, path=path,source_id=camera, source_ip_address=ip_address) 
     
     return HttpResponse("return this string")
 

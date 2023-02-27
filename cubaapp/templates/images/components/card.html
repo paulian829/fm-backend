@@ -1,8 +1,11 @@
 {% load static %} {% for idx in images %}
 <figure class="col-xl-3 col-sm-6" itemprop="associatedMedia" itemscope="">
-  <a href="{{ idx.filename }}" itemprop="contentUrl" data-size="1600x950"
+  <a
+    href="static/assets/violations/{{ idx.filename }}"
+    itemprop="contentUrl"
+    data-size="1600x950"
     ><img
-      src="{{ idx.filename }}"
+      src="static/assets/violations/{{ idx.filename }}"
       itemprop="thumbnail"
       alt="Image description"
     />
@@ -10,6 +13,8 @@
       {% comment %}
       <h4>Portfolio Title</h4>
       {% endcomment %}
+      <p>{{idx.created}} UTC</p>
+      <p>{{idx.source_id.camera_name}}</p>
       <p>{{idx.created}} UTC</p>
     </div>
   </a>
