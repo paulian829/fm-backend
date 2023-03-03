@@ -85,11 +85,13 @@ class StudentTraniningImage(models.Model):
 class ImageOutputImage(models.Model):
     image_output_image_ID = models.AutoField(primary_key=True)
     report_ID = models.ForeignKey('Reports', on_delete=models.SET_NULL, null=True)
-    image_output_image_filename = models.CharField(max_length=200, null=True)
-    image_output_image_path = models.CharField(max_length=200, null=True)
+    image_output_filename = models.CharField(max_length=200, null=True)
+    # Source image
+    source_image_filename = models.CharField(max_length=200, null=True)
+    student = models.ForeignKey('Student', on_delete=models.SET_NULL, null=True)
     date_created = models.DateTimeField(auto_now_add=True)
     def __str__(self):
-        return self.image_output_image_filename
+        return self.image_output_filename
     
 
     

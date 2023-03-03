@@ -8,5 +8,6 @@ load_dotenv()
 # STUDENTS_ENDPOINT = os.getenv('STUDENTS_ENDPOINT', 'https://facemask.algebrary.tech/')
 STUDENTS_ENDPOINT = os.getenv('STUDENTS_ENDPOINT', 'http://localhost:5000/')
 VIOLATIONS_DIRECTORY_PATH = os.getenv('DIRECTORY_PATH', './cubaapp/static/assets/violations/')
+STUDENTS_FOLDER = os.getenv('STUDENTS_FOLDER', './cubaapp/static/assets/students/')
 # debug = os.getenv('DEBUG')
 

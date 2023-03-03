@@ -26,6 +26,7 @@ import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from email.mime.image import MIMEImage
+from cubaapp.recognition.tester import identify_face
 
 
 
@@ -491,84 +492,89 @@ def FAQ(request):
 
 @login_required(login_url="/login")
 def generate_report(request):
-    
+
+    students_list = Student.objects.all()
         
     generate_date_str = request.POST.get('generate_date', date.today())
     if generate_date_str == '':
         messages.warning(request, 'Please select a valid date.')
         return redirect('reports')
     selected_date = datetime.strptime(generate_date_str, '%Y-%m-%d').date()
-    
-    # time data '' does not match format '%Y-%m-%d'
-    # Catch this error and redirect to the report page
-     
-    
-    # Get the images for the selected date
+    new_report = Reports.objects.create(
+        report_date = selected_date
+    )
     
     found_images = Images.objects.filter(created__date=selected_date)
     # Redirect to the report page if no images found
     
     if found_images.count() == 0:
+        # Create an email and pdf report that no images were found
         messages.warning(request, 'No images found for the selected date.')
         return redirect('reports')
     
-    
+    student_obj = {}
+    for student in students_list:
+        student_obj[int(student.student_ID)] = student.student_ID
     
     filenames = found_images.values_list('filename', flat=True)
-    files = []
-    for filename in filenames:
-        print(filename)
-        file_path = os.path.join(VIOLATIONS_DIRECTORY_PATH, filename)
-        with open(file_path, 'rb') as f:
-            files.append(('image', f.read()))
-            
-    # make an arra of found_images id
-    found_image_ids = found_images.values_list('id', flat=True)
-    id_list = []
-    for id in found_image_ids:
-        id_list.append(id)
-
     
-
-    response = requests.post(STUDENTS_ENDPOINT + 'recognize_multiple', files=files,  verify=False)
-    response_json = response.json()
-    outputs = response_json['outputs']
-
+    matched_count = 0
     unknown_count = 0
-    student_ids = []
-    output_urls = []
-
-    for output in outputs:
-        output_urls.append(output['output']['url'])
-        student_ids.append(output['output']['label'])
-        if output['output']['label'] == 'Unknown':
-            unknown_count += 1
-            
-            
-    # Save the report
-    Reports.objects.create(
-        report_date = selected_date,
-        report_source_images_id = ','.join(str(e) for e in id_list),
-        report_source_images_count = len(found_image_ids),
-        report_source_images_matched_count = len(student_ids),
-        unknown_faces_count = unknown_count,
-        report_student_id = ','.join(str(e) for e in student_ids),
-        output_url = ','.join(str(e) for e in output_urls)
-    )
-    url = "https://fmthesis.pythonanywhere.com/"
+    for filename in filenames:
+        file_path = os.path.join(VIOLATIONS_DIRECTORY_PATH, filename)
+        output_filename,label =identify_face(file_path,student_obj)
+        print(output_filename,label)
+        output_key = int
+        
+        if label == 'Unknown':
+            unknown_count = unknown_count + 1
+            matched_student = None
+        else:
+            matched_count = matched_count + 1
+            for key, value in student_obj.items():
+                if value == output_filename:
+                    print(f'The key associated with value {output_filename} is {key}')
+                    output_key = key
+                    matched_student = Student.objects.get(student_ID=output_key)
+                    break
+        
+        ImageOutputImage.objects.create(
+            report_ID = new_report,
+            image_output_filename = output_filename,
+            source_image_filename = filename,
+            student = matched_student 
+        )
+        
+        
+        
     
-    if len(student_ids) == 0:
+            
+            
+    url = 'fmthesis.pythonanywhere.com'
+    
+    if matched_count == 0:
         message = f"No matches found for the selected date ({selected_date})."
     else:
-        message = f"Report generated successfully. <br><br><b>Report Date: </b>{selected_date}<br><b>Source Images Count: </b>{len(found_image_ids)}<br><b>Matched Images Count: </b>{len(student_ids)}<br><b>Unknown Faces Count: </b>{unknown_count}<br><br>To view the full report, click <a href='{url}'>here</a>."
+        message = f"Report generated successfully. <br><br><b>Report Date: </b>{selected_date}<br><b>Source Images Count: </b>{ matched_count + unknown_count}<br><b>Matched Images Count: </b>{matched_count}<br><b>Unknown Faces Count: </b>{unknown_count}<br><br>To view the full report, click <a href='{url}'>here</a>."
 
     # Send email
+    
+    # Get all Users 
+    all_user = User.objects.all()
+    email_list = []
+    for user in all_user:
+        email_list.append(user.userid.email)
+        
+    
+    
     send_email(subject="Facemask Detection System",
            message=message,
            from_email="fm.thesis2023@gmail.com",
-           to_email="paulian829@gmail.com",
+           to_email=email_list,
            smtp_username="fm.thesis2023@gmail.com",
-           smtp_password="uwokgxntddxmqmmn")
+           smtp_password="hkcsjzeonfntkbzv",
+           cc_email = 'fm.thesis2023@gmail.com',
+           )
     
     context = {"breadcrumb":{"parent":"Reports", "child":"Generate Report"}}    
     # return render(request,'miscellaneous/reports/generate-report.html',context)
@@ -635,6 +641,11 @@ def edit_profile(request):
     # clean up for the database incase of errors
     # User.objects.all().delete()
     user = request.user
+    
+    all_user = User.objects.all()
+
+    for item in all_user:
+        print(item.userid.email)
     
     if request.method == 'POST':
         update_items = request.POST
@@ -800,17 +811,19 @@ def register_simple(request):
     
 
 
-def send_email(subject, message, from_email, to_email, image_path=None, smtp_server='smtp.gmail.com', smtp_port=587, smtp_username=None, smtp_password=None):
+def send_email(subject, message, from_email, to_email, image_path=None, smtp_server='smtp.gmail.com', smtp_port=587, smtp_username=None, smtp_password=None, cc_email=None):
     # Create a message object
     msg = MIMEMultipart()
     msg['From'] = from_email
-    msg['To'] = to_email
     msg['Subject'] = subject
+    
+    msg["To"] = ','.join(to_email)
 
+    # Add CC recipients to the message object, if provided
     # Attach the message to the message object
     msg.attach(MIMEText(message, 'html'))
 
-    # Attach the image to the message object, if provided
+    # Attach the image to the message object, if provideds
     if image_path:
         with open(image_path, 'rb') as f:
             img_data = f.read()
@@ -823,9 +836,12 @@ def send_email(subject, message, from_email, to_email, image_path=None, smtp_ser
     server.login(smtp_username, smtp_password)
 
     # Send the email and close the connection
-    server.sendmail(from_email, to_email, msg.as_string())
+    recipients = ','.join(to_email)
+    print(recipients, msg["To"])
+    for email in to_email:
+        print(email)
+        server.sendmail(from_email, email, msg.as_string())
     server.quit()
-
     
     
 # https://stackoverflow.com/questions/50659212/how-do-i-get-the-face-recognition-encoding-from-many-images-in-a-directory-and-s
