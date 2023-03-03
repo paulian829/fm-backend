@@ -59,7 +59,37 @@ class Reports(models.Model):
     report_student_id = models.CharField(max_length=200, null=True)
     date_generated = models.DateTimeField(auto_now_add=True)
     output_url = models.CharField(max_length=500, null=True)
+
+class Student(models.Model):
+    student_ID = models.AutoField(primary_key=True)
+    student_name = models.CharField(max_length=200, null=True)
+    student_email = models.CharField(max_length=200, null=True)
+    student_contact = models.CharField(max_length=200, null=True)
+    student_course = models.CharField(max_length=200, null=True)
+    student_section = models.CharField(max_length=200, null=True)
+    date_created = models.DateTimeField(auto_now_add=True)
+    student_image = models.CharField(max_length=200, null=True)
+    def __str__(self):
+        return self.student_name
     
+    
+class StudentTraniningImage(models.Model):
+    student_training_image_ID = models.AutoField(primary_key=True)
+    student_ID = models.ForeignKey('Student', on_delete=models.SET_NULL, null=True)
+    student_image_filename = models.CharField(max_length=200, null=True)
+    student_image_path = models.CharField(max_length=200, null=True)
+    date_created = models.DateTimeField(auto_now_add=True)
+    def __str__(self):
+        return self.student_image_filename
+    
+class ImageOutputImage(models.Model):
+    image_output_image_ID = models.AutoField(primary_key=True)
+    report_ID = models.ForeignKey('Reports', on_delete=models.SET_NULL, null=True)
+    image_output_image_filename = models.CharField(max_length=200, null=True)
+    image_output_image_path = models.CharField(max_length=200, null=True)
+    date_created = models.DateTimeField(auto_now_add=True)
+    def __str__(self):
+        return self.image_output_image_filename
     
 
     

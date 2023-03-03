@@ -30,6 +30,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['fmthesis.pythonanywhere.com','localhost']
 SECURE_CROSS_ORIGIN_OPENER_POLICY = None
+CSRF_TRUSTED_ORIGINS = ['https://*.pythonanywhere.com','https://*.127.0.0.1']
+
 
 
 # Application definition

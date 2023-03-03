@@ -1,3 +1,4 @@
+from uuid import uuid4
 from django.http import request
 from django.shortcuts import render
 from django.contrib.auth import login, logout
@@ -28,7 +29,7 @@ from email.mime.image import MIMEImage
 
 
 
-from cubaapp.config import STUDENTS_ENDPOINT, VIOLATIONS_DIRECTORY_PATH
+from cubaapp.config import STUDENTS_ENDPOINT, VIOLATIONS_DIRECTORY_PATH, STUDENTS_FOLDER
 
 from urllib3.exceptions import InsecureRequestWarning
 from urllib3 import disable_warnings
@@ -155,46 +156,75 @@ def add_student_image(request, id):
     if request.method == 'POST':
         images = request.FILES.getlist('images')
         
-        files = []
-        url = STUDENTS_ENDPOINT +'upload/' + str(id)
-        data = {
-            id:id
-        }
-        print(url)
-        for file_obj in images:
-            files.append(('images',file_obj))
+        # Check if folder /static/students/{id} exists
+        # If not, create it
         
-        response = requests.post(url, data=data, files=files, verify=False)
-        print(response)
-        # Handle the response from the server
-        if response.status_code == 200:
-            student_id = response.json()['studentID']
-            return redirect('/students')
-        else:
-            return redirect('/students')
+        student = Student.objects.get(student_ID=id)
+        folder_path = os.path.join('./cubaapp/static', 'training_images', str(id))
+        if not os.path.exists(folder_path):
+            os.makedirs(folder_path)
+        
+        for file_obj in images:
+            # use UUID random string as filename
+            filename = str(uuid4()) + os.path.splitext(file_obj.name)[1]
+            file_path = os.path.join(folder_path, filename)
+            
+            with open(file_path, 'wb+') as f:
+                for chunk in file_obj.chunks():
+                    f.write(chunk)
+                    
+                StudentTraniningImage.objects.create(
+                    student_ID = student,
+                    student_image_filename = filename,
+                    student_image_path = file_path
+                )
+            
 
-    url = STUDENTS_ENDPOINT + 'students/'+str(id)
-    response = requests.get(url, verify=False)
+        return redirect('/students')
 
-    context = { "breadcrumb":{"parent":"Dashboard", "child":"Add Student Image"}, "student":response.json()}
+    context = { "breadcrumb":{"parent":"Dashboard", "child":"Add Student Image"}}
         
     
     return render(request,"students/add-image-page.html",context)
 
+
 @login_required(login_url="/login")
-def delete_student(request,id):
+def delete_student(request, id):
+    selected_student = Student.objects.get(student_ID=id)
+
+    # Delete the student image
+    if selected_student.student_image:
+        student_image_path = os.path.join('./cubaapp/static/students', selected_student.student_image)
+        print(student_image_path)
+        if os.path.isfile(student_image_path):
+            os.remove(student_image_path)
     
-    url = STUDENTS_ENDPOINT + 'students/'+str(id)
-    response = requests.delete(url, verify=False)
-    print(response)
-    
+    # Delete the training images for the student
+    training_images_path = os.path.join('./cubaapp/static', 'training_images', str(id))
+    print(training_images_path)
+    if os.path.isdir(training_images_path):
+        for file_name in os.listdir(training_images_path):
+            file_path = os.path.join(training_images_path, file_name)
+            if os.path.isfile(file_path):
+                os.remove(file_path)
+        os.rmdir(training_images_path)
+
+    # Delete rows from StudentTrainingImage table
+    StudentTraniningImage.objects.filter(student_ID=id).delete()
+
+    # Delete the student record
+    selected_student.delete()
+
     return redirect('/students')
 
 
 
+@csrf_exempt
 @login_required(login_url="/login")
 def add_student(request):
-    url = STUDENTS_ENDPOINT + 'students'
+    
+    STUDENTS_FOLDER = './cubaapp/static/students'
+    
     if request.method == 'POST':
         required_fields = ['student_name','email','contact','course','section']
         
@@ -204,30 +234,29 @@ def add_student(request):
             contact = request.POST.get('contact')
             course = request.POST.get('course')
             section = request.POST.get('section')
+            image = request.FILES.get('image')
 
-            json_data = {
-                'name': student_name,
-                'email': email,
-                'contact': contact,
-                'course': course,
-                'section': section
-            }
+            if image is None:
+                print("No image")
+            else:
+                unique_filename = str(uuid4())
+                path = os.path.join(STUDENTS_FOLDER, unique_filename + '.jpg')
             
-            headers = {'Content-type': 'application/json'}
-            
-            response = requests.post(url, data=json.dumps(json_data), headers=headers, verify=False)
-            
-            if response.status_code == 200:
-                print("Student added successfully")
-                id = response.json()['student']['id']
-                return redirect('/upload/image/'+str(id))
-            
-            return redirect('/upload/image/'+str(id))
-        # Check first if POST form is complete
-        
-        
-        
-    context = { "breadcrumb":{"parent":"Dashboard", "child":"Add Student"}}
+                with open(path, 'wb+') as f:
+                        f.write(image.read())
+                    
+            # save the image on local storage to static/students
+
+            Student.objects.create(student_name=student_name,
+                                   student_email=email,
+                                   student_contact=contact,
+                                   student_course=course,
+                                   student_section=section,
+                                   student_image = unique_filename + '.jpg'
+                                   )
+            return redirect('/students')
+
+    context = { "breadcrumb":{"parent":"Dashboard", "child":"Add Student"}}       
     return render(request,"students/add-student-page.html",context)
 
 @login_required(login_url="/login")
@@ -270,16 +299,11 @@ def reports(request):
 
 @login_required(login_url="/login")
 def students(request):
-    url =  STUDENTS_ENDPOINT + '/students'
-    response = requests.get(url, verify=False)
-    
-    students = []
-    if response.status_code == 200:
-        resp = response.json()
-        students = resp['students']
-        
-    print(students)
-    context = { "breadcrumb":{"parent":"Dashboard", "child":"Students"}, "students":students}
+
+    all_students = Student.objects.all()
+    print(all_students)
+
+    context = { "breadcrumb":{"parent":"Dashboard", "child":"Students"}, "students":all_students}
     return render(request,"students/students.html",context)
 
 
@@ -290,38 +314,33 @@ def edit_student(request, id):
         required_fields = ['student_name','email','contact','course','section']
         
         if all(field in request.POST and request.POST[field] for field in required_fields):
-            student_name = request.POST.get('student_name')
-            email = request.POST.get('email')
-            contact = request.POST.get('contact')
-            course = request.POST.get('course')
-            section = request.POST.get('section')
             
-            json_data = {
-                'name': student_name,
-                'email': email,
-                'contact': contact,
-                'course': course,
-                'section': section
-            }
+            student = Student.objects.get(student_ID=id)
+            student.student_name = request.POST.get('student_name')
+            student.student_email = request.POST.get('email')
+            student.student_contact = request.POST.get('contact')
+            student.student_course = request.POST.get('course')
+            student.student_section = request.POST.get('section')
             
-            headers = {'Content-type': 'application/json'}
+            if request.FILES.get("image"):
+                unique_filename = str(uuid4())
+                path = os.path.join(STUDENTS_FOLDER, unique_filename + '.jpg')
+                
+                
             
-            url = STUDENTS_ENDPOINT + 'students/'+str(id)
-            response = requests.put(url, data=json.dumps(json_data), headers=headers, verify=False)
+                student.student_image = request.FILES.get("image")
             
-            if response.status_code == 200:
-                print("Student updated successfully")
-                return redirect('/students')
+            
+            student.save()
             
             return redirect('/students')
         # Check first if POST form is complete
     
-    # Get student details
-    url = STUDENTS_ENDPOINT + 'students/'+str(id)
-    response = requests.get(url, verify=False)
-    
-    print(response.json())
-    context = { "breadcrumb":{"parent":"Dashboard", "child":"Edit Student"}, "student":response.json()}
+    # Get student details'
+
+    selected_student = Student.objects.get(student_ID=id)
+
+    context = { "breadcrumb":{"parent":"Dashboard", "child":"Edit Student"}, "student":selected_student}
     
     return render(request,"students/edit-student-page.html",context)
     
@@ -668,7 +687,7 @@ def add_image(request):
     
     with open(path, 'wb') as f:
         f.write(imgdata)
-    
+
     Images.objects.create(filename=filename, path=path,source_id=camera, source_ip_address=ip_address) 
     
     return HttpResponse("return this string")
