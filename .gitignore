@@ -173,3 +173,7 @@ dmypy.json
 # Cython debug symbols
 cython_debug/
 
+cubaapp/static/assets/violations/*
+cubaapp/static/students/*
+cubaapp/static/training_images/*
+cubapp/static/output/*
