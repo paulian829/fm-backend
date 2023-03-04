@@ -514,35 +514,36 @@ def generate_report(request):
     
     student_obj = {}
     for student in students_list:
-        student_obj[int(student.student_ID)] = student.student_ID
+        student_obj[int(student.student_ID)] = student.student_name
     
-    filenames = found_images.values_list('filename', flat=True)
+    # filenames = found_images.values_list('filename', flat=True)
     
     matched_count = 0
     unknown_count = 0
-    for filename in filenames:
-        file_path = os.path.join(VIOLATIONS_DIRECTORY_PATH, filename)
+    for file in found_images:
+        file_path = os.path.join(VIOLATIONS_DIRECTORY_PATH, file.filename)
         output_filename,label =identify_face(file_path,student_obj)
         print(output_filename,label)
-        output_key = int
         
         if label == 'Unknown':
             unknown_count = unknown_count + 1
             matched_student = None
         else:
+            matched_student = ''
             matched_count = matched_count + 1
             for key, value in student_obj.items():
-                if value == output_filename:
+                print(key, value)
+                if key == label:
                     print(f'The key associated with value {output_filename} is {key}')
-                    output_key = key
-                    matched_student = Student.objects.get(student_ID=output_key)
+                    matched_student = Student.objects.get(student_ID=key)
                     break
         
         ImageOutputImage.objects.create(
             report_ID = new_report,
             image_output_filename = output_filename,
-            source_image_filename = filename,
-            student = matched_student 
+            source_image_filename = file.filename,
+            student = matched_student,
+            image =file
         )
         
         
@@ -585,45 +586,11 @@ def generate_report(request):
 @login_required(login_url="/login")
 def reports_view(request,id):
     report = Reports.objects.get(report_ID=id)
-    print(report.__dict__)
+    output_images = ImageOutputImage.objects.filter(report_ID=report)
+    print(output_images.__dict__)
     
-    # get the images
-    source_images_id = report.report_source_images_id.split(',')
-    source_images = Images.objects.filter(id__in=source_images_id)
-    source_url = report.output_url.split(',')
     
-    print(source_images.__dict__)
-    
-    students = ''
-    if report.report_student_id != '':
-        students = report.report_student_id.split(',')
-    
-    print(students)
-    final_result = []
-    for i, image in enumerate(source_images):
-        student_id = students[i] if len(students) > i else 'Unknown'
-        
-        student_details = 'Unknown'
-        if student_id != 'Unknown':
-            # query the student details 
-            url = STUDENTS_ENDPOINT + 'students/'+str(student_id)
-            print(url)
-            response = requests.get(url, verify=False)
-            student_details = response.json()
-                
-        print(type(student_details))
-        results = {
-            'source_filename' : image.filename.replace("./cubaapp",""),
-            'output_url': source_url[i],
-            'student': student_details
-        }
-        
-        final_result.append(results)
-    
-    print(final_result)
-    combined = zip(final_result, source_images)
-    
-    context = {"breadcrumb":{"parent":"Reports", "child":"View Report"}, "report":combined, 'details':report}
+    context = {"breadcrumb":{"parent":"Reports", "child":"View Report"}, "report":report, 'details':output_images}
     
     return render(request,'reports/reports-view.html',context)
 

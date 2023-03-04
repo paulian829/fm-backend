@@ -89,6 +89,7 @@ class ImageOutputImage(models.Model):
     # Source image
     source_image_filename = models.CharField(max_length=200, null=True)
     student = models.ForeignKey('Student', on_delete=models.SET_NULL, null=True)
+    image = models.ForeignKey('Images', on_delete=models.SET_NULL, null=True)
     date_created = models.DateTimeField(auto_now_add=True)
     def __str__(self):
         return self.image_output_filename

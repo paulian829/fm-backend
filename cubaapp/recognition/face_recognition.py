@@ -49,6 +49,7 @@ def draw_rect(test_image, face):
     cv2.rectangle(test_image, (x,y), (x+w,y+h), (255,0,0), thickness=5)
     
 def put_text(test_img,text,x,y):
-    cv2.putText(test_img, text, (x,y), cv2.FONT_HERSHEY_DUPLEX, 1, (0,255,0), 2, cv2.LINE_AA)
+    print(text,x,y)
+    cv2.putText(test_img, str(text), (x,y), cv2.FONT_HERSHEY_DUPLEX, 1, (0,255,0), 2, cv2.LINE_AA)
     
     

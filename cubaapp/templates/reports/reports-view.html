@@ -15,15 +15,15 @@
     {{student}}
     {{original_image.filename}} -->
   <div style='padding-left:var(--bs-gutter-x, 0.75rem); padding-bottom:10px'>
-    <h4>Report for {{details.report_date}}</h4>
+    <h4>Report for {{report.report_date}}</h4>
   </div>
     <div class="container-fluid">
-      {% for item, image in report %}
+      {% for image in details %}
       <div class="recognize-container">
         <div class="results-image-container">
           <div class="results-column-image" style="margin-right: 20px">
             <img
-              src="/static/assets/violations/{{item.source_filename}}"
+              src="/static/assets/violations/{{image.source_image_filename}}"
               alt="Original Image"
               class="img-fluid"
             />
@@ -32,11 +32,11 @@
           <h5>Image Details</h5>
 
           {% if item.student != 'Unknown'%}
-          <p>{{image.created}}</p>
-          <p>{{image.source_id.camera_name}}</p>
-          <p>{{image.source_id.ip_address}}</p>
-          <p>{{image.source_id.camera_details}}</p>
-          <p>{{image.source_id.other_details}}</p>
+          <p>Recorded: {{image.image.created}}</p>
+          <p>Camera: {{image.image.source_id.camera_name}}</p>
+          <p>IP: {{image.image.source_id.ip_address}}</p>
+          <p>Brand: {{image.image.source_id.camera_details}}</p>
+          <p>Details: {{image.image.source_id.other_details}}</p>
 
 
           {% else %}
@@ -46,7 +46,7 @@
           </div>
           <div class="results-column-image">
             <img
-              src="{{item.output_url}}"
+              src="/static/output/{{image.image_output_filename}}"
               alt="Original Image"
               class="img-fluid"
             />
@@ -55,10 +55,10 @@
           <h5>Student Details</h5>
 
           {% if item.student != 'Unknown'%}
-          <p>{{item.student.name}}</p>
-          <p>{{item.student.email}}</p>
-          <p>{{item.student.contact}}</p>
-          <p>{{item.student.course}}</p>
+          <p>ID: {{image.student.student_ID}}</p>
+          <p>Name: {{image.student.student_name}}</p>
+          <p>Email: {{image.student.student_email}}</p>
+          <p>Contact: {{image.student.student_contact}}</p>
           <p>Section {{item.student.section}}</p>
           {% else %}
           <p>Unknown</p>

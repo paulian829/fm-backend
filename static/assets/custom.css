@@ -31,26 +31,26 @@
     border-radius: 10px;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: start;
 }
 
 .results-column-image img{
     border-radius:5px
 }
 .results-column-image p {
-    text-align: center;
+    /* text-align: center; */
     font-size: 18px;
     font-weight: bold;
     margin-top: 5px;
 }
 .results-student-details-container p {
-    font-size: 16px;
-    /* font-weight: bold; */
+    font-size: 14px;
     margin: 5px;
-    text-align: center;
+    /* text-align: center; */
+    font-weight: normal !important;
 }
 .results-student-details-container h5 {
-    text-align: center;
+    /* text-align: center; */
     
 }
 

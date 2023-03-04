@@ -10,6 +10,7 @@ TRAINING_IMAGES_FOLDER = './cubaapp/static/training_images/'
 OUTPUT_FOLDER = './cubaapp/static/output/'
 
 def identify_face(img_path,student_names):
+    print(student_names)
     test_img = cv2.imread(img_path)
     faces_detected, gray_img = fr.faceDetection(test_img)
 
