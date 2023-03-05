@@ -2,8 +2,8 @@ import cv2
 import os
 import numpy as np
 # from config import HAARCASCADES_FOLDER
+from cubaapp.config import HAARCASCADES_FOLDER
 
-HAARCASCADES_FOLDER  = './cubaapp/recognition/Haarcascades/haarcascade_frontalface_default.xml'
 
 def faceDetection(test_img):
     gray_img = cv2.cvtColor(test_img, cv2.COLOR_BGR2GRAY)

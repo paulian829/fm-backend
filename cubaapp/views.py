@@ -33,7 +33,7 @@ from django.db.models import Q
 
 
 
-from cubaapp.config import STUDENTS_ENDPOINT, VIOLATIONS_DIRECTORY_PATH, STUDENTS_FOLDER
+from cubaapp.config import VIOLATIONS_DIRECTORY_PATH, STUDENTS_FOLDER, URL, HAARCASCADES_FOLDER, TRAINING_IMAGES_FOLDER, OUTPUT_FOLDER, BASE_PATH
 
 from urllib3.exceptions import InsecureRequestWarning
 from urllib3 import disable_warnings
@@ -45,7 +45,6 @@ disable_warnings(InsecureRequestWarning)
 
 #---------------Dashboards
 
-print("Using Face Recognition Endpoint: ", STUDENTS_ENDPOINT)
 @login_required(login_url="/login")
 def index(request):
     
@@ -114,7 +113,7 @@ def images_page(request):
 
     for idx in images:
         print(idx.created)
-        idx.filename = idx.filename.replace("./cubaapp/","")
+        idx.filename = idx.filename.replace(BASE_PATH,"")
     print(images.__dict__)
     context = {"images":images,"breadcrumb":{"parent":"Dashboard", "child":"Images"} }    
     return render(request,'images/images.html',context)
@@ -154,7 +153,7 @@ def add_student_image(request, id):
         # If not, create it
         
         student = Student.objects.get(student_ID=id)
-        folder_path = os.path.join('./cubaapp/static', 'training_images', str(id))
+        folder_path = os.path.join( BASE_PATH +'static', 'training_images', str(id))
         if not os.path.exists(folder_path):
             os.makedirs(folder_path)
         
@@ -188,13 +187,13 @@ def delete_student(request, id):
 
     # Delete the student image
     if selected_student.student_image:
-        student_image_path = os.path.join('./cubaapp/static/students', selected_student.student_image)
+        student_image_path = os.path.join(BASE_PATH+'static/students', selected_student.student_image)
         print(student_image_path)
         if os.path.isfile(student_image_path):
             os.remove(student_image_path)
     
     # Delete the training images for the student
-    training_images_path = os.path.join('./cubaapp/static', 'training_images', str(id))
+    training_images_path = os.path.join(BASE_PATH + 'static', 'training_images', str(id))
     print(training_images_path)
     if os.path.isdir(training_images_path):
         for file_name in os.listdir(training_images_path):
@@ -216,8 +215,6 @@ def delete_student(request, id):
 @csrf_exempt
 @login_required(login_url="/login")
 def add_student(request):
-    
-    STUDENTS_FOLDER = './cubaapp/static/students'
     
     if request.method == 'POST':
         required_fields = ['student_name','email','contact','course','section']
@@ -741,13 +738,13 @@ def send_email(subject, message, from_email, to_email, image_path=None, smtp_ser
     
 
 def serve_violations_image(request, id):
-    directory = 'cubaapp/static/assets/violations' # Replace with the actual path to your directory
+    directory = BASE_PATH + 'static/assets/violations' # Replace with the actual path to your directory
     image = Images.objects.get(id=id)
     return serve(request, image.filename, directory)
 
 
 def serve_output_image(request, id):
-    directory = 'cubaapp/static/output' # Replace with the actual path to your directory
+    directory = BASE_PATH + 'cubaapp/static/output' # Replace with the actual path to your directory
     image = ImageOutputImage.objects.get(image_output_image_ID=id)
     return serve(request, image.image_output_filename, directory)
 
@@ -777,20 +774,18 @@ def fetch_pdf_template(id):
     recognition_results = []
     output_images = ImageOutputImage.objects.filter(report_ID = report)
     
-    URL = 'http://localhost:8000/'
+   
     for output_image in output_images:
-        
-        
         
         recognition_results.append({
             "source_image_url":URL + "serve_violations_image/" + str(output_image.image.id),
             "output_image_url":URL + "serve_output_image/" + str(output_image.image_output_image_ID),
             "student_details":{
-                "name":output_image.student.student_name,
-                "email":output_image.student.student_email,
-                "contact_number":output_image.student.student_contact,
-                "course":output_image.student.student_course,
-                "section":output_image.student.student_section,
+                "name":output_image.student.student_name if output_image.student else 'NONE',
+                "email":output_image.student.student_email if output_image.student else 'NONE'                      ,
+                "contact_number":output_image.student.student_contact if output_image.student else 'NONE',
+                "course":output_image.student.student_course if output_image.student else 'NONE',  
+                "section":output_image.student.student_section if output_image.student else 'NONE',
             },
             "image_details":{
                 "datetime_created": output_image.image.created.strftime('%Y-%m-%d %H:%M:%S'),
@@ -800,7 +795,7 @@ def fetch_pdf_template(id):
                     "other_details":output_image.image.source_id.other_details,
                     "ip_address":output_image.image.source_id.ip_address
                 }
-                
+
             }
         })
     
@@ -832,6 +827,3 @@ def fetch_pdf_template(id):
     return response.json()
     
     
-
-    
-# https://stackoverflow.com/questions/50659212/how-do-i-get-the-face-recognition-encoding-from-many-images-in-a-directory-and-s

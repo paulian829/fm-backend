@@ -4,10 +4,8 @@ import os
 import numpy as np
 import cubaapp.recognition.face_recognition as fr
 import random
-# from config import TRAINING_IMAGES_FOLDER, TEST_DATA_FOLDER, OUTPUT_FOLDER
+from cubaapp.config import TRAINING_IMAGES_FOLDER, OUTPUT_FOLDER
 
-TRAINING_IMAGES_FOLDER = './cubaapp/static/training_images/'
-OUTPUT_FOLDER = './cubaapp/static/output/'
 
 def identify_face(img_path,student_names):
     print(student_names)
