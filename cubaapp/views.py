@@ -49,25 +49,14 @@ print("Using Face Recognition Endpoint: ", STUDENTS_ENDPOINT)
 @login_required(login_url="/login")
 def index(request):
     
-    
-    
-
-    
-    # Get students count from the API
-    try:
-        response = requests.get(STUDENTS_ENDPOINT + "/students", verify=False)
-        print(response.json())
-        students_count = len(response.json().get('students'))
-    except Exception as e:
-        print(e)
-        students_count = 0
+    students = Student.objects.all()
     
     
     summary = {
         'installed_cameras': Camera.objects.all().count(),
         'total_images': Images.objects.all().count(),
         'total_reports': Reports.objects.all().count(),
-        'total_users': students_count
+        'total_users': len(students)
         
     }
     context = { "breadcrumb":{"parent":"Dashboard", "child":"Dashboard"}, "summary":summary}
