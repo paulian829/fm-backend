@@ -15,11 +15,15 @@
     {{student}}
     {{original_image.filename}} -->
   <div style='padding-left:var(--bs-gutter-x, 0.75rem); padding-bottom:10px'>
-    <h4>Report for {{report.report_date}}</h4>
+    <p>Report for {{report.report_date}}</p>
+    <p>Confidence less than 70% will be considered as Unknown</p>
+    <p>Download PDF Here: <a href="{{report.output_url}}">link</a></p>
+
   </div>
     <div class="container-fluid">
       {% for image in details %}
       <div class="recognize-container">
+        <p class='confidence'>Result Confidence: {{image.confidence}}%</p>
         <div class="results-image-container">
           <div class="results-column-image" style="margin-right: 20px">
             <img

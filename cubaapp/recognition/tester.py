@@ -23,8 +23,7 @@ def identify_face(img_path,student_names):
         label, confidence = face_recognizer.predict(roi_gray)
         fr.draw_rect(test_img, faces)
         predicted_name = student_names[label]
-        print(confidence)
-        if confidence > 40: #If confidence more than 40 then don't print predicted face text on screen
+        if confidence > 30: #If confidence more than 30 then don't print predicted face text on screen
             predicted_name = 'Unknown'
             label = 'Unknown'
         fr.put_text(test_img, predicted_name, x, y)
@@ -40,7 +39,7 @@ def identify_face(img_path,student_names):
     output_path = os.path.join(OUTPUT_FOLDER, str(randomID)+'.jpg')
     cv2.imwrite(output_path,resized_img)
     
-    return str(randomID)+'.jpg' , label
+    return str(randomID)+'.jpg' , label, confidence
     # cv2.imshow("face detection tutorial", resized_img)
     # cv2.waitKey(0)
     # cv2.destroyAllWindows

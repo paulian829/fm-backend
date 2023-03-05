@@ -511,7 +511,7 @@ def generate_report(request):
     unknown_count = 0
     for file in found_images:
         file_path = os.path.join(VIOLATIONS_DIRECTORY_PATH, file.filename)
-        output_filename,label =identify_face(file_path,student_obj)
+        output_filename,label,confidence =identify_face(file_path,student_obj)
         print(serve_violations_image(request, file.id))
         if label == 'Unknown':
             unknown_count = unknown_count + 1
@@ -534,9 +534,9 @@ def generate_report(request):
             image =file
         )
             
-    # pdf = fetch_pdf_template(new_report.report_ID)
+    pdf = fetch_pdf_template(new_report.report_ID)
     
-    # new_report.output_url = pdf['download_url']
+    new_report.output_url = pdf['download_url']
     new_report.unknown_faces_count = unknown_count
     new_report.report_source_images_matched_count = matched_count
     
@@ -776,6 +776,7 @@ def fetch_pdf_template(id):
         recognition_results.append({
             "source_image_url":URL + "serve_violations_image/" + str(output_image.image.id),
             "output_image_url":URL + "serve_output_image/" + str(output_image.image_output_image_ID),
+            "confidence":output_image.confidence,
             "student_details":{
                 "name":output_image.student.student_name if output_image.student else 'NONE',
                 "email":output_image.student.student_email if output_image.student else 'NONE'                      ,
