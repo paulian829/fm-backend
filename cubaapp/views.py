@@ -549,11 +549,19 @@ def generate_report(request):
             image =file
         )
             
+    pdf = fetch_pdf_template(new_report.report_ID)
+    
+    new_report.output_url = pdf['download_url']
+    new_report.unknown_faces_count = unknown_count
+    new_report.report_source_images_matched_count = matched_count
+    
+    new_report.save()
     
     if matched_count == 0:
         message = f"No matches found for the selected date ({selected_date})."
     else:
-        message = f"Report generated successfully. <br><br><b>Report Date: </b>{selected_date}<br><b>Source Images Count: </b>{ matched_count + unknown_count}<br><b>Matched Images Count: </b>{matched_count}<br><b>Unknown Faces Count: </b>{unknown_count}<br><br>To view the full report, click <a href='{url}'>here</a>."
+        message = f"Report generated successfully. <br><br><b>Report Date: </b>{selected_date}<br><b>Source Images Count: </b>{ matched_count + unknown_count}<br><b>Matched Images Count: </b>{matched_count}<br><b>Unknown Faces Count: </b>{unknown_count}<br><br>To view the full report in HTML, click <a href='{url}'>here</a>.<br>To download the full report in PDF, click <a href='{pdf['download_url']}'>here</a>."
+
 
     # Send email
     
@@ -565,14 +573,14 @@ def generate_report(request):
         
     
     
-    # send_email(subject="Facemask Detection System",
-    #        message=message,
-    #        from_email="fm.thesis2023@gmail.com",
-    #        to_email=email_list,
-    #        smtp_username="fm.thesis2023@gmail.com",
-    #        smtp_password="hkcsjzeonfntkbzv",
-    #        cc_email = 'fm.thesis2023@gmail.com',
-    #        )
+    send_email(subject="Facemask Detection System",
+           message=message,
+           from_email="fm.thesis2023@gmail.com",
+           to_email=email_list,
+           smtp_username="fm.thesis2023@gmail.com",
+           smtp_password="hkcsjzeonfntkbzv",
+           cc_email = 'fm.thesis2023@gmail.com',
+           )
     return redirect('reports')
     
 
@@ -755,7 +763,7 @@ def serve_output_image(request, id):
     return serve(request, image.image_output_filename, directory)
 
 
-def fetch_pdf_template(request, id):
+def fetch_pdf_template(id):
     
     report = Reports.objects.get(report_ID=id)
     print(report)
@@ -820,7 +828,19 @@ def fetch_pdf_template(request, id):
     }
     
     json_data = json.dumps(pdf_object)  # convert dictionary to JSON string
-    return HttpResponse(json_data, content_type='application/json')
+    
+    
+    api_key = '9cf6MTEzMjM6ODM2OTp3SklzR3hYVkVqYklXaVd'
+    template_id = '72477b238436780c'
+    
+    response = requests.post(
+        F"https://rest.apitemplate.io/v2/create-pdf?template_id={template_id}",
+        headers = {"X-API-KEY": F"{api_key}"},
+        json= pdf_object
+    )
+    print(response.content)
+    
+    return response.json()
     
     
 
