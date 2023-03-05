@@ -1,5 +1,5 @@
 from uuid import uuid4
-from django.http import request
+from django.http import request, FileResponse
 from django.shortcuts import render
 from django.contrib.auth import login, logout
 from django.views import generic
@@ -27,6 +27,9 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from email.mime.image import MIMEImage
 from cubaapp.recognition.tester import identify_face
+from django.views.static import serve
+from django.db.models import Q
+
 
 
 
@@ -90,7 +93,8 @@ def delete_camera(request,id):
     print(id)
     selected_camera = Camera.objects.get(camera_ID=id)
     selected_camera.delete()
-    return redirect('/cameras')
+    url = "/cameras"
+    return redirect(url)
 
     
 
@@ -492,7 +496,7 @@ def FAQ(request):
 
 @login_required(login_url="/login")
 def generate_report(request):
-
+    url = 'fmthesis.pythonanywhere.com'
     students_list = Student.objects.all()
         
     generate_date_str = request.POST.get('generate_date', date.today())
@@ -523,8 +527,7 @@ def generate_report(request):
     for file in found_images:
         file_path = os.path.join(VIOLATIONS_DIRECTORY_PATH, file.filename)
         output_filename,label =identify_face(file_path,student_obj)
-        print(output_filename,label)
-        
+        print(serve_violations_image(request, file.id))
         if label == 'Unknown':
             unknown_count = unknown_count + 1
             matched_student = None
@@ -545,13 +548,7 @@ def generate_report(request):
             student = matched_student,
             image =file
         )
-        
-        
-        
-    
             
-            
-    url = 'fmthesis.pythonanywhere.com'
     
     if matched_count == 0:
         message = f"No matches found for the selected date ({selected_date})."
@@ -568,17 +565,14 @@ def generate_report(request):
         
     
     
-    send_email(subject="Facemask Detection System",
-           message=message,
-           from_email="fm.thesis2023@gmail.com",
-           to_email=email_list,
-           smtp_username="fm.thesis2023@gmail.com",
-           smtp_password="hkcsjzeonfntkbzv",
-           cc_email = 'fm.thesis2023@gmail.com',
-           )
-    
-    context = {"breadcrumb":{"parent":"Reports", "child":"Generate Report"}}    
-    # return render(request,'miscellaneous/reports/generate-report.html',context)
+    # send_email(subject="Facemask Detection System",
+    #        message=message,
+    #        from_email="fm.thesis2023@gmail.com",
+    #        to_email=email_list,
+    #        smtp_username="fm.thesis2023@gmail.com",
+    #        smtp_password="hkcsjzeonfntkbzv",
+    #        cc_email = 'fm.thesis2023@gmail.com',
+    #        )
     return redirect('reports')
     
 
@@ -661,7 +655,6 @@ def add_image(request):
 
     
     
-    # filename = req.get('filename')
     
     with open(path, 'wb') as f:
         f.write(imgdata)
@@ -670,67 +663,6 @@ def add_image(request):
     
     return HttpResponse("return this string")
 
-    
-
-# @login_required(login_url="/login")
-# def to_do(request):
-#     tasks = Task.objects.all()
-#     form = TaskForm()
-#     if request.method == 'POST':
-#         form = TaskForm(request.POST)
-#         if form.is_valid():
-#             form.save()
-#         return redirect('/to_do')
-
-#     completedTasks = True
-#     for t in tasks:
-#         if t.complete == False:
-#             completedTasks = False
-
-#     context = {'tasks': tasks, 'form': form,'completedTasks': completedTasks, "breadcrumb":{"parent":"Todo", "child":"Todo with database"}}
-#     context = {'tasks': tasks, 'form': form,'completedTasks': completedTasks, "breadcrumb":{"parent":"Todo", "child":"Todo with database"}}
-
-#     return render(request,'applications/to-do/to-do.html',context)
-    
-
-# @login_required(login_url="/login")
-# def markAllComplete(request):
-#     allTasks = Task.objects.all()
-#     for oneTask in allTasks:
-#         oneTask.complete = True
-#         oneTask.save()
-#     return HttpResponseRedirect("/to_do")
-
-
-
-# @login_required(login_url="/login")
-# def markAllIncomplete(request):
-#     allTasks = Task.objects.all()
-#     for oneTask in allTasks:
-#         oneTask.complete = False
-#         oneTask.save()
-#     return HttpResponseRedirect("/to_do")
-
-
-
-# @login_required(login_url="/login")
-# def deleteTask(request, pk):
-#     item = Task.objects.get(id=pk)
-#     item.delete()
-#     return HttpResponseRedirect("/to_do")
-
-
-
-# @login_required(login_url="/login")
-# def updateTask(request, pk):
-#     task = Task.objects.get(id=pk)
-#     if task.complete == False:
-#         task.complete = True
-#         task.save()
-#     else:
-#         task.complete = False
-#         task.save()
-#     return HttpResponseRedirect("/to_do")
 
 @login_required(login_url="/login")
 def delete_image(request, pk):
@@ -750,9 +682,9 @@ def login_simple(request):
             user = form.get_user()
             login(request,user)
             if 'next' in request.GET:
-                nextPage = request.GET['next']
-                print(nextPage)
-                return HttpResponseRedirect(nextPage)
+                next_page = request.GET['next']
+                print(next_page)
+                return HttpResponseRedirect(next_page)
             else:
                 return redirect('/index')
         else:
@@ -810,5 +742,87 @@ def send_email(subject, message, from_email, to_email, image_path=None, smtp_ser
         server.sendmail(from_email, email, msg.as_string())
     server.quit()
     
+
+def serve_violations_image(request, id):
+    directory = 'cubaapp/static/assets/violations' # Replace with the actual path to your directory
+    image = Images.objects.get(id=id)
+    return serve(request, image.filename, directory)
+
+
+def serve_output_image(request, id):
+    directory = 'cubaapp/static/output' # Replace with the actual path to your directory
+    image = ImageOutputImage.objects.get(image_output_image_ID=id)
+    return serve(request, image.image_output_filename, directory)
+
+
+def fetch_pdf_template(request, id):
+    
+    report = Reports.objects.get(report_ID=id)
+    print(report)
+    
+    
+    all_camera = Camera.objects.all()
+    camera_arr = []
+    
+    for camera in all_camera:
+        
+        cameras = Camera.objects.filter(
+            Q(date_created__exact=report.report_date)
+        )
+        
+        camera_arr.append({
+            "camera_name": camera.camera_name,
+            "ip_address": camera.ip_address,
+            "location":camera.camera_details,
+            "image_found_today": len(cameras),
+        })
+    
+    recognition_results = []
+    output_images = ImageOutputImage.objects.filter(report_ID = report)
+    
+    URL = 'http://localhost:8000/'
+    for output_image in output_images:
+        
+        
+        
+        recognition_results.append({
+            "source_image_url":URL + "serve_violations_image/" + str(output_image.image.id),
+            "output_image_url":URL + "serve_output_image/" + str(output_image.image_output_image_ID),
+            "student_details":{
+                "name":output_image.student.student_name,
+                "email":output_image.student.student_email,
+                "contact_number":output_image.student.student_contact,
+                "course":output_image.student.student_course,
+                "section":output_image.student.student_section,
+            },
+            "image_details":{
+                "datetime_created": output_image.image.created.strftime('%Y-%m-%d %H:%M:%S'),
+                "source_camera":{
+                    "camera_name":output_image.image.source_id.camera_name,
+                    "camera_details":output_image.image.source_id.camera_details,
+                    "other_details":output_image.image.source_id.other_details,
+                    "ip_address":output_image.image.source_id.ip_address
+                }
+                
+            }
+        })
+    
+    
+    
+    pdf_object = {
+        "batchNumber": "736628",
+        "revision": "0",
+        "header_title": "Facemask Detection System",
+        "website": "https://fmthesis.pythonanywhere.com/",
+        "document_id": "889856789012",
+        "camera": camera_arr,
+        "recognition_results":recognition_results
+    }
+    
+    json_data = json.dumps(pdf_object)  # convert dictionary to JSON string
+    return HttpResponse(json_data, content_type='application/json')
+    
+    
+
     
 # https://stackoverflow.com/questions/50659212/how-do-i-get-the-face-recognition-encoding-from-many-images-in-a-directory-and-s

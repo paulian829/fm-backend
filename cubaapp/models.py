@@ -92,7 +92,7 @@ class ImageOutputImage(models.Model):
     image = models.ForeignKey('Images', on_delete=models.SET_NULL, null=True)
     date_created = models.DateTimeField(auto_now_add=True)
     def __str__(self):
-        return self.image_output_filename
+        return str(self.image_output_image_ID)
     
 
     

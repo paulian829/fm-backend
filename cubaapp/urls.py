@@ -41,6 +41,8 @@ path('reset_password', views.reset_password, name="reset_password"),
 
 path('gallery_grid', views.gallery_grid, name="gallery_grid"),
 path('grid_description', views.grid_description, name="grid_description"),
+path('serve_violations_image/<str:id>', views.serve_violations_image, name="serve_violations_image"),
+path('serve_output_image/<str:id>', views.serve_output_image, name="serve_output_image"),
 
 path('FAQ', views.FAQ, name="FAQ"),
 path('delete_image/<str:pk>', views.delete_image, name="delete_image"),
@@ -57,7 +59,7 @@ path('login', views.login_simple, name="login"),
 path('register_simple', views.register_simple, name="register_simple"),
 path('', views.login_simple, name="login_simple"),
     
-
+path("fetch_pdf_template/<str:id>", views.fetch_pdf_template, name="fetch_pdf_template"),
 
 
 ]
