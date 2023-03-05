@@ -318,7 +318,6 @@ def edit_student(request, id):
                 path = os.path.join(STUDENTS_FOLDER, unique_filename + '.jpg')
                 
                 
-            
                 student.student_image = request.FILES.get("image")
             
             
@@ -535,9 +534,9 @@ def generate_report(request):
             image =file
         )
             
-    pdf = fetch_pdf_template(new_report.report_ID)
+    # pdf = fetch_pdf_template(new_report.report_ID)
     
-    new_report.output_url = pdf['download_url']
+    # new_report.output_url = pdf['download_url']
     new_report.unknown_faces_count = unknown_count
     new_report.report_source_images_matched_count = matched_count
     
@@ -744,7 +743,7 @@ def serve_violations_image(request, id):
 
 
 def serve_output_image(request, id):
-    directory = BASE_PATH + 'cubaapp/static/output' # Replace with the actual path to your directory
+    directory = BASE_PATH + 'static/output' # Replace with the actual path to your directory
     image = ImageOutputImage.objects.get(image_output_image_ID=id)
     return serve(request, image.image_output_filename, directory)
 
@@ -759,16 +758,13 @@ def fetch_pdf_template(id):
     camera_arr = []
     
     for camera in all_camera:
-        
-        cameras = Camera.objects.filter(
-            Q(date_created__exact=report.report_date)
-        )
+        found_images = Images.objects.filter(created__date=report.report_date)
         
         camera_arr.append({
             "camera_name": camera.camera_name,
             "ip_address": camera.ip_address,
             "location":camera.camera_details,
-            "image_found_today": len(cameras),
+            "image_found_today": len(found_images),
         })
     
     recognition_results = []

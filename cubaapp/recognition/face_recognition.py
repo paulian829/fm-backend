@@ -23,8 +23,8 @@ def labels_for_training_data(directory):
             
             id = os.path.basename(path)
             img_path = os.path.join(path, filename)
-            # print("img_path:", img_path)
-            # print("id:", id)
+            print("img_path:", img_path)
+            print("id:", id)
             test_img = cv2.imread(img_path)
             if test_img is None:
                 print("Image not loaded properly")
