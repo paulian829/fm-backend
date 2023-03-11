@@ -30,7 +30,7 @@ from cubaapp.recognition.tester import identify_face
 from django.views.static import serve
 from django.db.models import Q
 
-
+from datetime import datetime, timedelta
 
 
 from cubaapp.config import VIOLATIONS_DIRECTORY_PATH, STUDENTS_FOLDER, URL, HAARCASCADES_FOLDER, TRAINING_IMAGES_FOLDER, OUTPUT_FOLDER, BASE_PATH
@@ -50,6 +50,8 @@ def index(request):
     
     students = Student.objects.all()
     
+    # Get the array of past 12 days
+    
     
     summary = {
         'installed_cameras': Camera.objects.all().count(),
@@ -61,6 +63,28 @@ def index(request):
     context = { "breadcrumb":{"parent":"Dashboard", "child":"Dashboard"}, "summary":summary}
     return render(request,"general/dashboard/default/index.html",context)
     
+def render_chart(request):
+    today = datetime.today()
+    past_12_days = []
+    images_per_day = []
+    for i in range(1,13):
+        current_day = today - timedelta(days=i)
+        past_12_days.append(current_day.date())
+        found_images = Images.objects.filter(created__date=current_day.date())
+        print(found_images)
+        images_per_day.append(len(found_images))
+        
+    
+    past_12_days_js = [day.strftime('%Y-%m-%d') for day in past_12_days]
+    print(past_12_days_js)
+    
+    data = {
+        'past_12_days': past_12_days_js,
+        'images_per_day': images_per_day
+    }
+    
+    return JsonResponse(data, safe=False)
+
 
 @login_required(login_url="/login")
 def cameras_page(request):

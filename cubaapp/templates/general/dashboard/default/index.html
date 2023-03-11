@@ -12,6 +12,7 @@
   {% include "layout/breadcrumb.html" %}
   <div class="container-fluid">
     {% include "general/widget/general-widget/components/general.html" %}
+          {% include "general/dashboard/default/components/graph.html" %}
   </div>
 </div>
 
@@ -25,6 +26,11 @@
 <script src="{% static 'assets/js/chart/apex-chart/apex-chart.js'%}"></script>
 <script src="{% static 'assets/js/chart/apex-chart/stock-prices.js'%}"></script>
 <script src="{% static 'assets/js/dashboard/default.js'%}"></script>
+<script src="{% static 'assets/js/chart/apex-chart/moment.min.js' %}"></script>
+<script src="{% static 'assets/js/counter/jquery.waypoints.min.js'%}"></script>
+<script src="{% static 'assets/js/counter/jquery.counterup.min.js'%}"></script>
+<script src="{% static 'assets/js/counter/counter-custom.js'%}"></script>
+<script src="{% static 'assets/js/chart-widget.js'%}"></script>
 
 <!-- Plugins JS start-->
 <!-- Plugins JS Ends-->

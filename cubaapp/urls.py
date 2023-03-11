@@ -58,6 +58,7 @@ path('index', views.index, name="index"),
 path('login', views.login_simple, name="login"),
 path('register_simple', views.register_simple, name="register_simple"),
 path('', views.login_simple, name="login_simple"),
+path('render-chart', views.render_chart, name='render-chart'),
     
 path("fetch_pdf_template/<str:id>", views.fetch_pdf_template, name="fetch_pdf_template"),
 
