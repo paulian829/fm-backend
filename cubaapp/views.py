@@ -569,7 +569,7 @@ def generate_report(request):
     if matched_count == 0:
         message = f"No matches found for the selected date ({selected_date})."
     else:
-        message = f"Report generated successfully. <br><br><b>Report Date: </b>{selected_date}<br><b>Source Images Count: </b>{ matched_count + unknown_count}<br><b>Matched Images Count: </b>{matched_count}<br><b>Unknown Faces Count: </b>{unknown_count}<br><br>To view the full report in HTML, click <a href='{url}'>here</a>.<br>To download the full report in PDF, click <a href='{pdf['download_url']}'>here</a>."
+        message = f"A person has been detected without facemask in the campus area.<br><br>Report generated successfully. <br><br><b>Report Date: </b>{selected_date}<br><b>Source Images Count: </b>{ matched_count + unknown_count}<br><b>Matched Images Count: </b>{matched_count}<br><b>Unknown Faces Count: </b>{unknown_count}<br><br>To view the full report in HTML, click <a href='{url}'>here</a>.<br>To download the full report in PDF, click <a href='{pdf['download_url']}'>here</a>."
 
 
     # Send email
