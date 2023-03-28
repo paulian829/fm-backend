@@ -835,8 +835,8 @@ def fetch_pdf_template(id):
     json_data = json.dumps(pdf_object)  # convert dictionary to JSON string
     
     
-    api_key = '9cf6MTEzMjM6ODM2OTp3SklzR3hYVkVqYklXaVd'
-    template_id = '72477b238436780c'
+    api_key = '6f8aMTE4NDE6ODg5MjpXcWRqTERKcG9ZQW5telR'
+    template_id = '81b77b2389f8a040'
     
     response = requests.post(
         F"https://rest.apitemplate.io/v2/create-pdf?template_id={template_id}",
