@@ -27,6 +27,8 @@ class Images(models.Model):
     report_id = models.IntegerField(null=True)
     matched_student_id = models.IntegerField(null=True)
     
+    class Meta:
+        verbose_name_plural = "Images"
     
 
 class Task(models.Model):
@@ -59,6 +61,9 @@ class Reports(models.Model):
     report_student_id = models.CharField(max_length=200, null=True)
     date_generated = models.DateTimeField(auto_now_add=True)
     output_url = models.CharField(max_length=500, null=True)
+    
+    class Meta:
+        verbose_name_plural = "Reports"
 
 class Student(models.Model):
     student_ID = models.AutoField(primary_key=True)

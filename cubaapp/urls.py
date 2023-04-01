@@ -3,7 +3,9 @@ from django.urls import path
 from . import views
 from django.urls import path
 from . import views
+from django.contrib import admin
 
+admin.site.site_header = "Facemask Detector System Admin"
 
 urlpatterns = [
 

@@ -30,7 +30,8 @@ from cubaapp.recognition.tester import identify_face
 from django.views.static import serve
 from django.db.models import Q
 
-from datetime import datetime, timedelta
+# from datetime import timedelta,date
+# import datetime
 
 
 from cubaapp.config import VIOLATIONS_DIRECTORY_PATH, STUDENTS_FOLDER, URL, HAARCASCADES_FOLDER, TRAINING_IMAGES_FOLDER, OUTPUT_FOLDER, BASE_PATH
@@ -121,26 +122,36 @@ def images_page(request):
         start = items.get('start')
         end = items.get('end')
         
-        if (start == "" or end == ""):
+        if (not start or not end):
             messages.warning(request, 'Please select a valid date range')
             images = []
             context = {"images":images,"breadcrumb":{"parent":"Dashboard", "child":"Images"} }    
             return render(request,'images/images.html',context)
-        # check if start and end is valid dates
         
+        # convert start and end to datetime objects
+        start_dt = datetime.datetime.strptime(start, '%Y-%m-%d')
+        end_dt = datetime.datetime.strptime(end, '%Y-%m-%d')
         
-        images = Images.objects.filter(created__range=[start,end])
-        # Check if images is empty
+        if (start_dt > end_dt):
+            messages.warning(request, 'Start date must be before end date')
+            images = []
+            context = {"images":images,"breadcrumb":{"parent":"Dashboard", "child":"Images"} }    
+            return render(request,'images/images.html',context)
         
+        # add a day to end_dt to include all images from the end date
+        end_dt += datetime.timedelta(days=1)
         
-        print(images)
-
-    for idx in images:
-        print(idx.created)
-        idx.filename = idx.filename.replace(BASE_PATH,"")
-    print(images.__dict__)
+        images = Images.objects.filter(created__range=[start_dt,end_dt])
+        
+        if not images:
+            messages.warning(request, 'No images found for selected date range')
+        
+        for idx in images:
+            idx.filename = idx.filename.replace(BASE_PATH,"")
+    
     context = {"images":images,"breadcrumb":{"parent":"Dashboard", "child":"Images"} }    
     return render(request,'images/images.html',context)
+
     
 
 @login_required(login_url="/login")

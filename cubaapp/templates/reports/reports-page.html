@@ -63,7 +63,7 @@
     <table class="table">
       <thead>
         <tr>
-          <th>Report ID</th>
+          {% comment %} <th>Report ID</th> {% endcomment %}
           <th>Report Date</th>
           <th>Source Images</th>
           <th>Matched Count</th>
@@ -73,7 +73,7 @@
       <tbody>
         {% for report in reports %}
         <tr>
-          <td>{{report.report_ID}}</td>
+          {% comment %} <td>{{report.report_ID}}</td> {% endcomment %}
           <td>{{report.report_date}}</td>
           <td>{{report.report_source_images_count}}</td>
           <td>{{report.report_source_images_matched_count}}</td>
