@@ -63,8 +63,17 @@ def index(request):
     }
     context = { "breadcrumb":{"parent":"Dashboard", "child":"Dashboard"}, "summary":summary}
     return render(request,"general/dashboard/default/index.html",context)
+
+@login_required(login_url="/login")
+def users(request):
+    all_users = User.objects.all()
+    
+    context = { "breadcrumb":{"parent":"Dashboard", "child":"Users"}, "all_users":all_users}
+    return render(request,"users/users-base.html",context)
     
 def render_chart(request):
+    from datetime import timedelta,date
+ 
     today = datetime.today()
     past_12_days = []
     images_per_day = []
@@ -110,10 +119,9 @@ def delete_camera(request,id):
     return redirect(url)
 
     
-
 @login_required(login_url="/login")
 def images_page(request):
-    
+    import datetime
     images = Images.objects.all()
 
     if request.method == 'POST':
@@ -138,8 +146,9 @@ def images_page(request):
             context = {"images":images,"breadcrumb":{"parent":"Dashboard", "child":"Images"} }    
             return render(request,'images/images.html',context)
         
-        # add a day to end_dt to include all images from the end date
-        end_dt += datetime.timedelta(days=1)
+        # add a day to end_dt to include all images from the end date, unless start and end dates are the same
+        if start_dt == end_dt:
+            end_dt += datetime.timedelta(days=1)
         
         images = Images.objects.filter(created__range=[start_dt,end_dt])
         
@@ -151,6 +160,7 @@ def images_page(request):
     
     context = {"images":images,"breadcrumb":{"parent":"Dashboard", "child":"Images"} }    
     return render(request,'images/images.html',context)
+
 
     
 
@@ -347,14 +357,24 @@ def edit_student(request, id):
             student.student_contact = request.POST.get('contact')
             student.student_course = request.POST.get('course')
             student.student_section = request.POST.get('section')
-            
-            if request.FILES.get("image"):
+            image = request.FILES.get('image')
+            print(image)
+
+            if image is None:
+                print('No image')
+            else:
+                print("FILE IS PRESENT!")
                 unique_filename = str(uuid4())
                 path = os.path.join(STUDENTS_FOLDER, unique_filename + '.jpg')
-                
-                
-                student.student_image = request.FILES.get("image")
             
+                
+                # save the uploaded file to disk
+                with open(path, 'wb+') as destination:
+                    for chunk in request.FILES['image'].chunks():
+                        destination.write(chunk)
+                print(path)
+                # update the student object with the new image file path
+                student.student_image = unique_filename + ".jpg"
             
             student.save()
             
@@ -368,6 +388,7 @@ def edit_student(request, id):
     context = { "breadcrumb":{"parent":"Dashboard", "child":"Edit Student"}, "student":selected_student}
     
     return render(request,"students/edit-student-page.html",context)
+
     
     
 

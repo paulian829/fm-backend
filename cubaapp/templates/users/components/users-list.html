@@ -1,0 +1,35 @@
+{% load static %} {% load sass_tags %}
+<div
+  class="tab-pane fade show active"
+  id="top-home"
+  role="tabpanel"
+  aria-labelledby="top-home-tab"
+>
+  <div class="row"  style="display: flex; flex-wrap: wrap; align-items: stretch;">
+    {% for user in all_users %}
+
+    <div class="col-xxl-4 col-lg-6" style="margin-bottom: 20px;">
+
+
+      <div class="project-box">
+        <h6>{{ user.userid.first_name | default:user.userid.username}} {{user.userid.last_name}}</h6>
+        <div class="row details">
+          <div class="col-4"><span>Email:</span></div>
+          <div class="col-9 text-primary">{{user.userid.email | default:'None'}}</div>
+          <div class="col-5"><span>department:</span></div>
+          <div class="col-9 text-primary">{{user.department}}</div>
+          <div class="col-5"><span>address:</span></div>
+          <div class="col-9 text-primary">{{user.address}}</div>
+          <div class="col-5"><span>city:</span></div>
+          <div class="col-9 text-primary">{{user.city}}</div>
+          <div class="col-5"><span>postal:</span></div>
+          <div class="col-9 text-primary">{{user.postal}}</div>
+          <div class="col-5"><span>country:</span></div>
+          <div class="col-9 text-primary">{{user.country}}</div>
+        
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>

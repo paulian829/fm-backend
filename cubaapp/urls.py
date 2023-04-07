@@ -38,6 +38,7 @@ path('generate', views.generate_report, name="generate_report"),
 path('lists', views.lists, name="lists"),
 
 path('buttons/', views.buttons, name="buttons"),
+path('users/', views.users, name="users"),
 
 path('reset_password', views.reset_password, name="reset_password"),
 
