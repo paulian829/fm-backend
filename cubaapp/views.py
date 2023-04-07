@@ -590,10 +590,10 @@ def generate_report(request):
             image =file
         )
             
-    # pdf = fetch_pdf_template(new_report.report_ID)
-    pdf = {
-        "download_url": 'test.pdf'
-    }
+    pdf = fetch_pdf_template(new_report.report_ID)
+    # pdf = {
+    #     "download_url": 'test.pdf'
+    # }
     new_report.output_url = pdf['download_url']
     new_report.unknown_faces_count = unknown_count
     new_report.report_source_images_matched_count = matched_count
