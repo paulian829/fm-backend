@@ -17,7 +17,7 @@ def identify_face(img_path,student_names):
     faces, faceID = fr.labels_for_training_data(TRAINING_IMAGES_FOLDER)
     face_recognizer = fr.train_classifier(faces, faceID)
     label = 'Unknown'
-    confidence = 100
+    confidence = 0
     for faces in faces_detected:
         (x,y,w,h) = faces
         roi_gray = gray_img[y:y+w, x:x+h]
