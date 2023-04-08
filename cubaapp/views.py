@@ -587,7 +587,8 @@ def generate_report(request):
             image_output_filename = output_filename,
             source_image_filename = file.filename,
             student = matched_student,
-            image =file
+            image =file,
+            confidence = abs(confidence - 100)
         )
             
     pdf = fetch_pdf_template(new_report.report_ID)
