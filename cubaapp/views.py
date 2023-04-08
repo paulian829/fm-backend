@@ -591,10 +591,10 @@ def generate_report(request):
             confidence = abs(confidence - 100)
         )
             
-    pdf = fetch_pdf_template(new_report.report_ID)
-    # pdf = {
-    #     "download_url": 'test.pdf'
-    # }
+    # pdf = fetch_pdf_template(new_report.report_ID)
+    pdf = {
+        "download_url": 'test.pdf'
+    }
     new_report.output_url = pdf['download_url']
     new_report.unknown_faces_count = unknown_count
     new_report.report_source_images_matched_count = matched_count
@@ -765,11 +765,15 @@ def register_simple(request):
 def send_email(subject, message, from_email, to_email, image_path=None, smtp_server='smtp.gmail.com', smtp_port=587, smtp_username=None, smtp_password=None, cc_email=None):
     # Create a message object
     try:
+        to_email = [email for email in to_email if email]
+
+        print(to_email)
         msg = MIMEMultipart()
         msg['From'] = from_email
         msg['Subject'] = subject
         
-        msg["To"] = ','.join(to_email)
+        msg["To"] = ", ".join(to_email)
+        
 
         # Add CC recipients to the message object, if provided
         # Attach the message to the message object
@@ -788,13 +792,11 @@ def send_email(subject, message, from_email, to_email, image_path=None, smtp_ser
         server.login(smtp_username, smtp_password)
 
         # Send the email and close the connection
-        recipients = ','.join(to_email)
-        print(recipients, msg["To"])
         for email in to_email:
-            print(email)
+            print(from_email, email, msg.as_string())
             server.sendmail(from_email, email, msg.as_string())
     except Exception as e:
-        print(e)
+        print("Error", e)
     finally:
         server.quit
 def serve_violations_image(request, id):
