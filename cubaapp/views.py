@@ -302,7 +302,7 @@ def edit_camera(request,id):
     if request.method == 'POST':
         camera = Camera.objects.get(camera_ID=id)
         camera.camera_name = request.POST.get('camera_name')
-        camera.camera_IP = request.POST.get('ip_address')
+        camera.ip_address = request.POST.get('ip_address')
         camera.camera_details = request.POST.get('camera_details')
         camera.other_details = request.POST.get('other_details')
         

@@ -74,8 +74,11 @@
         {% for report in reports %}
         <tr>
           {% comment %} <td>{{report.report_ID}}</td> {% endcomment %}
-          <td>{{report.report_date}}</td>
-          <td>{{report.report_source_images_count}}</td>
+          <td>{{report.report_date|date:"M d, Y"}}</td>
+
+          {% with total_count=report.report_source_images_matched_count|add:report.unknown_faces_count %}
+          <td>{{ total_count }}</td>
+          {% endwith %}
           <td>{{report.report_source_images_matched_count}}</td>
           <td>
             <a href="/reports/view/{{report.report_ID}}" style="margin-right: 10px">
