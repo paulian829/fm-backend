@@ -36,11 +36,11 @@
           <h5>Image Details</h5>
 
           {% if item.student != 'Unknown'%}
-          <p>Recorded: {{image.image.created}}</p>
-          <p>Camera: {{image.image.source_id.camera_name}}</p>
-          <p>IP: {{image.image.source_id.ip_address}}</p>
-          <p>Brand: {{image.image.source_id.camera_details}}</p>
-          <p>Details: {{image.image.source_id.other_details}}</p>
+          <p>Recorded: {{image.image.created|default:'N/A'}}</p>
+          <p>Camera: {{image.image.source_id.camera_name|default:'N/A'}}</p>
+          <p>IP: {{image.image.source_id.ip_address|default:'N/A'}}</p>
+          <p>Brand: {{image.image.source_id.camera_details|default:'N/A'}}</p>
+          <p>Details: {{image.image.source_id.other_details|default:'N/A'}}</p>
 
 
           {% else %}
@@ -59,11 +59,12 @@
           <h5>Student Details</h5>
 
           {% if item.student != 'Unknown'%}
-          <p>ID: {{image.student.student_ID}}</p>
-          <p>Name: {{image.student.student_name}}</p>
-          <p>Email: {{image.student.student_email}}</p>
-          <p>Contact: {{image.student.student_contact}}</p>
-          <p>Section: {{image.student.student_section}}</p>
+          <p>ID: {{image.student.student_ID|default:"N/A"}}</p>
+          <p>Name: {{image.student.student_name | default:'N/A'}}</p>
+          <p>Email: {{image.student.student_email| default:'N/A'}}</p>
+          {% comment %} <p>Contact: {{image.student.student_contact}}</p> {% endcomment %}
+          <p>Section: {{image.student.student_section|default:'N/A'}}</p>
+          <br>
           {% else %}
           <p>Unknown</p>
           {% endif %}
